@@ -14,18 +14,26 @@ import ProgressHUD
 class UsersTableViewController: UITableViewController, UISearchResultsUpdating {
    
     
-
     @IBOutlet weak var userSegment: UISegmentedControl!
     @IBOutlet weak var headerView: UIView!
     var allUsers: [FUser] = []
     var filteredUser: [FUser] = []
-    var usersGrouped = NSDictionary() as! [String: [FUser]]
-    var sectionTitle: [String] = []
+    var allUsersGrouped = NSDictionary() as! [String: [FUser]]
+    var sectionTitleList: [String] = []
     
     let searchController = UISearchController(searchResultsController: nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = "Users"
+        navigationItem.largeTitleDisplayMode = .never
+        tableView.tableFooterView = UIView()
+        
+        navigationItem.searchController = searchController
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
         loadUsers(filter: kCITY)
   
     }
@@ -33,17 +41,63 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return 1
+        } else {
+            return allUsersGrouped.count
+        }
+        
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allUsers.count
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredUser.count
+        } else {
+            //Find Section Tile
+            let sectionTitle = self.sectionTitleList[section]
+            // user for given title
+            let users = self.allUsersGrouped[sectionTitle]
+          return users!.count
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as! UserTableViewCell
-        cell.generateCellWith(fuser: allUsers[indexPath.row], indexPath: indexPath)
+        
+        var user: FUser
+        if searchController.isActive && searchController.searchBar.text != "" {
+            user = filteredUser[indexPath.row]
+        }else {
+            let sectionTitle = self.sectionTitleList[indexPath.section]
+            let users = self.allUsersGrouped[sectionTitle]
+            user = users![indexPath.row]
+        }
+        
+        
+        cell.generateCellWith(fuser: user, indexPath: indexPath)
         return cell
+    }
+    
+    //MARK: TableView Delegate
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return ""
+        }else {
+            return sectionTitleList[section]
+        }
+    }
+    
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return nil
+        } else {
+            return self.sectionTitleList
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return index
     }
     
     
@@ -61,8 +115,8 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating {
         }
         query.getDocuments { (snapshot, error) in
        self.allUsers = []
-            self.sectionTitle = []
-            self.usersGrouped = [:]
+            self.sectionTitleList = []
+            self.allUsersGrouped = [:]
             
             if error != nil {
                 print(error!.localizedDescription)
@@ -84,13 +138,29 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating {
                     }
                 }
                 //Split to Groups
+                self.splitDataIntoSections()
+                self.tableView.reloadData()
             }
             self.tableView.reloadData()
             ProgressHUD.dismiss()
         }
     }
+    //MARK:- IBActions
     
-    //Mark:- Search Controller Function
+    @IBAction func filterSegmentValueChanged(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            loadUsers(filter: kCITY)
+        case 1:
+            loadUsers(filter: kCOUNTRY)
+        case 2:
+            loadUsers(filter: "")
+        default:
+            return 
+        }
+    }
+    
+    //MARK: Search Controller Function
     
     func filterContentForSearch(searchText: String, scope: String = "All"){
         filteredUser = allUsers.filter({ (user) -> Bool in
@@ -104,6 +174,22 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating {
     }
     
 
-    
+    //MARK: Helper Function
+    fileprivate func splitDataIntoSections(){
+        var sectionTitle: String = ""
+        for i in 0..<self.allUsers.count {
+            let currentUsers = self.allUsers[i]
+            let firstChar = currentUsers.firstname.first!
+            let firstCharString = "\(firstChar)"
+            
+            if firstCharString != sectionTitle {
+                
+                sectionTitle = firstCharString
+                self.allUsersGrouped[sectionTitle] = []
+                self.sectionTitleList.append(sectionTitle)
+            }
+            self.allUsersGrouped[firstCharString]?.append(currentUsers)
+        }
+    }
 
 }

@@ -255,37 +255,27 @@
             </objects>
             <point key="canvasLocation" x="843.47826086956525" y="103.53260869565219"/>
         </scene>
-        <!--Call-->
+        <!--Chats-->
         <scene sceneID="CBw-cP-pmn">
             <objects>
-                <viewController id="zFI-Bl-uWf" sceneMemberID="viewController">
+                <viewController id="zFI-Bl-uWf" customClass="ChatViewController" customModule="Ping" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="p44-KQ-mCX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We are in the App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q0d-O5-jrn">
-                                <rect key="frame" x="135.66666666666666" y="357.66666666666669" width="142.99999999999997" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="143" id="2BU-eO-Q8k"/>
-                                    <constraint firstAttribute="height" constant="21" id="pnq-DZ-isa"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="q0d-O5-jrn" firstAttribute="centerY" secondItem="p44-KQ-mCX" secondAttribute="centerY" id="Bam-Hm-5rx"/>
-                            <constraint firstItem="q0d-O5-jrn" firstAttribute="centerX" secondItem="p44-KQ-mCX" secondAttribute="centerX" id="HPS-be-BaA"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="8Lt-cM-clN"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Call" image="call" id="syh-IW-Zu6"/>
+                    <navigationItem key="navigationItem" title="Chats" id="Eby-Bj-RrQ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="taz-TT-fyn">
+                            <connections>
+                                <action selector="createNewChatButtonPressed:" destination="zFI-Bl-uWf" id="gT9-tK-zu9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q64-RZ-WTO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2471" y="-223"/>
+            <point key="canvasLocation" x="3376.811594202899" y="-223.36956521739131"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="aU9-KF-ss3">
@@ -297,7 +287,7 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="zFI-Bl-uWf" kind="relationship" relationship="viewControllers" id="ab6-3T-qmU"/>
+                        <segue destination="mDo-di-twP" kind="relationship" relationship="viewControllers" id="ab6-3T-qmU"/>
                         <segue destination="YjT-PW-ywn" kind="relationship" relationship="viewControllers" id="kZm-s4-ZUI"/>
                     </connections>
                 </tabBarController>
@@ -373,7 +363,7 @@
         <!--Users Table View Controller-->
         <scene sceneID="lmA-1A-Vf2">
             <objects>
-                <tableViewController id="34M-NH-hrz" customClass="UsersTableViewController" customModule="Ping" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="userTableView" id="34M-NH-hrz" customClass="UsersTableViewController" customModule="Ping" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xRG-Ex-94V">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -389,6 +379,9 @@
                                         <segment title="MyCountry"/>
                                         <segment title="All"/>
                                     </segments>
+                                    <connections>
+                                        <action selector="filterSegmentValueChanged:" destination="34M-NH-hrz" eventType="valueChanged" id="1oe-g3-1ph"/>
+                                    </connections>
                                 </segmentedControl>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -447,7 +440,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zde-rS-BTZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4957.971014492754" y="-105.16304347826087"/>
+            <point key="canvasLocation" x="5865.217391304348" y="-105.16304347826087"/>
         </scene>
         <!--Settings-->
         <scene sceneID="AhE-UU-Wgu">
@@ -468,10 +461,29 @@
             </objects>
             <point key="canvasLocation" x="2469.5652173913045" y="517.66304347826087"/>
         </scene>
+        <!--Chats-->
+        <scene sceneID="tzb-W9-4xa">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mDo-di-twP" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Chats" image="chat" id="syh-IW-Zu6"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="lkb-0Q-c5y">
+                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="zFI-Bl-uWf" kind="relationship" relationship="rootViewController" id="7ZJ-9i-i9q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MYg-Hw-5KV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2469.5652173913045" y="-223.36956521739131"/>
+        </scene>
     </scenes>
     <resources>
         <image name="avatarPlaceholder" width="101" height="101"/>
-        <image name="call" width="30" height="30"/>
+        <image name="chat" width="25" height="25"/>
         <image name="settings" width="25" height="25"/>
     </resources>
 </document>

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		45D5BA203AC4F25A64D125B7 /* Pods_Ping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80873642DB56087746C1163 /* Pods_Ping.framework */; };
+		D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57B8213B945C0043CE9D /* ChatViewController.swift */; };
 		D02DC78B2138CB2900335DC9 /* FUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02DC78A2138CB2900335DC9 /* FUser.swift */; };
 		D02DC78D2138CB9800335DC9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02DC78C2138CB9800335DC9 /* Constants.swift */; };
 		D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88DC2137F9020022DBC6 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		15B765CF5D1658D76D1F8BB3 /* Pods-Ping.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ping.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ping/Pods-Ping.release.xcconfig"; sourceTree = "<group>"; };
 		A80873642DB56087746C1163 /* Pods_Ping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D01F57B8213B945C0043CE9D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D02DC78A2138CB2900335DC9 /* FUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUser.swift; sourceTree = "<group>"; };
 		D02DC78C2138CB9800335DC9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D05F88D92137F9020022DBC6 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +105,7 @@
 				D0DBE37621392BB500177A3D /* FinishRegistrationViewController.swift */,
 				D0DBE37A2139993D00177A3D /* SettingsTableTableViewController.swift */,
 				D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */,
+				D01F57B8213B945C0043CE9D /* ChatViewController.swift */,
 				D0B65170213AB9590012AB0A /* Custom Cells */,
 				D05F88E02137F9030022DBC6 /* Main.storyboard */,
 				D05F88E32137F9080022DBC6 /* Assets.xcassets */,
@@ -299,6 +302,7 @@
 			files = (
 				D02DC78B2138CB2900335DC9 /* FUser.swift in Sources */,
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
+				D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */,
 				D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */,
 				D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */,
 				D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */,
