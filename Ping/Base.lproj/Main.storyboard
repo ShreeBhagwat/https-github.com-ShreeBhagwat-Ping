@@ -465,6 +465,21 @@
             </objects>
             <point key="canvasLocation" x="3182.608695652174" y="517.66304347826087"/>
         </scene>
+        <!--Messages View Controller-->
+        <scene sceneID="Ujb-Up-ZNH">
+            <objects>
+                <viewController id="yZp-4Y-L6C" customClass="JSQMessagesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y21-vm-Z7m">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="9CX-HG-sjP"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xDy-Cd-SHl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4914" y="-105"/>
+        </scene>
         <!--Users Table View Controller-->
         <scene sceneID="lmA-1A-Vf2">
             <objects>

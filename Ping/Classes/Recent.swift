@@ -31,7 +31,7 @@ func startPrivateChat(user1: FUser, user2: FUser) -> String {
     return chatRoomId
 }
 
-func createRecentChat(members: [String], chatRoomId: String, withUserUserName: String, type: String, users: [FUser?], avatarOfGroups: String?){
+func createRecentChat(members: [String], chatRoomId: String, withUserUserName: String, type: String, users: [FUser]?, avatarOfGroups: String?){
     reference(.Recent).whereField(kCHATROOMID, isEqualTo: chatRoomId).getDocuments { (snapshot, error) in
         
         var tempMembers = members
@@ -107,4 +107,26 @@ func createRecentItem(userId: String, chatRoomId: String, members:[String], with
     }
     // Save Recent Chat.
     localReference.setData(recent)
+}
+
+// MARK: Restart Chat
+func restartRecentChat(recent: NSDictionary){
+    
+    if recent[kTYPE] as! String == kPRIVATE {
+        createRecentChat(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: FUser.currentUser()!.firstname, type: kPRIVATE, users:[FUser.currentUser()!], avatarOfGroups: nil)
+    }
+    if recent[kTYPE] as! String == kGROUP {
+        createRecentChat(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: recent[kWITHUSERUSERNAME] as! String, type: kGROUP, users: nil, avatarOfGroups: recent[kAVATAR] as! String)
+    }
+    
+}
+
+
+
+
+// MARK: Delete Recent.
+func deleteRecentChat(recentChatDictionary: NSDictionary){
+    if let recentId = recentChatDictionary[kRECENTID] {
+        reference(.Recent).document(recentId as! String).delete()
+    }
 }

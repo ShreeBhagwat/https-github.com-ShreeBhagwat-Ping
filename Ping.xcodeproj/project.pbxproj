@@ -26,6 +26,9 @@
 		D0DBE3752138DD4000177A3D /* HelperFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE3742138DD4000177A3D /* HelperFunction.swift */; };
 		D0DBE37721392BB500177A3D /* FinishRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE37621392BB500177A3D /* FinishRegistrationViewController.swift */; };
 		D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE37A2139993D00177A3D /* SettingsTableTableViewController.swift */; };
+		D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A931214144A5004A6B4C /* ChatsViewController.swift */; };
+		D0F3A93421428162004A6B4C /* OutgoingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A93321428162004A6B4C /* OutgoingMessages.swift */; };
+		D0F3A93621428DCE004A6B4C /* IncomingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +54,9 @@
 		D0DBE3742138DD4000177A3D /* HelperFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperFunction.swift; sourceTree = "<group>"; };
 		D0DBE37621392BB500177A3D /* FinishRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishRegistrationViewController.swift; sourceTree = "<group>"; };
 		D0DBE37A2139993D00177A3D /* SettingsTableTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableTableViewController.swift; sourceTree = "<group>"; };
+		D0F3A931214144A5004A6B4C /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		D0F3A93321428162004A6B4C /* OutgoingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessages.swift; sourceTree = "<group>"; };
+		D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessages.swift; sourceTree = "<group>"; };
 		F21F7176E06D578CD20E253C /* Pods-Ping.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ping.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ping/Pods-Ping.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */,
+				D0F3A931214144A5004A6B4C /* ChatsViewController.swift */,
 				D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */,
 			);
 			path = "Secondary Group";
@@ -171,6 +178,8 @@
 			children = (
 				D02DC78A2138CB2900335DC9 /* FUser.swift */,
 				D01F57BF213EC07E0043CE9D /* Recent.swift */,
+				D0F3A93321428162004A6B4C /* OutgoingMessages.swift */,
+				D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -337,9 +346,12 @@
 				D01F57C0213EC07E0043CE9D /* Recent.swift in Sources */,
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
 				D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */,
+				D0F3A93621428DCE004A6B4C /* IncomingMessages.swift in Sources */,
 				D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */,
+				D0F3A93421428162004A6B4C /* OutgoingMessages.swift in Sources */,
 				D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */,
 				D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */,
+				D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */,
 				D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */,
 				D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */,
 				D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */,

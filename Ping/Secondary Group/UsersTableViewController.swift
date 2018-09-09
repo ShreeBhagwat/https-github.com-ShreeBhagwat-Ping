@@ -118,7 +118,7 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating, 
         startPrivateChat(user1: FUser.currentUser()!, user2: user)
         
     }
-    
+   
     
     func loadUsers(filter: String){
         ProgressHUD.show()
@@ -198,12 +198,12 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating, 
         var sectionTitle: String = ""
         for i in 0..<self.allUsers.count {
             let currentUsers = self.allUsers[i]
-            let firstChar = currentUsers.firstname.first!
+            let firstChar = currentUsers.firstname.uppercased().first!
             let firstCharString = "\(firstChar)"
             
             if firstCharString != sectionTitle {
                 
-                sectionTitle = firstCharString
+                sectionTitle = firstCharString.uppercased()
                 self.allUsersGrouped[sectionTitle] = []
                 self.sectionTitleList.append(sectionTitle)
             }
