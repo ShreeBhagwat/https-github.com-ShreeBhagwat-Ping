@@ -20,6 +20,9 @@
 		D05F88E72137F9080022DBC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E52137F9080022DBC6 /* LaunchScreen.storyboard */; };
 		D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */; };
 		D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88F0213835760022DBC6 /* WelcomeViewController.swift */; };
+		D07BA11F2145521B00BB52AB /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BA11E2145521B00BB52AB /* Camera.swift */; };
+		D07BA121214556D700BB52AB /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BA120214556D700BB52AB /* Downloader.swift */; };
+		D07BA1232146AC6600BB52AB /* PhotoMediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BA1222146AC6600BB52AB /* PhotoMediaItem.swift */; };
 		D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6516E213AB5320012AB0A /* UserTableViewCell.swift */; };
 		D0B65172213AB9D70012AB0A /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */; };
 		D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */; };
@@ -48,6 +51,9 @@
 		D05F88E82137F9080022DBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D05F88F0213835760022DBC6 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		D07BA11E2145521B00BB52AB /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		D07BA120214556D700BB52AB /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		D07BA1222146AC6600BB52AB /* PhotoMediaItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoMediaItem.swift; sourceTree = "<group>"; };
 		D0B6516E213AB5320012AB0A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCollectionReference.swift; sourceTree = "<group>"; };
@@ -169,6 +175,7 @@
 				D0DBE3742138DD4000177A3D /* HelperFunction.swift */,
 				D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */,
 				D02DC78C2138CB9800335DC9 /* Constants.swift */,
+				D07BA120214556D700BB52AB /* Downloader.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -180,6 +187,8 @@
 				D01F57BF213EC07E0043CE9D /* Recent.swift */,
 				D0F3A93321428162004A6B4C /* OutgoingMessages.swift */,
 				D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */,
+				D07BA11E2145521B00BB52AB /* Camera.swift */,
+				D07BA1222146AC6600BB52AB /* PhotoMediaItem.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -346,11 +355,14 @@
 				D01F57C0213EC07E0043CE9D /* Recent.swift in Sources */,
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
 				D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */,
+				D07BA1232146AC6600BB52AB /* PhotoMediaItem.swift in Sources */,
 				D0F3A93621428DCE004A6B4C /* IncomingMessages.swift in Sources */,
 				D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */,
 				D0F3A93421428162004A6B4C /* OutgoingMessages.swift in Sources */,
 				D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */,
+				D07BA11F2145521B00BB52AB /* Camera.swift in Sources */,
 				D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */,
+				D07BA121214556D700BB52AB /* Downloader.swift in Sources */,
 				D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */,
 				D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */,
 				D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */,

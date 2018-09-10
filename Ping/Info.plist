@@ -41,5 +41,17 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Ping Needs to use your Camera</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Ping Needs to use your Media Library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Ping Needs to use your Photo Library</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Ping Needs to use your Microphone</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Ping Needs to use your Location</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Ping Needs to use your Contacts</string>
 </dict>
 </plist>
