@@ -16,14 +16,23 @@ class OutgoingMessages {
     
     init(message: String, senderId: String, senderName: String, date: Date, status: String, type: String) {
         
-        messageDictionary = NSMutableDictionary(objects: [message, senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as! NSCopying, kSENDERID as! NSCopying, kSENDERNAME as! NSCopying, kDATE as! NSCopying, kSTATUS as! NSCopying, kTYPE as! NSCopying])
+        messageDictionary = NSMutableDictionary(objects: [message, senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
     }
     
     // Picture Message Init
     init(message: String, pictureLink: String, senderId: String, senderName: String, date: Date, status: String, type: String) {
         
-        messageDictionary = NSMutableDictionary(objects: [message, pictureLink,  senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as! NSCopying, kPICTURE as! NSCopying,  kSENDERID as! NSCopying, kSENDERNAME as! NSCopying, kDATE as! NSCopying, kSTATUS as! NSCopying, kTYPE as! NSCopying])
+        messageDictionary = NSMutableDictionary(objects: [message, pictureLink,  senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kPICTURE as NSCopying,  kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
     }
+    
+    // Video Message Init
+    init(message: String, video: String, thumbnail: NSData, senderId: String, senderName: String, date: Date, status: String, type: String) {
+        // Creating ThumbNail for Video
+        let picThumbnail = thumbnail.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+       
+         messageDictionary = NSMutableDictionary(objects: [message, video, picThumbnail,   senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kVIDEO as NSCopying, kTHUMBNAIL as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
+    }
+    
     
     // MARK: Send Message
     func sendMessage(chatroomId: String, messageDictionary: NSMutableDictionary, membersId: [String], membersToPush: [String]){
