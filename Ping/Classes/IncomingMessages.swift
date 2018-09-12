@@ -34,7 +34,7 @@ class IncomingMessages{
             message = createVideoMessage(messageDictionary: messageDictionary)
         case kAUDIO:
         //Create Audio Message
-               print("audio Message")
+               message = createAudioMessage(messageDictionary: messageDictionary)
         case kLOCATION:
         //Create Location Message
                print("Location message")
@@ -139,6 +139,44 @@ class IncomingMessages{
         }
      
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+    }
+    
+    // Create Audio Message
+    
+    func createAudioMessage(messageDictionary: NSDictionary) -> JSQMessage {
+        // Common Part for all message
+        let name = messageDictionary[kSENDERNAME] as! String
+        let userId = messageDictionary[kSENDERID] as! String
+        
+        var date: Date!
+        
+        if let created =  messageDictionary[kDATE] {
+            if (created as! String).count != 14 {
+                date = Date()
+            } else {
+                date = dateFormatter().date(from: created as! String)
+            }
+        }
+        else {
+            date = Date()
+        }
+        // Change from below
+        
+        let audioItem = JSQAudioMediaItem(data: nil)
+        audioItem.appliesMediaViewMaskAsOutgoing = returnOutGoingStatusForUser(senderId: userId)
+        
+        let audioMessage = JSQMessage(senderId: userId, displayName: name, media: audioItem)
+        
+        
+        // Download Audio
+        downloadAudio(audioURl: messageDictionary[kAUDIO] as! String) { (fileName) in
+            let url = NSURL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
+            let audioData = try? Data(contentsOf: url as URL)
+            audioItem.audioData = audioData
+            self.collectionView.reloadData()
+        }
+        
+        return audioMessage!
     }
     
     // Helper Function

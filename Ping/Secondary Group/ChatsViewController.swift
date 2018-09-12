@@ -16,7 +16,9 @@ import AVKit
 import ChameleonFramework
 import FirebaseFirestore
 
-class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate {
+  
+    
     
     //MARK: Assign Variables
     var chatroomId: String!
@@ -264,7 +266,8 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             self.sendMessages(text: text, date: date, picture: nil, location: nil, video: nil, audio: nil)
             updateSendButton(isSend: false)
         } else {
-            print("Audio Message")
+           let audioVC = AudioViewController(delegate_: self)
+            audioVC.presentAudioRecorder(target: self)
         }
     }
     
@@ -330,7 +333,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                     JSQSystemSoundPlayer.jsq_playMessageSentSound()
                     self.finishSendingMessage()
                     
-                    outgoingMessage?.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
+                    outgoingMessage!.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
                 }
             }
             return
@@ -354,9 +357,26 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                     JSQSystemSoundPlayer.jsq_playMessageSentSound()
                     self.finishSendingMessage()
                     
-                    outgoingMessage?.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
+                    outgoingMessage!.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
                     
                     
+                }
+            }
+            return
+        }
+        
+        //Send Audio
+        if let audioPath = audio {
+            uploadAudio(audioPath: audioPath, chatroomId: chatroomId, view: (self.navigationController?.view)!) { (audioLink) in
+                if audioLink != nil {
+                    let text = "[\(kAUDIO)]"
+                    
+                    outgoingMessage = OutgoingMessages(message: text, audioLink: audioLink!, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kAUDIO)
+                    
+                    JSQSystemSoundPlayer.jsq_playMessageSentSound()
+                    self.finishSendingMessage()
+                    
+                    outgoingMessage!.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
                 }
             }
             return
@@ -557,6 +577,19 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         }
         
     }
+    // MARK: IQAudioDelegate
+    
+    func audioRecorderController(_ controller: IQAudioRecorderViewController, didFinishWithAudioAtPath filePath: String) {
+        controller.dismiss(animated: true, completion: nil)
+        self.sendMessages(text: nil, date: Date(), picture: nil, location: nil, video: nil, audio: filePath)
+        
+    }
+    
+    func audioRecorderControllerDidCancel(_ controller: IQAudioRecorderViewController) {
+        controller.dismiss(animated: true, completion: nil)
+    }
+    
+    
     //MARK: Update UI
     func setCustomTitle(){
         leftBarButtonView.addSubview(avatarButton)

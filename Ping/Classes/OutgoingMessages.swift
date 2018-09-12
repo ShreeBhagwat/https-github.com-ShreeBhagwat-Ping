@@ -33,6 +33,12 @@ class OutgoingMessages {
          messageDictionary = NSMutableDictionary(objects: [message, video, picThumbnail,   senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kVIDEO as NSCopying, kTHUMBNAIL as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
     }
     
+    // Audio Message Init
+
+    init(message: String, audioLink: String, senderId: String, senderName: String, date: Date, status: String, type: String) {
+        
+        messageDictionary = NSMutableDictionary(objects: [message, audioLink,  senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kAUDIO as NSCopying,  kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
+    }
     
     // MARK: Send Message
     func sendMessage(chatroomId: String, messageDictionary: NSMutableDictionary, membersId: [String], membersToPush: [String]){
