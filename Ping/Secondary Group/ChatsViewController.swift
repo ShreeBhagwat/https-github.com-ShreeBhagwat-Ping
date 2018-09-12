@@ -17,7 +17,7 @@ import ChameleonFramework
 import FirebaseFirestore
 
 class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate {
-  
+  let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     
     //MARK: Assign Variables
@@ -225,7 +225,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             camera.PresentVideoLibrary(target: self, canEdit: false)
         }
         let shareLocation = UIAlertAction(title: "Location", style: .default) { (action) in
-            print("Location Library button Pressed")
+            if self.haveAccessToUserLocation() {
+                self.sendMessages(text: nil, date: Date(), picture: nil, location: kLOCATION, video: nil, audio: nil)
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             print("Cancel button Pressed")
@@ -291,7 +293,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             self.present(browser!, animated: true, completion: nil)
             
         case kLOCATION:
-            print("Location Tapped")
+            let message = messages[indexPath.row]
+            let mediaItem = message.media as! JSQLocationMediaItem
+            let mapView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mapViewController") as! MapViewController
+            mapView.location = mediaItem.location
+            self.navigationController?.pushViewController(mapView, animated: true)
         case kVIDEO:
            
             let message = messages[indexPath.row]
@@ -380,6 +386,16 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                 }
             }
             return
+        }
+        
+        // MARK: Send Location
+        if location != nil {
+            let latitude: NSNumber = NSNumber(value: appDelegate.cordinates!.latitude)
+            let longitude: NSNumber = NSNumber(value: appDelegate.cordinates!.longitude)
+            
+            let text = "[\(kLOCATION)]"
+            
+            outgoingMessage = OutgoingMessages(message: text, Latitude: latitude, Longitude: longitude, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kLOCATION)
         }
         
         
@@ -644,6 +660,16 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         sendMessages(text: nil, date: Date(), picture: picture, location: nil, video: video, audio: nil)
         picker.dismiss(animated: true, completion: nil)
         
+    }
+    
+    // MARK: Location Access
+    func haveAccessToUserLocation() -> Bool {
+        if appDelegate.locationManager != nil {
+            return true
+        }else {
+            ProgressHUD.showError("Please Give Access To Location In Settings")
+            return false
+        }
     }
     
     // MARK: Helper Function

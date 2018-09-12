@@ -8,13 +8,17 @@
 
 import UIKit
 import Firebase
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
     var window: UIWindow?
     var authListner: AuthStateDidChangeListenerHandle?
-
+    
+    var locationManager: CLLocationManager?
+    var cordinates: CLLocationCoordinate2D?
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
@@ -35,24 +39,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
-    func applicationWillResignActive(_ application: UIApplication) {
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-  
-    }
-
-    func applicationWillEnterForeground(_ application: UIApplication) {
-
-    }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
-       
+        locationManagerStart()
     }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-       
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        locationManagerStop()
     }
     
     //Mark GoToApp
@@ -64,7 +57,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window?.rootViewController = mainView
     }
+    
+        // MARK: Location Manager
+    func locationManagerStart(){
+        if locationManager == nil {
+            locationManager = CLLocationManager()
+            locationManager!.delegate = self
+            locationManager!.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager!.requestWhenInUseAuthorization()
+            
+        }
+        
+        locationManager!.startUpdatingLocation()
+    }
+    func locationManagerStop(){
+        if locationManager != nil {
+            locationManager!.stopUpdatingLocation()
+        }
+    }
 
-
+    // MARK: Location Manager delegate
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("failed to get location ")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+        case .authorizedAlways:
+            manager.stopUpdatingLocation()
+        case .restricted:
+            print("Location restricted for now")
+        case .denied:
+            locationManager = nil
+            print("denied location permission ")
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        cordinates = locations.last!.coordinate
+    }
 }
 

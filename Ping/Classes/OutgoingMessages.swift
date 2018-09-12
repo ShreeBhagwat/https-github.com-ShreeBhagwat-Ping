@@ -40,6 +40,13 @@ class OutgoingMessages {
         messageDictionary = NSMutableDictionary(objects: [message, audioLink,  senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kAUDIO as NSCopying,  kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
     }
     
+    // Location Message
+    
+    init(message: String, Latitude: NSNumber, Longitude: NSNumber, senderId: String, senderName: String, date: Date, status: String, type: String) {
+        
+        messageDictionary = NSMutableDictionary(objects: [message, Latitude, Longitude, senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kLATITUDE as NSCopying, kLONGITUDE as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
+    }
+    
     // MARK: Send Message
     func sendMessage(chatroomId: String, messageDictionary: NSMutableDictionary, membersId: [String], membersToPush: [String]){
         let messageId = UUID().uuidString
