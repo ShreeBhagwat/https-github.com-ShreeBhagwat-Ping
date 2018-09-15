@@ -58,11 +58,12 @@ class OutgoingMessages {
         }
         
         // Update RecentChats to show last message
+        updateRecents(chatroomId: chatroomId, lastMessage: messageDictionary[kMESSAGE] as! String)
         
         // PushNotification to Reciever
     }
     class func deleteMessage(withId: String, chatroomId: String){
-        
+        reference(.Message).document(FUser.currentId()).collection(chatroomId).document(withId).delete()
     }
     class func updateMessage(withId: String, chatroomId: String, memberId: [String]){
         let readDate = dateFormatter().string(from: Date())

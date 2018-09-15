@@ -32,6 +32,8 @@
 		D0EAFB8F2147E92B00347BEF /* VideoMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB8E2147E92B00347BEF /* VideoMessage.swift */; };
 		D0EAFB912148A47A00347BEF /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB902148A47A00347BEF /* AudioViewController.swift */; };
 		D0EAFB932149360800347BEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB922149360800347BEF /* MapViewController.swift */; };
+		D0EAFB95214BD86400347BEF /* PictureCollectionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */; };
+		D0EAFB97214BD8B900347BEF /* PictureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB96214BD8B900347BEF /* PictureCollectionViewCell.swift */; };
 		D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A931214144A5004A6B4C /* ChatsViewController.swift */; };
 		D0F3A93421428162004A6B4C /* OutgoingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A93321428162004A6B4C /* OutgoingMessages.swift */; };
 		D0F3A93621428DCE004A6B4C /* IncomingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */; };
@@ -66,6 +68,8 @@
 		D0EAFB8E2147E92B00347BEF /* VideoMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoMessage.swift; sourceTree = "<group>"; };
 		D0EAFB902148A47A00347BEF /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
 		D0EAFB922149360800347BEF /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionCollectionViewController.swift; sourceTree = "<group>"; };
+		D0EAFB96214BD8B900347BEF /* PictureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionViewCell.swift; sourceTree = "<group>"; };
 		D0F3A931214144A5004A6B4C /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		D0F3A93321428162004A6B4C /* OutgoingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutgoingMessages.swift; sourceTree = "<group>"; };
 		D0F3A93521428DCE004A6B4C /* IncomingMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomingMessages.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 				D0F3A931214144A5004A6B4C /* ChatsViewController.swift */,
 				D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */,
 				D0EAFB922149360800347BEF /* MapViewController.swift */,
+				D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */,
 			);
 			path = "Secondary Group";
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 			children = (
 				D0B6516E213AB5320012AB0A /* UserTableViewCell.swift */,
 				D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */,
+				D0EAFB96214BD8B900347BEF /* PictureCollectionViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -365,7 +371,9 @@
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
 				D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */,
 				D0EAFB8F2147E92B00347BEF /* VideoMessage.swift in Sources */,
+				D0EAFB95214BD86400347BEF /* PictureCollectionCollectionViewController.swift in Sources */,
 				D07BA1232146AC6600BB52AB /* PhotoMediaItem.swift in Sources */,
+				D0EAFB97214BD8B900347BEF /* PictureCollectionViewCell.swift in Sources */,
 				D0F3A93621428DCE004A6B4C /* IncomingMessages.swift in Sources */,
 				D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */,
 				D0F3A93421428162004A6B4C /* OutgoingMessages.swift in Sources */,

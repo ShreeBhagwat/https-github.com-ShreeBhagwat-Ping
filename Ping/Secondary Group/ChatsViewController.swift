@@ -83,7 +83,12 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     
     
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        clearRecentCounter(chatroomId: chatroomId)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        clearRecentCounter(chatroomId: chatroomId)
+    }
     
     //layout Fix for iphone X
     override func viewDidLayoutSubviews() {
@@ -95,6 +100,8 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         super.viewDidLoad()
         
         createTypingObserver()
+        
+        JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
         navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(self.backAction))]
         
@@ -357,6 +364,39 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         // Show User Profile
         presentUserProfile(forUser: selectUser!)
     }
+    // MARK: Delet For MultiMedia Message
+    
+    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
+        super.collectionView(collectionView, shouldShowMenuForItemAt: indexPath)
+        return true
+        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
+        if messages[indexPath.row].isMediaMessage {
+            if action.description == "delete:"{
+                return true
+            } else{
+                return false
+                
+            }
+        }else{
+            if action.description == "delete:" || action.description == "copy:" {
+                return true
+            }else{
+                return false
+            }
+        }
+    }
+    
+    override func collectionView(_ collectionView: JSQMessagesCollectionView!, didDeleteMessageAt indexPath: IndexPath!) {
+        let messageId = objectMessages[indexPath.row][kMESSAGEID] as! String
+        objectMessages.remove(at: indexPath.row)
+        messages.remove(at: indexPath.row)
+        
+        // Deleting a Message From Firebase
+        OutgoingMessages.deleteMessage(withId: messageId, chatroomId: self.chatroomId)
+    }
     
     
     // MARK: Send Messages
@@ -481,6 +521,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             self.intialLoadComplete = true
             
             // Get Picture Messages
+            self.getPictureMessage()
             
             // Get Old Messages In background
             
@@ -510,6 +551,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                                 //This is For Picture Message
                                 if type as! String == kPICTURE {
                                     // add To Pictures
+                                    self.addNewPictureMessageLink(link: item[kPICTURE] as! String)
                                     
                                 }
                                 if self.insertInitialLoadedMessage(messageDictionary: item) {
@@ -539,6 +581,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                 self.loadedMessages = self.removeBadMessage(allMessages: sorted) + self.loadedMessages
                 
                 // Get the picture messages
+                self.getPictureMessage()
                 
                 self.maxMessagesNumber = self.loadedMessages.count - self.loadedMessagesCount - 1
                 self.minMessagesNumber = self.maxMessagesNumber - kNUMBEROFMESSAGES
@@ -626,12 +669,15 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     
     // MARK: IBAction
     @objc func backAction(){
+        clearRecentCounter(chatroomId: chatroomId)
         removeListner()
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc func infoButtonPressed() {
-        print("show Image MEssaage")
+       let mediaVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "mediaView") as! PictureCollectionCollectionViewController
+        mediaVC.allImageLinks = allPictureMessages
+        self.navigationController?.pushViewController(mediaVC, animated: true)
     }
     
     @objc func showGroup() {
@@ -733,7 +779,8 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         leftBarButtonView.addSubview(titleLabel)
         leftBarButtonView.addSubview(subtitle)
         
-        let infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: .plain, target: self, action: #selector(self.infoButtonPressed))
+//        let infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: .plain, target: self, action: #selector(self.infoButtonPressed))
+        let infoButton = UIBarButtonItem(title: "All Media", style: .plain, target: self, action: #selector(self.infoButtonPressed))
         
         self.navigationItem.rightBarButtonItem = infoButton
         
@@ -855,6 +902,23 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     }
     
     // MARK: Helper Function
+    
+    func addNewPictureMessageLink(link: String){
+        allPictureMessages.append(link)
+    }
+    
+    func getPictureMessage(){
+        allPictureMessages = []
+        for message in loadedMessages {
+            if message[kTYPE] as! String == kPICTURE {
+                allPictureMessages.append(message[kPICTURE] as! String)
+            }
+            
+        }
+    }
+    
+    
+    
     func removeBadMessage(allMessages: [NSDictionary]) -> [NSDictionary]{
         var tempMessages = allMessages
         
