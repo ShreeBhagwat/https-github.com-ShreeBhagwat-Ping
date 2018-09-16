@@ -24,7 +24,7 @@ public let kFILEREFERENCE = "gs://ping-9e43c.appspot.com"
 public let kONESIGNALAPPID = ""
 public let kSINCHKEY = ""
 public let kSINCHSECRET = ""
-public let kAPPURL = ""
+public let kAPPURL = "App store Link"
 
 
 
