@@ -671,7 +671,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     @objc func backAction(){
         clearRecentCounter(chatroomId: chatroomId)
         removeListner()
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
+        if let viewController = navigationController?.viewControllers.first(where: {$0 is ChatViewController}) {
+            navigationController?.popToViewController(viewController, animated: false)
+        }
+        
     }
     
     @objc func infoButtonPressed() {

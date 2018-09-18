@@ -44,8 +44,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     //Mark:- IBAction
     
     @IBAction func createNewChatButtonPressed(_ sender: Any) {
-        let userVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "userTableView") as! UsersTableViewController
-        self.navigationController?.pushViewController(userVC, animated: true)
+        selectUserForChat(isGroup: false)
     }
     
     // MARK: Tableview delegate Methods
@@ -205,7 +204,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @objc func groupButtonPressed(){
-        print("New Group Button Pressed")
+        selectUserForChat(isGroup: true)
     }
     
     // MARK: Recent Chat cell Delegate
@@ -266,6 +265,13 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         // Save The Changes to Firestore
         updateExistingRecentWithNewValues(chatroomId: recent[kCHATROOMID] as! String, members: recent[kMEMBERS] as! [String], withValues: [kMEMBERSTOPUSH : memebersToPush])
+    }
+    
+    func selectUserForChat(isGroup: Bool){
+        let contactsVC = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "contactsView") as! ContactsTableViewController
+        
+        contactsVC.isGroup = isGroup
+        self.navigationController?.pushViewController(contactsVC, animated: true)
     }
     
 }
