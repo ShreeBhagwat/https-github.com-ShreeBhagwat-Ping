@@ -24,14 +24,14 @@ func startPrivateChat(user1: FUser, user2: FUser) -> String {
     
     let memeber = [userId1, userId2]
     
-    createRecentChat(members: memeber, chatRoomId: chatRoomId, withUserUserName: "", type: kPRIVATE, users: [user1, user2], avatarOfGroups: nil)
+    createRecent(members: memeber, chatRoomId: chatRoomId, withUserUserName: "", type: kPRIVATE, users: [user1, user2], avatarOfGroups: nil)
     
     // Create Recent Chat
     
     return chatRoomId
 }
 
-func createRecentChat(members: [String], chatRoomId: String, withUserUserName: String, type: String, users: [FUser]?, avatarOfGroups: String?){
+func createRecent(members: [String], chatRoomId: String, withUserUserName: String, type: String, users: [FUser]?, avatarOfGroups: String?){
     reference(.Recent).whereField(kCHATROOMID, isEqualTo: chatRoomId).getDocuments { (snapshot, error) in
         
         var tempMembers = members
@@ -51,7 +51,7 @@ func createRecentChat(members: [String], chatRoomId: String, withUserUserName: S
         }
         for userId in tempMembers {
             // Create Recent Items
-            createRecentItem(userId: userId, chatRoomId: chatRoomId, members: members, withUserUserName: withUserUserName, type: type, users: users as! [FUser], avatarOfGroups: avatarOfGroups)
+            createRecentItem(userId: userId, chatRoomId: chatRoomId, members: members, withUserUserName: withUserUserName, type: type, users: users as [FUser]?, avatarOfGroups: avatarOfGroups)
         }
     }
 }
@@ -97,7 +97,7 @@ func createRecentItem(userId: String, chatRoomId: String, members:[String], with
                       kCHATROOMID: chatRoomId,
                       kMEMBERS: members,
                       kMEMBERSTOPUSH: members,
-                      kWITHUSERFULLNAME: withUserUserName,
+                      kWITHUSERUSERNAME: withUserUserName,
                       kLASTMESSAGE: "",
                       kCOUNTER: 0,
                       kDATE: date,
@@ -112,10 +112,11 @@ func createRecentItem(userId: String, chatRoomId: String, members:[String], with
 // MARK: Restart Chat
 func restartRecentChat(recent: NSDictionary){
     if recent[kTYPE] as! String == kPRIVATE {
-        createRecentChat(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: FUser.currentUser()!.firstname, type: kPRIVATE, users:[FUser.currentUser()!], avatarOfGroups: nil)
+        createRecent(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: FUser.currentUser()!.firstname, type: kPRIVATE, users:[FUser.currentUser()!], avatarOfGroups: nil)
     }
     if recent[kTYPE] as! String == kGROUP {
-        createRecentChat(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: recent[kWITHUSERUSERNAME] as! String, type: kGROUP, users: nil, avatarOfGroups: recent[kAVATAR] as! String)
+      
+        createRecent(members: [kMEMBERSTOPUSH] as! [String], chatRoomId: recent[kCHATROOMID] as! String, withUserUserName: recent[kWITHUSERUSERNAME] as! String, type: kGROUP, users: nil, avatarOfGroups: recent[kAVATAR] as! String)
     }
     
 }
@@ -172,6 +173,25 @@ func clearRecentCounter(chatroomId: String){
 func clearRecentCounterItem(recent: NSDictionary){
     reference(.Recent).document(recent[kRECENTID] as! String).updateData([kCOUNTER: 0])
 }
+
+// Group
+
+func startGroupChat(group : Group){
+    let charoomId = group.groupDistionary[kGROUPID] as! String
+    let members = group.groupDistionary[kMEMBERS] as! [String]
+
+    
+    createRecent(members: members, chatRoomId: charoomId, withUserUserName: group.groupDistionary[kNAME] as! String, type: kGROUP, users: nil, avatarOfGroups: group.groupDistionary[kAVATAR] as? String)
+    
+}
+
+
+func createRecentForNewMember(groupId: String, groupName: String, membersToPush: [String], avatar: String){
+    createRecent(members: membersToPush, chatRoomId: groupId, withUserUserName: groupName, type: kGROUP, users: nil, avatarOfGroups: avatar)
+}
+
+
+
 
 func updateExistingRecentWithNewValues(chatroomId: String, members: [String], withValues: [String : Any]){
     

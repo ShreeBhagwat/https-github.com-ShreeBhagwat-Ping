@@ -21,6 +21,9 @@
 		D04D98FD2150FA78002B12CD /* VideoMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D98F52150FA76002B12CD /* VideoMessage.swift */; };
 		D04D98FE2150FA78002B12CD /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D98F62150FA77002B12CD /* Camera.swift */; };
 		D04D99002150FA78002B12CD /* OutgoingMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D98F82150FA78002B12CD /* OutgoingMessages.swift */; };
+		D04D990221514080002B12CD /* GroupMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */; };
+		D04D990421514B5E002B12CD /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990321514B5E002B12CD /* NewGroupViewController.swift */; };
+		D04D9906215275EA002B12CD /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D9905215275EA002B12CD /* Group.swift */; };
 		D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88DC2137F9020022DBC6 /* AppDelegate.swift */; };
 		D05F88E22137F9030022DBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E02137F9030022DBC6 /* Main.storyboard */; };
 		D05F88E42137F9080022DBC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E32137F9080022DBC6 /* Assets.xcassets */; };
@@ -64,6 +67,9 @@
 		D04D98F52150FA76002B12CD /* VideoMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoMessage.swift; sourceTree = "<group>"; };
 		D04D98F62150FA77002B12CD /* Camera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
 		D04D98F82150FA78002B12CD /* OutgoingMessages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutgoingMessages.swift; sourceTree = "<group>"; };
+		D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberCollectionViewCell.swift; sourceTree = "<group>"; };
+		D04D990321514B5E002B12CD /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		D04D9905215275EA002B12CD /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		D05F88D92137F9020022DBC6 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05F88DC2137F9020022DBC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D05F88E12137F9030022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -150,6 +156,7 @@
 				D0EAFB922149360800347BEF /* MapViewController.swift */,
 				D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */,
 				D04D98E9215092E9002B12CD /* ContactsTableViewController.swift */,
+				D04D990321514B5E002B12CD /* NewGroupViewController.swift */,
 				D04D98E8215092A5002B12CD /* Settings View */,
 			);
 			path = "Secondary Group";
@@ -212,6 +219,7 @@
 				D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */,
 				D0EAFB96214BD8B900347BEF /* PictureCollectionViewCell.swift */,
 				D0A46227214EAF390091F308 /* BackgroundCollectionViewCell.swift */,
+				D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -239,6 +247,7 @@
 				D04D98F52150FA76002B12CD /* VideoMessage.swift */,
 				D02DC78A2138CB2900335DC9 /* FUser.swift */,
 				D0EAFB902148A47A00347BEF /* AudioViewController.swift */,
+				D04D9905215275EA002B12CD /* Group.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -426,11 +435,14 @@
 				D04D98FD2150FA78002B12CD /* VideoMessage.swift in Sources */,
 				D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */,
 				D0A46230214F6AE20091F308 /* EditProfileTableViewController.swift in Sources */,
+				D04D990421514B5E002B12CD /* NewGroupViewController.swift in Sources */,
 				D02DC78D2138CB9800335DC9 /* Constants.swift in Sources */,
 				D0DBE37721392BB500177A3D /* FinishRegistrationViewController.swift in Sources */,
 				D04D98FA2150FA78002B12CD /* Recent.swift in Sources */,
 				D0EAFB912148A47A00347BEF /* AudioViewController.swift in Sources */,
+				D04D9906215275EA002B12CD /* Group.swift in Sources */,
 				D04D98EE2150FA1E002B12CD /* CountryCode.swift in Sources */,
+				D04D990221514080002B12CD /* GroupMemberCollectionViewCell.swift in Sources */,
 				D0B65172213AB9D70012AB0A /* UsersTableViewController.swift in Sources */,
 				D0A46224214E6BCD0091F308 /* BlockedUserViewController.swift in Sources */,
 				D0DBE3752138DD4000177A3D /* HelperFunction.swift in Sources */,

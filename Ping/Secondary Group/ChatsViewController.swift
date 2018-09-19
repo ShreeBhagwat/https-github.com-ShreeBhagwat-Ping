@@ -105,6 +105,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(self.backAction))]
         
+        if isGroup! {
+            getCurrentGroup(withId: chatroomId)
+        }
         collectionView?.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView?.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         jsqAvatarDictionary = [ : ]
@@ -825,6 +828,18 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: .touchUpInside)
     }
+    
+    func setUpForGroupChat(){
+        imageFromData(pictureData: (group![kAVATAR]) as! String) { (image) in
+           if image != nil {
+                self.avatarButton.setImage(image!.circleMasked, for: .normal)
+            }
+        }
+        titleLabel.text = titleName
+        subtitle.text = ""
+    }
+    
+    
     // MARK: Get Avatart
     func getAvatarImages(){
         
@@ -964,6 +979,16 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         currentDateFormat.dateFormat = "HH:mm"
         
         return currentDateFormat.string(from: date!)
+    }
+    
+    func getCurrentGroup(withId: String){
+        reference(.Group).document(withId).getDocument { (snapshot, error) in
+            guard let snapshot = snapshot else {return}
+            if snapshot.exists {
+                self.group = snapshot.data() as! NSDictionary
+                self.setUpForGroupChat()
+            }
+        }
     }
     
 

@@ -235,7 +235,11 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
     }
     
     @objc func nextButtonPressed(){
-        print("Next Button pressed")
+        let newGroupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "newGroupView") as! NewGroupViewController
+        
+        newGroupVC.memberIds = memberIdsOfGroupChat
+        newGroupVC.allMembers = membersOfGroupChat
+        self.navigationController?.pushViewController(newGroupVC, animated: true)
     }
     
     // MARK: LOAD USERS
@@ -383,7 +387,9 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
                 self.allUsersGrouped[sectionTitle] = []
                 
                 // append title within section title list
+                if !sectionTitleList.contains(sectionTitle){
                 self.sectionTitleList.append(sectionTitle)
+                }
             }
             
             // add record to the section
