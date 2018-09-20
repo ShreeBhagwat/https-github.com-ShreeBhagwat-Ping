@@ -24,6 +24,9 @@
 		D04D990221514080002B12CD /* GroupMemberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */; };
 		D04D990421514B5E002B12CD /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990321514B5E002B12CD /* NewGroupViewController.swift */; };
 		D04D9906215275EA002B12CD /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D9905215275EA002B12CD /* Group.swift */; };
+		D04D990821537EEF002B12CD /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990721537EEF002B12CD /* GroupViewController.swift */; };
+		D04D990A21538938002B12CD /* InviteUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990921538938002B12CD /* InviteUserTableViewController.swift */; };
+		D04D990E2153D1CD002B12CD /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D990D2153D1CD002B12CD /* Encryption.swift */; };
 		D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88DC2137F9020022DBC6 /* AppDelegate.swift */; };
 		D05F88E22137F9030022DBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E02137F9030022DBC6 /* Main.storyboard */; };
 		D05F88E42137F9080022DBC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E32137F9080022DBC6 /* Assets.xcassets */; };
@@ -70,6 +73,9 @@
 		D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupMemberCollectionViewCell.swift; sourceTree = "<group>"; };
 		D04D990321514B5E002B12CD /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
 		D04D9905215275EA002B12CD /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		D04D990721537EEF002B12CD /* GroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
+		D04D990921538938002B12CD /* InviteUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteUserTableViewController.swift; sourceTree = "<group>"; };
+		D04D990D2153D1CD002B12CD /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
 		D05F88D92137F9020022DBC6 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05F88DC2137F9020022DBC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D05F88E12137F9030022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -157,6 +163,8 @@
 				D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */,
 				D04D98E9215092E9002B12CD /* ContactsTableViewController.swift */,
 				D04D990321514B5E002B12CD /* NewGroupViewController.swift */,
+				D04D990721537EEF002B12CD /* GroupViewController.swift */,
+				D04D990921538938002B12CD /* InviteUserTableViewController.swift */,
 				D04D98E8215092A5002B12CD /* Settings View */,
 			);
 			path = "Secondary Group";
@@ -248,6 +256,7 @@
 				D02DC78A2138CB2900335DC9 /* FUser.swift */,
 				D0EAFB902148A47A00347BEF /* AudioViewController.swift */,
 				D04D9905215275EA002B12CD /* Group.swift */,
+				D04D990D2153D1CD002B12CD /* Encryption.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -412,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D04D990821537EEF002B12CD /* GroupViewController.swift in Sources */,
 				D02DC78B2138CB2900335DC9 /* FUser.swift in Sources */,
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
 				D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */,
@@ -421,6 +431,7 @@
 				D0A46226214EAF200091F308 /* BackgroundCollectionViewController.swift in Sources */,
 				D04D98FB2150FA78002B12CD /* IncomingMessages.swift in Sources */,
 				D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */,
+				D04D990A21538938002B12CD /* InviteUserTableViewController.swift in Sources */,
 				D04D98FE2150FA78002B12CD /* Camera.swift in Sources */,
 				D04D98FC2150FA78002B12CD /* PhotoMediaItem.swift in Sources */,
 				D0EAFB932149360800347BEF /* MapViewController.swift in Sources */,
@@ -440,6 +451,7 @@
 				D0DBE37721392BB500177A3D /* FinishRegistrationViewController.swift in Sources */,
 				D04D98FA2150FA78002B12CD /* Recent.swift in Sources */,
 				D0EAFB912148A47A00347BEF /* AudioViewController.swift in Sources */,
+				D04D990E2153D1CD002B12CD /* Encryption.swift in Sources */,
 				D04D9906215275EA002B12CD /* Group.swift in Sources */,
 				D04D98EE2150FA1E002B12CD /* CountryCode.swift in Sources */,
 				D04D990221514080002B12CD /* GroupMemberCollectionViewCell.swift in Sources */,

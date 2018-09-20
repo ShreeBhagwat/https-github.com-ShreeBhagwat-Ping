@@ -84,10 +84,10 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     
     
     override func viewWillAppear(_ animated: Bool) {
-        clearRecentCounter(chatroomId: chatroomId)
+        clearRecentCounter(chatRoomId: chatroomId)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        clearRecentCounter(chatroomId: chatroomId)
+        clearRecentCounter(chatRoomId: chatroomId)
     }
     
     //layout Fix for iphone X
@@ -100,6 +100,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         super.viewDidLoad()
         
         createTypingObserver()
+        loadUserDefaults()
         
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
         navigationItem.largeTitleDisplayMode = .never
@@ -672,7 +673,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     
     // MARK: IBAction
     @objc func backAction(){
-        clearRecentCounter(chatroomId: chatroomId)
+        clearRecentCounter(chatRoomId: chatroomId)
         removeListner()
 //        self.navigationController?.popViewController(animated: true)
         if let viewController = navigationController?.viewControllers.first(where: {$0 is ChatViewController}) {
@@ -688,7 +689,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     }
     
     @objc func showGroup() {
-        print("Show group")
+        let groupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "groupView") as! GroupViewController
+        groupVC.group = group!
+        self.navigationController?.pushViewController(groupVC, animated: true)
     }
     
     @objc func showUserProfile() {
@@ -921,6 +924,28 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     }
     
     // MARK: Helper Function
+    
+    func loadUserDefaults(){
+        firstLoad = userDefaults.bool(forKey: kFIRSTRUN)
+        if !firstLoad! {
+            userDefaults.set(true, forKey: kFIRSTRUN)
+            userDefaults.set(showAvatar, forKey: kSHOWAVATAR)
+            
+            userDefaults.synchronize()
+        }
+        showAvatar = userDefaults.bool(forKey: kSHOWAVATAR)
+        checkForBackgroungImage()
+    }
+    
+    func checkForBackgroungImage(){
+        if userDefaults.object(forKey: kBACKGROUBNDIMAGE) != nil {
+            self.collectionView.backgroundColor = .clear
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+            imageView.image = UIImage(named: userDefaults.object(forKey: kBACKGROUBNDIMAGE) as! String)!
+            imageView.contentMode = .scaleAspectFill
+            self.view.insertSubview(imageView, at: 0)
+        }
+    }
     
     func addNewPictureMessageLink(link: String){
         allPictureMessages.append(link)

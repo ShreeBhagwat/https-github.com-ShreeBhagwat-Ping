@@ -264,7 +264,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
             memebersToPush.append(FUser.currentId())
         }
         // Save The Changes to Firestore
-        updateExistingRecentWithNewValues(chatroomId: recent[kCHATROOMID] as! String, members: recent[kMEMBERS] as! [String], withValues: [kMEMBERSTOPUSH : memebersToPush])
+        updateExistingRicentWithNewValues(chatRoomId: recent[kCHATROOMID] as! String, members: recent[kMEMBERS] as! [String], withValues: [kMEMBERSTOPUSH : memebersToPush])
     }
     
     func selectUserForChat(isGroup: Bool){

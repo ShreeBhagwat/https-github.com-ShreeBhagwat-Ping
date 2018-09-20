@@ -58,7 +58,7 @@ class OutgoingMessages {
         }
         
         // Update RecentChats to show last message
-        updateRecents(chatroomId: chatroomId, lastMessage: messageDictionary[kMESSAGE] as! String)
+        updateRecents(chatRoomId: chatroomId, lastMessage: messageDictionary[kMESSAGE] as! String)
         
         // PushNotification to Reciever
     }
