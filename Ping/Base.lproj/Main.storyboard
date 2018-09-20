@@ -181,10 +181,14 @@
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="vxx-fR-YhA">
                                 <rect key="frame" x="157" y="83" width="100" height="100"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="Cr7-Os-nW5"/>
                                     <constraint firstAttribute="width" constant="100" id="TuF-2a-CbU"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="L6e-zf-xNA" appends="YES" id="q6F-dE-Xcd"/>
+                                </connections>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Voa-N7-vPD">
                                 <rect key="frame" x="16" y="193" width="382" height="30"/>
@@ -252,6 +256,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9LP-vP-zP3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="L6e-zf-xNA" userLabel="avatarTapped">
+                    <connections>
+                        <action selector="avatarImageTapped:" destination="GRQ-dd-cUS" id="zkD-fe-vp0"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="843.47826086956525" y="103.53260869565219"/>
         </scene>

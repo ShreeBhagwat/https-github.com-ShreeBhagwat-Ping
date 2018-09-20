@@ -8,8 +8,11 @@
 
 import UIKit
 import ProgressHUD
+import ImagePicker
 
-class EditProfileTableViewController: UITableViewController {
+class EditProfileTableViewController: UITableViewController, ImagePickerDelegate {
+ 
+    
 
     // MARK: Connection With UI
     
@@ -51,7 +54,7 @@ class EditProfileTableViewController: UITableViewController {
             var withValues = [kFIRSTNAME : firstNameTextField.text!, kLASTNAME : lastNameTextField.text!, kFULLNAME : fullName]
             
             if avatarImage != nil {
-                let avatarData = avatarImage!.jpegData(compressionQuality: 0.7)!
+                let avatarData = avatarImage!.jpegData(compressionQuality: 0.4)!
                 let avatarString = avatarData.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
                 withValues[kAVATAR] = avatarString
                 
@@ -79,7 +82,10 @@ class EditProfileTableViewController: UITableViewController {
     
     
     @IBAction func avatarTapped(_ sender: Any) {
-        print("Show Image Picker")
+        let imagePickerController = ImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.imageLimit = 1
+        self.present(imagePickerController, animated: true, completion: nil )
     }
     // MARK: Set Up UI
     func setupUI(){
@@ -97,6 +103,24 @@ class EditProfileTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    // MARK: ImagePicker Delegate
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        if images.count > 0 {
+            self.avatarImage = images.first!
+            self.avatarImageView.image = self.avatarImage!.circleMasked
+            
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
    
 }
