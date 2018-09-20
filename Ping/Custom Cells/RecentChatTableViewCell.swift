@@ -44,7 +44,9 @@ class RecentChatTableViewCell: UITableViewCell {
         self.indexPath = indexPath
         
         self.nameLabel.text = recentChat[kWITHUSERUSERNAME] as? String
-        self.lastMessageLabel.text = recentChat[kLASTMESSAGE] as? String
+        let decrptedText = Encryption.decryptText(chatRoomId: recentChat[kCHATROOMID] as! String, encryptedMessage: recentChat[kLASTMESSAGE] as! String)
+        self.lastMessageLabel.text = decrptedText
+
         self.counterView.text = recentChat[kCOUNTER] as? String
    
         if let avatarString = recentChat[kAVATAR]{

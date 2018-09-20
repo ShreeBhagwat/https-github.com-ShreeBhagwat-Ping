@@ -9,167 +9,154 @@
 import Foundation
 import JSQMessagesViewController
 
-class IncomingMessages{
+class IncomingMessages {
+    
+    
     var collectionView: JSQMessagesCollectionView
     
     init(collectionView_: JSQMessagesCollectionView) {
         collectionView = collectionView_
-        
     }
-    // MARK: Create Message
-    func createMessage(messageDictionary: NSDictionary, chatroomId: String) -> JSQMessage? {
-        var message : JSQMessage?
+    
+    //MARK: Create Message
+    
+    func createMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage? {
+        
+        var message: JSQMessage?
+        
         let type = messageDictionary[kTYPE] as! String
         
         switch type {
         case kTEXT:
-            //Create Text Message
-            print("Text Message")
-            message = createTextMessage(messageDictionary: messageDictionary, charoomId: chatroomId)
+            message = createTextMessage(messageDictionary: messageDictionary, chatRoomId: chatRoomId)
         case kPICTURE:
-        //Create Picture Message
-            message = createPictureMessage(messageDictionary: messageDictionary)
+            message = createPictureMessage(messageDictionary: messageDictionary, chatRoomId: chatRoomId)
         case kVIDEO:
-        //Create Video Message
-            message = createVideoMessage(messageDictionary: messageDictionary)
+            message = createVideoMessage(messageDictionary: messageDictionary, chatRoomId: chatRoomId)
         case kAUDIO:
-        //Create Audio Message
-               message = createAudioMessage(messageDictionary: messageDictionary)
+            message = createAudioMessage(messageDictionary: messageDictionary, chatRoomId: chatRoomId)
         case kLOCATION:
-        //Create Location Message
-               message = createLocationMessage(messageDictionary: messageDictionary)
-
+            message = createLocationMessage(messageDictionary: messageDictionary)
         default:
-            print("Unknown Message Type")
+            print("unknown message type")
         }
-        
         if message != nil {
             return message
         }
         
         return nil
     }
-    // MARK: Create Message Types
     
-    func createTextMessage(messageDictionary: NSDictionary, charoomId: String) -> JSQMessage {
-        let name = messageDictionary[kSENDERNAME] as! String
-        let userId = messageDictionary[kSENDERID] as! String
+    func  createTextMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage {
         
-        var date: Date!
-        
-        if let created =  messageDictionary[kDATE] {
-            if (created as! String).count != 14 {
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
                 date = Date()
             } else {
-                date = dateFormatter().date(from: created as! String)
+                date = dateFormatter().date(from: createdDate as! String)
             }
-        }
-        else {
+        }else {
             date = Date()
         }
-        let text = messageDictionary[kMESSAGE] as! String
-        return JSQMessage(senderId: userId, senderDisplayName: name, date: date, text: text)
+        
+        let decryptedText = Encryption.decryptText(chatRoomId: chatRoomId, encryptedMessage: messageDictionary[kMESSAGE] as! String)
+        
+        return JSQMessage(senderId: userId, senderDisplayName: name, date: date, text: decryptedText)
     }
     
-    // Picture Function
-    
-    func createPictureMessage(messageDictionary: NSDictionary) -> JSQMessage {
-        let name = messageDictionary[kSENDERNAME] as! String
-        let userId = messageDictionary[kSENDERID] as! String
+    func createPictureMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage {
         
-        var date: Date!
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
         
-        if let created =  messageDictionary[kDATE] {
-            if (created as! String).count != 14 {
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
                 date = Date()
             } else {
-                date = dateFormatter().date(from: created as! String)
+                date = dateFormatter().date(from: createdDate as! String)
             }
-        }
-        else {
+        }else {
             date = Date()
         }
+        
         let mediaItem = PhotoMediaItem(image: nil)
-        mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutGoingStatusForUser(senderId: userId)
-        // Download Image
-        downloadImage(imageURl: messageDictionary[kPICTURE] as! String) { (image) in
+        mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusForUser(senderId: userId!)
+        
+        downloadImage(imageUrl: messageDictionary[kPICTURE] as! String, chatRoomId: chatRoomId) { (image) in
             if image != nil {
                 mediaItem?.image = image!
                 self.collectionView.reloadData()
+                
             }
         }
+        
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     
-    // Video Function
-    
-    
-    func createVideoMessage(messageDictionary: NSDictionary) -> JSQMessage {
-        let name = messageDictionary[kSENDERNAME] as! String
-        let userId = messageDictionary[kSENDERID] as! String
+    func createVideoMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage {
         
-        var date: Date!
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
         
-        if let created =  messageDictionary[kDATE] {
-            if (created as! String).count != 14 {
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
                 date = Date()
             } else {
-                date = dateFormatter().date(from: created as! String)
+                date = dateFormatter().date(from: createdDate as! String)
             }
-        }
-        else {
+        }else {
             date = Date()
         }
-        let videoUrl = NSURL(fileURLWithPath: messageDictionary[kVIDEO] as! String)
         
-        let mediaItem = VideoMessage(withFileUrl: videoUrl, maskOutgoing: returnOutGoingStatusForUser(senderId: userId))
-        // Download Video
-        downloadVideo(videoURL: messageDictionary[kVIDEO] as! String) { (isReadyToPlay, fileName) in
-            let URL = NSURL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
+        let videoURL = NSURL(fileURLWithPath: messageDictionary[kVIDEO] as! String)
+        let mediaItem = VideoMessage(withFileUrl: videoURL, maskOutgoing: returnOutgoingStatusForUser(senderId: userId!))
+        
+        downloadVideo(videoUrl: messageDictionary[kVIDEO] as! String, chatRoomId: chatRoomId) { (isReadyToPlay, fileName) in
+            let url = NSURL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
             mediaItem.status = kSUCCESS
-            mediaItem.fileURL = URL
-         
-            imageFromData(pictureData: messageDictionary[kTHUMBNAIL] as! String, withBlock: { (image) in
-                if image != nil{
-                mediaItem.image = image!
-                self.collectionView.reloadData()
-            }
+            mediaItem.fileURL = url
+            imageFromData(pictureData: messageDictionary[kPICTURE] as! String, withBlock: { (image) in
+                if image != nil {
+                    mediaItem.image = image!
+                    self.collectionView.reloadData()
+                }
             })
+            
             self.collectionView.reloadData()
         }
-     
+        
+        
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+        
     }
     
-    // Create Audio Message
     
-    func createAudioMessage(messageDictionary: NSDictionary) -> JSQMessage {
-        // Common Part for all message
-        let name = messageDictionary[kSENDERNAME] as! String
-        let userId = messageDictionary[kSENDERID] as! String
+    func createAudioMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage {
         
-        var date: Date!
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
         
-        if let created =  messageDictionary[kDATE] {
-            if (created as! String).count != 14 {
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
                 date = Date()
             } else {
-                date = dateFormatter().date(from: created as! String)
+                date = dateFormatter().date(from: createdDate as! String)
             }
-        }
-        else {
+        }else {
             date = Date()
         }
-        // Change from below
         
         let audioItem = JSQAudioMediaItem(data: nil)
-        audioItem.appliesMediaViewMaskAsOutgoing = returnOutGoingStatusForUser(senderId: userId)
+        audioItem.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusForUser(senderId: userId!)
+        let audioMessage = JSQMessage(senderId: userId!, displayName: name!, media: audioItem)
         
-        let audioMessage = JSQMessage(senderId: userId, displayName: name, media: audioItem)
-        
-        
-        // Download Audio
-        downloadAudio(audioURl: messageDictionary[kAUDIO] as! String) { (fileName) in
+        downloadAudio(audioUrl: (messageDictionary[kAUDIO] as! String), chatRoomId: chatRoomId) { (fileName) in
             let url = NSURL(fileURLWithPath: fileInDocumentsDirectory(fileName: fileName))
             let audioData = try? Data(contentsOf: url as URL)
             audioItem.audioData = audioData
@@ -177,48 +164,42 @@ class IncomingMessages{
         }
         
         return audioMessage!
+        
     }
     
-    // Location Message
-    
-    func createLocationMessage(messageDictionary: NSDictionary) -> JSQMessage {
-        // Same Old Function blabla
-        let name = messageDictionary[kSENDERNAME] as! String
-        let userId = messageDictionary[kSENDERID] as! String
+    func  createLocationMessage(messageDictionary: NSDictionary) -> JSQMessage {
         
-        var date: Date!
-        
-        if let created =  messageDictionary[kDATE] {
-            if (created as! String).count != 14 {
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
                 date = Date()
             } else {
-                date = dateFormatter().date(from: created as! String)
+                date = dateFormatter().date(from: createdDate as! String)
             }
-        }
-        else {
+        }else {
             date = Date()
         }
-        // Yeah lets start new here
-        let text = messageDictionary[kMESSAGE] as! String
+        
         let latitude = messageDictionary[kLATITUDE] as? Double
         let longitude = messageDictionary[kLONGITUDE] as? Double
         
         let mediaItem = JSQLocationMediaItem(location: nil)
-        mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutGoingStatusForUser(senderId: userId)
-        
+        mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusForUser(senderId: userId!)
         let location = CLLocation(latitude: latitude!, longitude: longitude!)
-        
         mediaItem?.setLocation(location, withCompletionHandler: {
             self.collectionView.reloadData()
         })
         
-        return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+        return JSQMessage(senderId: userId!, senderDisplayName: name, date: date, media: mediaItem)
     }
     
+    //Helpers
     
-    // Helper Function
-    func returnOutGoingStatusForUser(senderId: String) -> Bool {
-    return senderId == FUser.currentId()
+    func returnOutgoingStatusForUser(senderId: String) -> Bool {
+        
+        return senderId == FUser.currentId()
     }
 }
 

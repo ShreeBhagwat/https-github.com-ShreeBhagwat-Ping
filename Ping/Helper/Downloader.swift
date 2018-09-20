@@ -12,221 +12,235 @@ import Firebase
 import MBProgressHUD
 import AVFoundation
 
-
 let storage = Storage.storage()
 
-// Image
+// MARK: Image Upload
 
-func uploadImage(image: UIImage, chatroomId: String, view: UIView, complition: @escaping (_ imageLink: String?) -> Void) {
+func uploadImage(image: UIImage, chatRoomId: String, view: UIView, completion: @escaping (_ imageLink: String?) -> Void) {
+    
     let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
     progressHUD.mode = .determinateHorizontalBar
     let dateString = dateFormatter().string(from: Date())
-    let photoFileName = "PictureMessage/" + FUser.currentId() + "/" + chatroomId + "/" + dateString + ".jpg"
-    let storageReference = storage.reference(forURL: kFILEREFERENCE).child(photoFileName)
-    let imageData = image.jpegData(compressionQuality: 0.5)
-    var task: StorageUploadTask!
+    let photoFileName = "PictureMessage/" + FUser.currentId() + "/" + chatRoomId + "/" + dateString + ".jpg"
+    let storageRef = storage.reference(forURL: kFILEREFERENCE).child(photoFileName)
     
-    task = storageReference.putData(imageData!, metadata: nil, completion: { (metadata, error) in
+    let encryptedImageData =  Encryption.encryptImages(chatRoomId: chatRoomId, image: image)
+    
+    var task : StorageUploadTask!
+    
+    task = storageRef.putData(encryptedImageData, metadata: nil, completion: { (metaData, error) in
+        
         task.removeAllObservers()
         progressHUD.hide(animated: true)
         if error != nil {
-            print("Error uploading Image \(error?.localizedDescription)")
+            print("Image upload Error \(error?.localizedDescription)")
             return
         }
-        storageReference.downloadURL(completion: { (url, error) in
+        
+        storageRef.downloadURL(completion: { (url, error) in
             guard let downloadUrl = url else {
-                complition(nil)
+                completion(nil)
                 return
             }
-            complition(downloadUrl.absoluteString)
+            completion(downloadUrl.absoluteString)
+            
         })
     })
+    
     task.observe(StorageTaskStatus.progress) { (snapshot) in
         progressHUD.progress = Float((snapshot.progress?.completedUnitCount)!) / Float((snapshot.progress?.totalUnitCount)!)
     }
+    
+    
+    
+    
+    
 }
 
-func downloadImage(imageURl: String, completion: @escaping(_ image: UIImage?) -> Void) {
+//MARK: DownLoad Image
+
+func downloadImage(imageUrl: String, chatRoomId: String, completion: @escaping(_ image: UIImage?) -> Void) {
     
-    let imageUrl = NSURL(string: imageURl)
-        print(imageURl)
-    let imageFileName = (imageURl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
-    print(imageFileName)
+    let imageURL = NSURL(string: imageUrl)
     
-    if fileExistsAtPath(path: imageFileName) {
-        // Exists
-        print("Image File  Exists")
-        print(imageFileName)
+    let imageFileName = (imageUrl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
+    
+    
+    if fileExistAtPath(path: imageFileName) {
         if let contentsOfFile = UIImage(contentsOfFile: fileInDocumentsDirectory(fileName: imageFileName)) {
             completion(contentsOfFile)
-        }else {
-            print("Could Not generate image")
+        } else {
+            print("could not generate image")
             completion(nil)
         }
-    }else {
-        // Does not Exists
-        print("Image File Does Not Exists")
-        
+    } else {
         let downloadQueue = DispatchQueue(label: "imageDownloadQueue")
+        
         downloadQueue.async {
-            let data = NSData(contentsOf: imageUrl! as URL)
-            if data != nil {
-                var docUrl = getDocumentsURL()
-               docUrl =  docUrl.appendingPathComponent(imageFileName, isDirectory: false)
+            
+            let fetchedData = try? Data(contentsOf: imageURL! as URL)
+            if fetchedData != nil {
+                let decryptedData = Encryption.decryptImages(chatRoomId: chatRoomId, encryptedImage: fetchedData!)
                 
-                data!.write(to: docUrl, atomically: true)
-             
-                let imageToReturn = UIImage(data: data! as Data)
+                var docURL = getDocumentsURL()
+                docURL = docURL.appendingPathComponent(imageFileName, isDirectory: false)
+                try? decryptedData.write(to: docURL, options: Data.WritingOptions.atomic)
+                let imageToReturn = UIImage(data: decryptedData)!
                 DispatchQueue.main.async {
-                    completion(imageToReturn!)
-                    print("Image Saved locally")
+                    completion(imageToReturn)
                 }
-            } else {
+            }else {
                 DispatchQueue.main.async {
-                    print("No Image In DataBase")
+                    print("no image in database")
                     completion(nil)
                 }
+                
             }
         }
     }
     
 }
-// Upload Video Func
-func uploadVideo(video: NSData, chatroomId: String, view: UIView, completion: @escaping(_ videoLink: String?) -> Void){
+
+
+
+
+//Video Upload & Download
+
+func uploadVideo(video: NSData, chatRoomId: String, view: UIView, compleltion: @escaping(_ videoLink: String?) -> Void){
+    
     let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
     progressHUD.mode = .determinateHorizontalBar
-    
     let dateString = dateFormatter().string(from: Date())
-    let videoFileName = "VideoMessage/" + FUser.currentId() + "/" + chatroomId + "/" + dateString + ".mov"
-    
-    let storageReference = storage.reference(forURL: kFILEREFERENCE).child(videoFileName)
-    var task: StorageUploadTask!
-    task = storageReference.putData(video as Data, metadata: nil, completion: { (metadata, error) in
+    let videoFileName = "VideoMessage/" + FUser.currentId() + "/" + dateString + ".mov"
+    let storageRef = storage.reference(forURL: kFILEREFERENCE).child(videoFileName)
+    var task : StorageUploadTask!
+    let encryptedVideo = Encryption.encryptVideos(chatRoomId: chatRoomId, video: video as Data)
+    task = storageRef.putData(encryptedVideo , metadata: nil, completion: { (metadata, error) in
         task.removeAllObservers()
         progressHUD.hide(animated: true)
-        
         if error != nil {
-            print("Could not upload video\(error?.localizedDescription)")
+            print("upload video error \(error!.localizedDescription)")
             return
         }
-        storageReference.downloadURL(completion: { (url, error) in
-            guard let downloadURL = url else {
-                completion(nil)
+        storageRef.downloadURL(completion: { (url, error) in
+            guard let downloadUrl = url else {
+                compleltion(nil)
                 return
+                
             }
-            completion(downloadURL.absoluteString)
+            compleltion(downloadUrl.absoluteString)
         })
     })
     
     task.observe(StorageTaskStatus.progress) { (snapshot) in
         progressHUD.progress = Float((snapshot.progress?.completedUnitCount)!) / Float((snapshot.progress?.totalUnitCount)!)
-        
     }
+    
 }
 
-// Download Video
 
-func downloadVideo(videoURL: String, completion: @escaping(_ isReadyToPlay: Bool, _ videoFileName: String) -> Void) {
+
+
+func downloadVideo(videoUrl: String,chatRoomId: String , completion: @escaping(_ isReadyToPlay: Bool, _ videoFileName: String) -> Void) {
     
-    let videoUrl = NSURL(string: videoURL)
+    let videoURL = NSURL(string: videoUrl)
     
-    let videoFileName = (videoURL.components(separatedBy: "%").last!).components(separatedBy: "?").first!
+    let videoFileName = (videoUrl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
     
-    if fileExistsAtPath(path: videoFileName) {
-        // Exists
+    
+    if fileExistAtPath(path: videoFileName) {
+        //Video Exist
         completion(true, videoFileName)
-      
-    }else {
-        // Does not Exists
-        print("Image File Does Not Exists")
+        
+    } else {
         let downloadQueue = DispatchQueue(label: "videoDownloadQueue")
+        
         downloadQueue.async {
-            let data = NSData(contentsOf: videoUrl! as URL)
-            if data != nil {
-                var docUrl = getDocumentsURL()
-                docUrl =  docUrl.appendingPathComponent(videoFileName, isDirectory: false)
+            let fetchedData = try? Data(contentsOf: videoURL! as URL)
+            if fetchedData != nil {
+                let decryptedData = Encryption.decryptVideos(chatRoomId: chatRoomId, encryptedVideo: fetchedData!)
                 
-                data!.write(to: docUrl, atomically: true)
+                var docURL = getDocumentsURL()
+                docURL = docURL.appendingPathComponent(videoFileName, isDirectory: false)
+                try? decryptedData.write(to: docURL, options: Data.WritingOptions.atomic)
+                
                 DispatchQueue.main.async {
                     completion(true, videoFileName)
-                    
                 }
             } else {
                 DispatchQueue.main.async {
-                    print("No video In DataBase")
+                    print("no vidoe in database")
                     
                 }
+                
             }
         }
     }
     
 }
-// Upload Audio Message
 
-func uploadAudio(audioPath: String, chatroomId: String, view: UIView, completion: @escaping(_ audioLink: String?) -> Void){
+// Audio Uploade & Download
+
+func uploadAudio(audioPath: String, chatRoomId: String, view: UIView, compleltion: @escaping(_ audioLink: String?) -> Void)  {
+    
     let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
     progressHUD.mode = .determinateHorizontalBar
-    
     let dateString = dateFormatter().string(from: Date())
-    let audioFileName = "AudioMessage/" + FUser.currentId() + "/" + chatroomId + "/" + dateString + ".m4a"
+    let audioFileName = "AudioMessage/" + FUser.currentId() + "/" + dateString + ".m4a"
     let audio = NSData(contentsOfFile: audioPath)
-    let storageReference = storage.reference(forURL: kFILEREFERENCE).child(audioFileName)
-    var task: StorageUploadTask!
-    task = storageReference.putData(audio! as Data, metadata: nil, completion: { (metadata, error) in
+    let encryptedAudio = Encryption.encryptAudio(chatRoomId: chatRoomId, inputData: audio!)
+    let storageRef = storage.reference(forURL: kFILEREFERENCE).child(audioFileName)
+    var task : StorageUploadTask!
+    task = storageRef.putData(encryptedAudio, metadata: nil, completion: { (metadata, error) in
         task.removeAllObservers()
         progressHUD.hide(animated: true)
-        
         if error != nil {
-            print("Could not upload Audio\(error?.localizedDescription)")
+            print("upload audio error \(error!.localizedDescription)")
             return
         }
-        storageReference.downloadURL(completion: { (url, error) in
-            guard let downloadURL = url else {
-                completion(nil)
+        storageRef.downloadURL(completion: { (url, error) in
+            guard let downloadUrl = url else {
+                compleltion(nil)
                 return
+                
             }
-            completion(downloadURL.absoluteString)
+            compleltion(downloadUrl.absoluteString)
         })
     })
     
     task.observe(StorageTaskStatus.progress) { (snapshot) in
         progressHUD.progress = Float((snapshot.progress?.completedUnitCount)!) / Float((snapshot.progress?.totalUnitCount)!)
-        
     }
+    
 }
 
-//Download Audio Message
-
-func downloadAudio(audioURl: String, completion: @escaping(_ audioFileName: String) -> Void) {
+func downloadAudio(audioUrl: String, chatRoomId: String, completion: @escaping(_ audioFileName: String) -> Void) {
     
-    let audioUrl = NSURL(string: audioURl)
-    let audioFileName = (audioURl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
-
+    let audioURL = NSURL(string: audioUrl)
     
-    if fileExistsAtPath(path: audioFileName) {
-        // Exists
-       completion(audioFileName)
-    }else {
-        // Does not Exists
-        print("Audio File Does Not Exists")
-        
+    let audioFileName = (audioUrl.components(separatedBy: "%").last!).components(separatedBy: "?").first!
+    
+    
+    if fileExistAtPath(path: audioFileName) {
+        completion(audioFileName)
+    } else {
         let downloadQueue = DispatchQueue(label: "audioDownloadQueue")
-        downloadQueue.async {
-            let data = NSData(contentsOf: audioUrl! as URL)
-            if data != nil {
-                var docUrl = getDocumentsURL()
-                docUrl =  docUrl.appendingPathComponent(audioFileName, isDirectory: false)
-                
-                data!.write(to: docUrl, atomically: true)
-                
         
+        downloadQueue.async {
+            
+            let data = NSData(contentsOf: audioURL! as URL)
+            if data != nil {
+                var docURL = getDocumentsURL()
+                let decryptedData = Encryption.decryptAudio(chatRoomId: chatRoomId, encryptedData: data!)
+                docURL = docURL.appendingPathComponent(audioFileName, isDirectory: false)
+                decryptedData.write(to: docURL, atomically: true)
+                
                 DispatchQueue.main.async {
                     completion(audioFileName)
-                    print("Audio Saved locally")
                 }
             } else {
                 DispatchQueue.main.async {
-                    print("No Audio In DataBase")
+                    print("no audio in database")
                     
                 }
             }
@@ -235,45 +249,42 @@ func downloadAudio(audioURl: String, completion: @escaping(_ audioFileName: Stri
     
 }
 
-// Helper Function
+
+
+
+//Helpers
 
 func videoThumbnail(video: NSURL) -> UIImage {
     let asset = AVURLAsset(url: video as URL, options: nil)
     let imageGenerator = AVAssetImageGenerator(asset: asset)
     imageGenerator.appliesPreferredTrackTransform = true
-    
-    let time = CMTime(seconds: 0.5, preferredTimescale: 1000)
+    let time = CMTimeMakeWithSeconds(0.5, preferredTimescale: 1000)
     var actualTime = CMTime.zero
-    
-    var image: CGImage?
-    
+    var image : CGImage?
     do {
         image = try imageGenerator.copyCGImage(at: time, actualTime: &actualTime)
-        print("image created successfully")
-    }
-    catch let error  as NSError{
+    } catch let error as NSError {
         print(error.localizedDescription)
     }
-    
     let thumbnail = UIImage(cgImage: image!)
-    
     return thumbnail
 }
 
-
 func fileInDocumentsDirectory(fileName: String) -> String {
-   let fileUrl = getDocumentsURL().appendingPathComponent(fileName)
-    return fileUrl.path
+    let fileURL = getDocumentsURL().appendingPathComponent(fileName)
     
+    return fileURL.path
 }
 
 func getDocumentsURL() -> URL {
-   let documentUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
-    return documentUrl!
+    let decumentURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+    return decumentURL!
 }
 
-func fileExistsAtPath(path: String) -> Bool {
+func fileExistAtPath(path: String) -> Bool {
+    
     var doesExist = false
+    
     let filePath = fileInDocumentsDirectory(fileName: path)
     let fileManager = FileManager.default
     
@@ -282,7 +293,6 @@ func fileExistsAtPath(path: String) -> Bool {
     } else {
         doesExist = false
     }
-    return doesExist
     
+    return doesExist
 }
-

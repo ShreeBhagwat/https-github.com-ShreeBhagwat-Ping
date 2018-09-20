@@ -56,10 +56,15 @@ class PictureCollectionCollectionViewController: UICollectionViewController {
         self.present(browser!, animated: true, completion: nil)
     }
 
-    // MARK: Download Images
-    func downloadImages(){
+    var getTheChatRoomId = ""
+    
+    
+    //MARK: Download Images
+    
+    func downloadImages() {
         for imageLink in allImageLinks {
-            downloadImage(imageURl: imageLink) { (image) in
+            
+            downloadImage(imageUrl: imageLink, chatRoomId: getTheChatRoomId) { (image) in
                 if image != nil {
                     self.allImages.append(image!)
                     self.collectionView.reloadData()
