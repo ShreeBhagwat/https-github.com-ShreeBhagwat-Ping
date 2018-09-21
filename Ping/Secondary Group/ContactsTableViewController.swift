@@ -77,8 +77,16 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
         super.viewDidLoad()
         
         title = "Contacts"
-        navigationItem.largeTitleDisplayMode = .never
-        navigationItem.searchController = searchController
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        } else {
+            // Fallback on earlier versions
+        }
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
         
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false

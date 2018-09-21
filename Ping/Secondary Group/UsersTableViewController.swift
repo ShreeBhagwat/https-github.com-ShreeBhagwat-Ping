@@ -29,10 +29,18 @@ class UsersTableViewController: UITableViewController, UISearchResultsUpdating, 
         super.viewDidLoad()
         
         self.title = "Users"
-        navigationItem.largeTitleDisplayMode = .never
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        } else {
+            // Fallback on earlier versions
+        }
         tableView.tableFooterView = UIView()
         
-        navigationItem.searchController = searchController
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true

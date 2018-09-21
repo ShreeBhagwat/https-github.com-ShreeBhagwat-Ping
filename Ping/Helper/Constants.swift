@@ -21,7 +21,7 @@ public let APP_STARTED_NOTIFICATION = "AppStartedNotification"
 
 //IDS and Keys
 public let kFILEREFERENCE = "gs://ping-9e43c.appspot.com"
-public let kONESIGNALAPPID = ""
+public let kONESIGNALAPPID = "f5f6344b-34a9-416f-a1ff-387a0755ac96"
 public let kSINCHKEY = ""
 public let kSINCHSECRET = ""
 public let kAPPURL = "App store Link"

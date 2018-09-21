@@ -103,7 +103,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         loadUserDefaults()
         
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
-        navigationItem.largeTitleDisplayMode = .never
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        } else {
+            // Fallback on earlier versions
+        }
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(self.backAction))]
         
         if isGroup! {
@@ -123,7 +127,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         let constraint = perform(Selector(("toolbarBottomLayoutGuide")))?.takeUnretainedValue() as! NSLayoutConstraint
         
         constraint.priority = UILayoutPriority(rawValue: 1000)
-        self.inputToolbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        if #available(iOS 11.0, *) {
+            self.inputToolbar.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        } else {
+            // Fallback on earlier versions
+        }
         // End Of layout Fix iphone X
         // Custome Send Button
         self.inputToolbar.contentView.rightBarButtonItem.setImage(UIImage(named: "mic"), for: .normal)

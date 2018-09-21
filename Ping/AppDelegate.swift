@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import CoreLocation
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
@@ -36,15 +37,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 }
             }
         })
-        
+        func userDidLogin(userId: String){
+            self.startOneSignal()
+        }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: USER_DID_LOGIN_NOTIFICATION), object: nil, queue: nil) { (notification) in
+            let userId = notification.userInfo![kUSERID] as! String
+            UserDefaults.standard.set(userId, forKey: kUSERID)
+            UserDefaults.standard.synchronize()
+            print("User has Logged in .........................")
+            userDidLogin(userId: userId)
+        }
+        OneSignal.initWithLaunchOptions(launchOptions, appId: kONESIGNALAPPID)
         return true
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
+        if FUser.currentUser() != nil {
+            updateCurrentUserInFirestore(withValues: [kISONLINE : true]) { (sucess) in
+                
+            }
+        }
+        
+        
         locationManagerStart()
+        
     }
     
     func applicationDidEnterBackground(_ application: UIApplication) {
+        if FUser.currentUser() != nil {
+            updateCurrentUserInFirestore(withValues: [kISONLINE : false]) { (sucess) in
+            }
+            }
         locationManagerStop()
     }
     
@@ -100,6 +123,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         cordinates = locations.last!.coordinate
+    }
+    // MARK: One Signal
+    func startOneSignal(){
+        let status: OSPermissionSubscriptionState = OneSignal.getPermissionSubscriptionState()
+        let userId = status.subscriptionStatus.userId
+        let pushToken = status.subscriptionStatus.pushToken
+        
+        if pushToken != nil {
+            if let playerId = userId {
+                UserDefaults.standard.set(playerId, forKey: kPUSHID)
+                
+            } else {
+                UserDefaults.standard.removeObject(forKey: kPUSHID)
+            }
+            UserDefaults.standard.synchronize()
+        }
+        // Update One Signal ID
+        updateOneSignalId()
+        
     }
 }
 

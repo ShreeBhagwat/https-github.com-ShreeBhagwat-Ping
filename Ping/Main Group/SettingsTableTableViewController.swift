@@ -33,7 +33,11 @@ class SettingsTableTableViewController: UITableViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = true
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
         tableView.tableFooterView = UIView()
         
 

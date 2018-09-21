@@ -60,7 +60,10 @@ class OutgoingMessages {
         // Update RecentChats to show last message
         updateRecents(chatRoomId: chatroomId, lastMessage: messageDictionary[kMESSAGE] as! String)
         
-        // PushNotification to Reciever
+        // Send PushNotification to Reciever
+        let pushText = "[ \(messageDictionary[kTYPE] as! String) message]"
+        sendPushNotification(memberToPush: membersToPush, message: pushText)
+        
     }
     class func deleteMessage(withId: String, chatroomId: String){
         reference(.Message).document(FUser.currentId()).collection(chatroomId).document(withId).delete()

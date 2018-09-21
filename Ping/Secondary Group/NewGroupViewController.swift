@@ -30,7 +30,11 @@ class NewGroupViewController: UIViewController , UICollectionViewDelegate, UICol
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.largeTitleDisplayMode = .never
+        if #available(iOS 11.0, *) {
+            navigationItem.largeTitleDisplayMode = .never
+        } else {
+            // Fallback on earlier versions
+        }
         groupIconImageView.isUserInteractionEnabled = true
         groupIconImageView.addGestureRecognizer(iconTappedGesture)
         updateParticipantsLabel()
