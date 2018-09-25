@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Ping
+
+  Created by Gauri Bhagwat on 22/09/18.
+  Copyright © 2018 Development. All rights reserved.
+*/
+
+
+"SIN_INCOMING_CALL" = "Incoming Call";
+"SIN_CANCEL_CALL" = "Cancel Call";

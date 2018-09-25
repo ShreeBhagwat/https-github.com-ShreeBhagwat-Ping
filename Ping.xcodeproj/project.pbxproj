@@ -36,6 +36,8 @@
 		D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */; };
 		D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88F0213835760022DBC6 /* WelcomeViewController.swift */; };
 		D07BA121214556D700BB52AB /* Downloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07BA120214556D700BB52AB /* Downloader.swift */; };
+		D07FEE412158EDA60062E987 /* AudioControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FEE3F2158EDA50062E987 /* AudioControllerDelegate.swift */; };
+		D07FEE422158EDA60062E987 /* SINCallKitProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07FEE402158EDA60062E987 /* SINCallKitProvider.swift */; };
 		D0A46224214E6BCD0091F308 /* BlockedUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A46223214E6BCD0091F308 /* BlockedUserViewController.swift */; };
 		D0A46226214EAF200091F308 /* BackgroundCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A46225214EAF200091F308 /* BackgroundCollectionViewController.swift */; };
 		D0A46228214EAF390091F308 /* BackgroundCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A46227214EAF390091F308 /* BackgroundCollectionViewCell.swift */; };
@@ -43,6 +45,10 @@
 		D0A4622C214EC3AE0091F308 /* T&C.html in Resources */ = {isa = PBXBuildFile; fileRef = D0A4622B214EC3AE0091F308 /* T&C.html */; };
 		D0A4622E214F49B10091F308 /* PP.html in Resources */ = {isa = PBXBuildFile; fileRef = D0A4622D214F49B10091F308 /* PP.html */; };
 		D0A46230214F6AE20091F308 /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A4622F214F6AE20091F308 /* EditProfileTableViewController.swift */; };
+		D0AE785A2156FDDC009CB81F /* PWelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE78592156FDDC009CB81F /* PWelcomeViewController.swift */; };
+		D0AE785C21570039009CB81F /* PTermsAndConditionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE785B21570039009CB81F /* PTermsAndConditionViewController.swift */; };
+		D0AE7860215701F1009CB81F /* PhoneAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE785F215701F1009CB81F /* PhoneAuthViewController.swift */; };
+		D0AE786221570B48009CB81F /* VerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AE786121570B48009CB81F /* VerificationViewController.swift */; };
 		D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B6516E213AB5320012AB0A /* UserTableViewCell.swift */; };
 		D0B65172213AB9D70012AB0A /* UsersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */; };
 		D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */; };
@@ -52,6 +58,15 @@
 		D0EA3B2721549D5400D0BFBB /* PushNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B2621549D5400D0BFBB /* PushNotification.swift */; };
 		D0EA3B2F2154B9E100D0BFBB /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B2E2154B9E100D0BFBB /* NotificationService.swift */; };
 		D0EA3B332154B9E100D0BFBB /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D0EA3B2C2154B9E100D0BFBB /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D0EA3B3A215527D800D0BFBB /* CallTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B39215527D800D0BFBB /* CallTableViewCell.swift */; };
+		D0EA3B3C21552ACF00D0BFBB /* CallClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B3B21552ACF00D0BFBB /* CallClass.swift */; };
+		D0EA3B3E21553DD100D0BFBB /* CallTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B3D21553DD100D0BFBB /* CallTableViewController.swift */; };
+		D0EA3B442155DA9700D0BFBB /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0EA3B432155DA9700D0BFBB /* PushKit.framework */; };
+		D0EA3B462156284100D0BFBB /* CallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B452156284100D0BFBB /* CallViewController.swift */; };
+		D0EA3B49215637E400D0BFBB /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0EA3B47215637E300D0BFBB /* ringback.wav */; };
+		D0EA3B4A215637E400D0BFBB /* incoming.wav in Resources */ = {isa = PBXBuildFile; fileRef = D0EA3B48215637E300D0BFBB /* incoming.wav */; };
+		D0EA3B4C2156635E00D0BFBB /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EA3B4B2156635E00D0BFBB /* Badge.swift */; };
+		D0EA3B4E21566C9700D0BFBB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0EA3B4D21566C9700D0BFBB /* Localizable.strings */; };
 		D0EAFB912148A47A00347BEF /* AudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB902148A47A00347BEF /* AudioViewController.swift */; };
 		D0EAFB932149360800347BEF /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB922149360800347BEF /* MapViewController.swift */; };
 		D0EAFB95214BD86400347BEF /* PictureCollectionCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */; };
@@ -118,6 +133,8 @@
 		D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D05F88F0213835760022DBC6 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		D07BA120214556D700BB52AB /* Downloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Downloader.swift; sourceTree = "<group>"; };
+		D07FEE3F2158EDA50062E987 /* AudioControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioControllerDelegate.swift; sourceTree = "<group>"; };
+		D07FEE402158EDA60062E987 /* SINCallKitProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SINCallKitProvider.swift; sourceTree = "<group>"; };
 		D0A46223214E6BCD0091F308 /* BlockedUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedUserViewController.swift; sourceTree = "<group>"; };
 		D0A46225214EAF200091F308 /* BackgroundCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundCollectionViewController.swift; sourceTree = "<group>"; };
 		D0A46227214EAF390091F308 /* BackgroundCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -125,6 +142,10 @@
 		D0A4622B214EC3AE0091F308 /* T&C.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "T&C.html"; sourceTree = "<group>"; };
 		D0A4622D214F49B10091F308 /* PP.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = PP.html; sourceTree = "<group>"; };
 		D0A4622F214F6AE20091F308 /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
+		D0AE78592156FDDC009CB81F /* PWelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWelcomeViewController.swift; sourceTree = "<group>"; };
+		D0AE785B21570039009CB81F /* PTermsAndConditionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTermsAndConditionViewController.swift; sourceTree = "<group>"; };
+		D0AE785F215701F1009CB81F /* PhoneAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAuthViewController.swift; sourceTree = "<group>"; };
+		D0AE786121570B48009CB81F /* VerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerificationViewController.swift; sourceTree = "<group>"; };
 		D0B6516E213AB5320012AB0A /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		D0B65171213AB9D70012AB0A /* UsersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewController.swift; sourceTree = "<group>"; };
 		D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCollectionReference.swift; sourceTree = "<group>"; };
@@ -137,6 +158,16 @@
 		D0EA3B2E2154B9E100D0BFBB /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		D0EA3B302154B9E100D0BFBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0EA3B382154BB5600D0BFBB /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
+		D0EA3B39215527D800D0BFBB /* CallTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTableViewCell.swift; sourceTree = "<group>"; };
+		D0EA3B3B21552ACF00D0BFBB /* CallClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallClass.swift; sourceTree = "<group>"; };
+		D0EA3B3D21553DD100D0BFBB /* CallTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallTableViewController.swift; sourceTree = "<group>"; };
+		D0EA3B3F2155D84B00D0BFBB /* Ping-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Ping-Bridging-Header.h"; sourceTree = "<group>"; };
+		D0EA3B432155DA9700D0BFBB /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		D0EA3B452156284100D0BFBB /* CallViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallViewController.swift; sourceTree = "<group>"; };
+		D0EA3B47215637E300D0BFBB /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringback.wav; sourceTree = "<group>"; };
+		D0EA3B48215637E300D0BFBB /* incoming.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = incoming.wav; sourceTree = "<group>"; };
+		D0EA3B4B2156635E00D0BFBB /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		D0EA3B4D21566C9700D0BFBB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		D0EAFB902148A47A00347BEF /* AudioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioViewController.swift; sourceTree = "<group>"; };
 		D0EAFB922149360800347BEF /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		D0EAFB94214BD86400347BEF /* PictureCollectionCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionCollectionViewController.swift; sourceTree = "<group>"; };
@@ -150,6 +181,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0EA3B442155DA9700D0BFBB /* PushKit.framework in Frameworks */,
 				D04D99102153EB47002B12CD /* ImagePicker.framework in Frameworks */,
 				45D5BA203AC4F25A64D125B7 /* Pods_Ping.framework in Frameworks */,
 			);
@@ -180,6 +212,7 @@
 		CDB6916767E3106A919FDDAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0EA3B432155DA9700D0BFBB /* PushKit.framework */,
 				D04D990F2153EB47002B12CD /* ImagePicker.framework */,
 				A80873642DB56087746C1163 /* Pods_Ping.framework */,
 				71A94FB500BC0544DE0E3E02 /* Pods_OneSignalNotificationServiceExtension.framework */,
@@ -191,7 +224,11 @@
 			isa = PBXGroup;
 			children = (
 				D05F88F0213835760022DBC6 /* WelcomeViewController.swift */,
+				D0AE785B21570039009CB81F /* PTermsAndConditionViewController.swift */,
 				D0DBE37621392BB500177A3D /* FinishRegistrationViewController.swift */,
+				D0AE78592156FDDC009CB81F /* PWelcomeViewController.swift */,
+				D0AE785F215701F1009CB81F /* PhoneAuthViewController.swift */,
+				D0AE786121570B48009CB81F /* VerificationViewController.swift */,
 			);
 			path = "Welcome View";
 			sourceTree = "<group>";
@@ -199,6 +236,7 @@
 		D01F57BD213E8F460043CE9D /* Main Group */ = {
 			isa = PBXGroup;
 			children = (
+				D0EA3B3D21553DD100D0BFBB /* CallTableViewController.swift */,
 				D0DBE37A2139993D00177A3D /* SettingsTableTableViewController.swift */,
 				D01F57B8213B945C0043CE9D /* ChatViewController.swift */,
 			);
@@ -217,6 +255,7 @@
 				D04D990321514B5E002B12CD /* NewGroupViewController.swift */,
 				D04D990721537EEF002B12CD /* GroupViewController.swift */,
 				D04D990921538938002B12CD /* InviteUserTableViewController.swift */,
+				D0EA3B452156284100D0BFBB /* CallViewController.swift */,
 				D04D98E8215092A5002B12CD /* Settings View */,
 			);
 			path = "Secondary Group";
@@ -258,6 +297,8 @@
 			children = (
 				D0EA3B252154835C00D0BFBB /* Ping.entitlements */,
 				D05F88DC2137F9020022DBC6 /* AppDelegate.swift */,
+				D07FEE3F2158EDA50062E987 /* AudioControllerDelegate.swift */,
+				D07FEE402158EDA60062E987 /* SINCallKitProvider.swift */,
 				D0DBE37921392C5000177A3D /* Classes */,
 				D0DBE37821392C0500177A3D /* Helper */,
 				D01F57BC213E8F180043CE9D /* Welcome View */,
@@ -266,11 +307,14 @@
 				D0B65170213AB9590012AB0A /* Custom Cells */,
 				D05F88E02137F9030022DBC6 /* Main.storyboard */,
 				D05F88E32137F9080022DBC6 /* Assets.xcassets */,
+				D0EA3B48215637E300D0BFBB /* incoming.wav */,
+				D0EA3B47215637E300D0BFBB /* ringback.wav */,
 				D0A4622B214EC3AE0091F308 /* T&C.html */,
 				D0A4622D214F49B10091F308 /* PP.html */,
 				D05F88E52137F9080022DBC6 /* LaunchScreen.storyboard */,
 				D05F88E82137F9080022DBC6 /* Info.plist */,
 				D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */,
+				D0EA3B3F2155D84B00D0BFBB /* Ping-Bridging-Header.h */,
 			);
 			path = Ping;
 			sourceTree = "<group>";
@@ -283,6 +327,7 @@
 				D0EAFB96214BD8B900347BEF /* PictureCollectionViewCell.swift */,
 				D0A46227214EAF390091F308 /* BackgroundCollectionViewCell.swift */,
 				D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */,
+				D0EA3B39215527D800D0BFBB /* CallTableViewCell.swift */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -294,6 +339,8 @@
 				D0DBE3722138DC5A00177A3D /* FCollectionReference.swift */,
 				D02DC78C2138CB9800335DC9 /* Constants.swift */,
 				D07BA120214556D700BB52AB /* Downloader.swift */,
+				D0EA3B4B2156635E00D0BFBB /* Badge.swift */,
+				D0EA3B4D21566C9700D0BFBB /* Localizable.strings */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -313,6 +360,7 @@
 				D04D9905215275EA002B12CD /* Group.swift */,
 				D04D990D2153D1CD002B12CD /* Encryption.swift */,
 				D0EA3B2621549D5400D0BFBB /* PushNotification.swift */,
+				D0EA3B3B21552ACF00D0BFBB /* CallClass.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -431,9 +479,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0EA3B49215637E400D0BFBB /* ringback.wav in Resources */,
 				D0A4622E214F49B10091F308 /* PP.html in Resources */,
 				D05F88E72137F9080022DBC6 /* LaunchScreen.storyboard in Resources */,
 				D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */,
+				D0EA3B4E21566C9700D0BFBB /* Localizable.strings in Resources */,
+				D0EA3B4A215637E400D0BFBB /* incoming.wav in Resources */,
 				D05F88E42137F9080022DBC6 /* Assets.xcassets in Resources */,
 				D0A4622C214EC3AE0091F308 /* T&C.html in Resources */,
 				D05F88E22137F9030022DBC6 /* Main.storyboard in Resources */,
@@ -511,6 +562,7 @@
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/TransitionButton/TransitionButton.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
@@ -538,6 +590,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TransitionButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
@@ -562,35 +615,46 @@
 				D0B6516F213AB5320012AB0A /* UserTableViewCell.swift in Sources */,
 				D0EA3B2721549D5400D0BFBB /* PushNotification.swift in Sources */,
 				D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */,
+				D0EA3B4C2156635E00D0BFBB /* Badge.swift in Sources */,
 				D04D99002150FA78002B12CD /* OutgoingMessages.swift in Sources */,
+				D0EA3B462156284100D0BFBB /* CallViewController.swift in Sources */,
 				D0EAFB95214BD86400347BEF /* PictureCollectionCollectionViewController.swift in Sources */,
 				D0EAFB97214BD8B900347BEF /* PictureCollectionViewCell.swift in Sources */,
+				D07FEE422158EDA60062E987 /* SINCallKitProvider.swift in Sources */,
 				D0A46226214EAF200091F308 /* BackgroundCollectionViewController.swift in Sources */,
 				D04D98FB2150FA78002B12CD /* IncomingMessages.swift in Sources */,
+				D0AE7860215701F1009CB81F /* PhoneAuthViewController.swift in Sources */,
 				D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */,
 				D04D990A21538938002B12CD /* InviteUserTableViewController.swift in Sources */,
 				D04D98FE2150FA78002B12CD /* Camera.swift in Sources */,
 				D04D98FC2150FA78002B12CD /* PhotoMediaItem.swift in Sources */,
+				D0EA3B3C21552ACF00D0BFBB /* CallClass.swift in Sources */,
 				D0EAFB932149360800347BEF /* MapViewController.swift in Sources */,
 				D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */,
 				D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */,
 				D0A4622A214EC2E50091F308 /* TermsAndConditionsViewController.swift in Sources */,
+				D0AE785A2156FDDC009CB81F /* PWelcomeViewController.swift in Sources */,
 				D07BA121214556D700BB52AB /* Downloader.swift in Sources */,
 				D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */,
 				D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */,
 				D0DBE3732138DC5A00177A3D /* FCollectionReference.swift in Sources */,
 				D0A46228214EAF390091F308 /* BackgroundCollectionViewCell.swift in Sources */,
 				D04D98FD2150FA78002B12CD /* VideoMessage.swift in Sources */,
+				D0EA3B3E21553DD100D0BFBB /* CallTableViewController.swift in Sources */,
 				D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */,
 				D0A46230214F6AE20091F308 /* EditProfileTableViewController.swift in Sources */,
+				D07FEE412158EDA60062E987 /* AudioControllerDelegate.swift in Sources */,
 				D04D990421514B5E002B12CD /* NewGroupViewController.swift in Sources */,
 				D02DC78D2138CB9800335DC9 /* Constants.swift in Sources */,
 				D0DBE37721392BB500177A3D /* FinishRegistrationViewController.swift in Sources */,
 				D04D98FA2150FA78002B12CD /* Recent.swift in Sources */,
 				D0EAFB912148A47A00347BEF /* AudioViewController.swift in Sources */,
 				D04D990E2153D1CD002B12CD /* Encryption.swift in Sources */,
+				D0AE785C21570039009CB81F /* PTermsAndConditionViewController.swift in Sources */,
 				D04D9906215275EA002B12CD /* Group.swift in Sources */,
+				D0EA3B3A215527D800D0BFBB /* CallTableViewCell.swift in Sources */,
 				D04D98EE2150FA1E002B12CD /* CountryCode.swift in Sources */,
+				D0AE786221570B48009CB81F /* VerificationViewController.swift in Sources */,
 				D04D990221514080002B12CD /* GroupMemberCollectionViewCell.swift in Sources */,
 				D0B65172213AB9D70012AB0A /* UsersTableViewController.swift in Sources */,
 				D0A46224214E6BCD0091F308 /* BlockedUserViewController.swift in Sources */,
@@ -757,6 +821,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ping/Ping.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z454JJQAC4;
@@ -768,6 +833,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shreeBhagwat.Ping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ping/Ping-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -779,6 +846,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Ping/Ping.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z454JJQAC4;
@@ -790,6 +858,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.shreeBhagwat.Ping;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Ping/Ping-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -803,7 +872,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z454JJQAC4;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -827,7 +896,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z454JJQAC4;
 				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

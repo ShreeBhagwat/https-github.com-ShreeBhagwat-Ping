@@ -15,6 +15,7 @@ import AVFoundation
 import AVKit
 import ChameleonFramework
 import FirebaseFirestore
+import OneSignal
 
 class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate {
   let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -27,6 +28,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     var titleName: String!
     var newChatListner: ListenerRegistration?
     var typingListner: ListenerRegistration?
+    var withUserUpdateListener: ListenerRegistration?
     var typingCounter = 0
     var updatedChatListner: ListenerRegistration?
     var isGroup: Bool?
@@ -102,6 +104,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         createTypingObserver()
         loadUserDefaults()
         
+        
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
         if #available(iOS 11.0, *) {
             navigationItem.largeTitleDisplayMode = .never
@@ -136,7 +139,12 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         // Custome Send Button
         self.inputToolbar.contentView.rightBarButtonItem.setImage(UIImage(named: "mic"), for: .normal)
         self.inputToolbar.contentView.rightBarButtonItem.setTitle("", for: .normal)
+//        updateUserOnlineStatus()
         
+    }
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        collectionView.reloadData()
+        self.view.setNeedsDisplay()
     }
     
     // MARK: JSQMessage Delegate Function
@@ -487,8 +495,8 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         // MARK: Send Location
         if location != nil {
-            let latitude: NSNumber = NSNumber(value: appDelegate.cordinates!.latitude)
-            let longitude: NSNumber = NSNumber(value: appDelegate.cordinates!.longitude)
+            let latitude: NSNumber = NSNumber(value: appDelegate.coordinates!.latitude)
+            let longitude: NSNumber = NSNumber(value: appDelegate.coordinates!.longitude)
             
             let encryptedText = Encryption.encryptText(chatRoomId: self.chatroomId, message: "[\(kLOCATION)]")
            
@@ -823,14 +831,17 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             self.getAvatarImages()
             if !self.isGroup! {
                 // Update User info
-                self.setUIForSingleChat()
+                self.setUIForSingleChat(withUser: withUsers.first!)
+                self.updateUserOnlineStatus()
+                
             }
         }
         
     }
     
-    func setUIForSingleChat(){
+    func setUIForSingleChat(withUser: FUser){
         let withUser = withUsers.first!
+        
         imageFromData(pictureData: withUser.avatar) { (avatarImage) in
             if avatarImage != nil {
                 avatarButton.setImage(avatarImage!.circleMasked, for: .normal)
@@ -995,8 +1006,10 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     
     func isIncoming(messageDictionary: NSDictionary) -> Bool{
         if FUser.currentId() == messageDictionary[kSENDERID] as! String {
+            
             return false
         }
+        
         return true
     }
     
@@ -1010,6 +1023,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         if updatedChatListner != nil {
             updatedChatListner!.remove()
         }
+//        if withUserUpdateListener != nil {
+//            withUserUpdateListener!.remove()
+//        }
     }
     
     func readTimeFrom(dateString: String) -> String {
@@ -1029,7 +1045,27 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             }
         }
     }
+
+    //MARK: updateUserOnlineStatus
     
+    func updateUserOnlineStatus() {
+        
+        if !isGroup! {
+            let withUser = withUsers.first!
+            //create a withUserUpdateListener on top like we have for typing etc.
+            withUserUpdateListener = reference(.User).document(withUser.objectId).addSnapshotListener { (snapshot, error) in
+                
+                guard let snapshot = snapshot else {  return }
+                
+                if snapshot.exists {
+                    
+                    let withUser = FUser(_dictionary: snapshot.data() as! NSDictionary)
+                    self.setUIForSingleChat(withUser: withUser)
+                }
+            }
+            
+        }
+    }
 
 
 }

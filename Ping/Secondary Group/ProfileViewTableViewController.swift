@@ -14,13 +14,12 @@ class ProfileViewTableViewController: UITableViewController {
     
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var phoneNumberLabel: UILabel!
-
     @IBOutlet weak var messageButton: UIButton!
-    
     @IBOutlet weak var callButton: UIButton!
     @IBOutlet weak var blockUserButton: UIButton!
-    
     @IBOutlet weak var avatarImageView: UIImageView!
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var user : FUser?
 
@@ -34,7 +33,15 @@ class ProfileViewTableViewController: UITableViewController {
     // MARK: - IBAction Function
     
     @IBAction func callButtonPressed(_ sender: Any) {
-        print("Call user button pressed \(user?.fullname)")
+        
+        // Call User
+        callUser()
+        
+        let currentUser = FUser.currentUser()!
+        let call = CallClass(_calledId: currentUser.objectId, _withUserId: user!.objectId, _callerFullName: currentUser.fullname, _withUserFullName: user!.fullname)
+        
+        call.saveCallInBackground()
+        
     }
     
     @IBAction func messageButtonPressed(_ sender: Any) {
@@ -134,6 +141,21 @@ class ProfileViewTableViewController: UITableViewController {
             blockUserButton.setTitle("Block User", for: .normal)
 
         }
+    }
+    // MARK: Call User
+    func callClient() -> SINCallClient {
+        return appDelegate._client.call()
+    }
+    
+    func callUser(){
+        let userToCall = user!.objectId
+        let call = callClient().callUser(withId: userToCall)
+        
+        let callVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "CallVC") as! CallViewController
+        
+        callVC._call = call
+        self.present(callVC, animated: true, completion: nil)
+
     }
 
 }

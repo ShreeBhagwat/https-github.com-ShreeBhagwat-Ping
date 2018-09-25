@@ -19,14 +19,36 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var countryTextFiled: UITextField!
     @IBOutlet weak var cityTextField: UITextField!
-    @IBOutlet weak var phoneNumberTextFiled: UITextField!
+   
+    @IBOutlet weak var phoneNumberTextLabelOutlet: UILabel!
     
     var email: String!
     var password: String!
     var avatarImage: UIImage?
+    var phoneNumber2: String!
+    var countryCodeText: String!
+    var phoneNumberWithoutCountryCode: String!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        AppUtility.lockOrientation(.portrait)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        AppUtility.lockOrientation(.all)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
+        backgroundImage.image = UIImage(named: "4")
+        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
+        self.view.insertSubview(backgroundImage, at: 0)
+        
+        phoneNumberTextLabelOutlet.text = phoneNumberWithoutCountryCode
+        
+        
     avatarImageView.isUserInteractionEnabled = true
         // Do any additional setup after loading the view.
     }
@@ -43,15 +65,17 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
         dismissKeyboard()
         ProgressHUD.show("Registering...")
         
-        if nameTextField.text != "" && lastNameTextField.text != "" && countryTextFiled.text != "" && cityTextField.text != "" && phoneNumberTextFiled.text != "" {
-            FUser.registerUserWith(email: email, password: password, firstName: nameTextField.text!, lastName: lastNameTextField.text!) { (error) in
-                if error != nil {
-                    ProgressHUD.dismiss()
-                    ProgressHUD.showError(error?.localizedDescription)
-                }
-                self.registerUser()
-                
-            }
+        if nameTextField.text != "" && lastNameTextField.text != "" && countryTextFiled.text != "" && cityTextField.text != "" {
+            
+//            FUser.registerUserWith(email: email, password: password, firstName: nameTextField.text!, lastName: lastNameTextField.text!) { (error) in
+//                if error != nil {
+//                    ProgressHUD.dismiss()
+//                    ProgressHUD.showError(error?.localizedDescription)
+//                }
+//                self.registerUser()
+//
+//            }
+            self.registerUser()
             
         }else{
             ProgressHUD.showError("All Fields are Compulsary")
@@ -77,7 +101,7 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
         lastNameTextField.text = ""
         countryTextFiled.text = ""
         cityTextField.text = ""
-        phoneNumberTextFiled.text = ""
+        phoneNumberTextLabelOutlet.text = ""
     }
     
     
@@ -88,7 +112,8 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
                                            kFULLNAME: fullName,
                                            kCOUNTRY: countryTextFiled.text!,
                                            kCITY: cityTextField.text!,
-                                           kPHONE: phoneNumberTextFiled.text!] as [String : Any]
+                                           kCOUNTRYCODE: countryCodeText!,
+                                           kPHONE: phoneNumberTextLabelOutlet.text!] as [String : Any]
         
         if avatarImage == nil {
             imageFromInitials(firstName: nameTextField.text!, lastName: lastNameTextField.text!) { (avatarInitials) in
