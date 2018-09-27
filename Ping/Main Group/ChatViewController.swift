@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import FirebaseFirestore
+import ProgressHUD
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RecentChatTableViewCellDelegate, UISearchResultsUpdating {
   
@@ -25,9 +26,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         loadRecentChats()
         tableView.tableFooterView = UIView()
         setTableViewController()
+        if Reachability.isConnectedToNetwork(){
+            
+        }else{
+            ProgressHUD.showError("No Connection")
+        }
     }
     override func viewWillDisappear(_ animated: Bool) {
         recentListener.remove()
+     
     }
     
     override func viewDidLoad() {
@@ -143,30 +150,12 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatsVC.chatroomId = (recent[kCHATROOMID] as? String)!
         chatsVC.isGroup = (recent[kTYPE] as! String) == kGROUP
         
-      
-        
+
         navigationController?.pushViewController(chatsVC, animated: true)
         // MARK: Show Chat View
     }
     
     // MARK: Load Recent Chats.
-    
-//    func loadRecentChats(){
-//        recentListner = reference(.Recent).whereField(kUSERID, isEqualTo: FUser.currentId()).addSnapshotListener { (snapshot, error) in
-//            guard let snapshot = snapshot else {return}
-//            self.recentChats = []
-//            if !snapshot.isEmpty {
-//                let sorted = ((dictionaryFromSnapshots(snapshots: snapshot.documents)) as! NSArray).sortedArray(using: [NSSortDescriptor(key: kDATE, ascending: false)]) as! [NSDictionary]
-//
-//                for recent in sorted {
-//                    if recent[kLASTMESSAGE] as! String != "" && recent[kCHATROOMID] != nil && recent[kRECENTID] != nil{
-//                        self.recentChats.append(recent)
-//                    }
-//                }
-//                self.tableView.reloadData()
-//            }
-//        }
-//    }
     
     func loadRecentChats() {
         

@@ -45,13 +45,13 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     var objectMessages: [NSDictionary] = []
     var loadedMessages: [NSDictionary] = []
     var allPictureMessages: [String] = []
-    
+    var allGroupMembers: [FUser] = []
     var intialLoadComplete = false
     var jsqAvatarDictionary: NSMutableDictionary?
     var avatarImageDictionary: NSMutableDictionary?
     var showAvatar = true
     var firstLoad: Bool?
-    
+    var groupOwnerId: String?
     
     var outGoingBubble = JSQMessagesBubbleImageFactory()?.outgoingMessagesBubbleImage(with: UIColor.flatSkyBlue())
 
@@ -100,6 +100,12 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Reachability.isConnectedToNetwork(){
+            
+        }else{
+            ProgressHUD.showError("No Connection")
+        }
         
         createTypingObserver()
         loadUserDefaults()
@@ -713,6 +719,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     @objc func showGroup() {
         let groupVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "groupView") as! GroupViewController
         groupVC.group = group!
+        groupVC.memberIds = membersId
+        groupVC.groupId = chatroomId
+
         self.navigationController?.pushViewController(groupVC, animated: true)
     }
     

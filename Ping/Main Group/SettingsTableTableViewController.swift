@@ -29,6 +29,11 @@ class SettingsTableTableViewController: UITableViewController {
         if FUser.currentUser() != nil {
             setupUI()
             loadUserDefaults()
+            if Reachability.isConnectedToNetwork(){
+                
+            }else{
+                ProgressHUD.showError("No Connection")
+            }
         }
     }
     override func viewDidLoad() {

@@ -20,6 +20,7 @@ class GroupMemberCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     
     
+    @IBOutlet weak var deleteButtonOutlet: UIButton!
     
     func generateCell(user: FUser, indexPath: IndexPath){
         self.indexPath = indexPath

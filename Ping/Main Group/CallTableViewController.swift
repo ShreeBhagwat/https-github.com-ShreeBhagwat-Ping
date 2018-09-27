@@ -27,6 +27,11 @@ class CallTableViewController: UITableViewController,UISearchResultsUpdating {
         // Load All Codes
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         loadCalls()
+        if Reachability.isConnectedToNetwork(){
+            
+        }else{
+            ProgressHUD.showError("No Connection")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,6 +42,7 @@ class CallTableViewController: UITableViewController,UISearchResultsUpdating {
     override func viewDidLoad() {
         super.viewDidLoad()
         setBadge(controller: self.tabBarController!)
+    
         tableView.tableFooterView = UIView()
         
         navigationController?.navigationBar.prefersLargeTitles = true

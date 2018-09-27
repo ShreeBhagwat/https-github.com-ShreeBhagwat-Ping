@@ -312,70 +312,63 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
 
             if !contact.phoneNumbers.isEmpty {
 
-                //get the digits only of the phone number and replace + with 00
-                let phoneNumberToCompareAgainst = updatePhoneNumber(phoneNumber: phoneNumber1, replacePlusSign: false)
 
                 //go through every number of each contac
                 for phoneNumber in contact.phoneNumbers {
 
                     let fulMobNumVar  = phoneNumber.value
                     
-//                    let countryCode = fulMobNumVar.value(forKey: "countryCode") as? String
+
                     let phoneNumber = fulMobNumVar.value(forKey: "digits") as? String
-                    print("phone number contact screen  \(phoneNumber!)")
-                    print("phone number to compare against \(phoneNumberToCompareAgainst)")
-//                    let contactNumber = removeCountryCode(countryCodeLetters: countryCode!, fullPhoneNumber: phoneNumber!)
-//                    print("Contact number...........\(contactNumber)")
+                  
+
                     let phoneNumberWithCountryCode = countryCode! + phoneNumber1
-                    print("PhoneNumber \(phoneNumber)")
-                    print("phoneNumber1 \(phoneNumber1)")
-                    print("phoneNumber With CountryCode\(phoneNumberWithCountryCode)")
+
                     //compare phoneNumber of contact with given user's phone number
                     if phoneNumber == phoneNumber1 || phoneNumber == phoneNumberWithCountryCode {
                     
                       result.append(contact)
                     }
                     
-//                    result.append(contact)
                 }
             }
         }
 
         return result
     }
+////////////// The Following code not in Use. But have been kept for Reference and Logic
 
-
-    func updatePhoneNumber(phoneNumber: String, replacePlusSign: Bool) -> String {
-
-        if replacePlusSign {
-            return phoneNumber.replacingOccurrences(of: "+", with: "").components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
-
-        } else {
-            return phoneNumber.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
-        }
-    }
-
-
-    func removeCountryCode(countryCodeLetters: String, fullPhoneNumber: String) -> String {
-
-        let countryCode = CountryCode()
-
-        let countryCodeToRemove = countryCode.codeDictionaryShort[countryCodeLetters.uppercased()]
-
-        //remove + from country code
-        let updatedCode = updatePhoneNumber(phoneNumber: countryCodeToRemove!, replacePlusSign: true)
-
-        //remove countryCode
-        let replacedNUmber = fullPhoneNumber.replacingOccurrences(of: updatedCode, with: "").components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
-
-
-                print("Code \(countryCodeLetters)")
-                print("full number \(fullPhoneNumber)")
-                print("code to remove \(updatedCode)")
-                print("clean number is \(replacedNUmber)")
-
-        return replacedNUmber
-    }
+//    func updatePhoneNumber(phoneNumber: String, replacePlusSign: Bool) -> String {
+//
+//        if replacePlusSign {
+//            return phoneNumber.replacingOccurrences(of: "+", with: "").components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+//
+//        } else {
+//            return phoneNumber.components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+//        }
+//    }
+//
+//
+//    func removeCountryCode(countryCodeLetters: String, fullPhoneNumber: String) -> String {
+//
+//        let countryCode = CountryCode()
+//
+//        let countryCodeToRemove = countryCode.codeDictionaryShort[countryCodeLetters.uppercased()]
+//
+//        //remove + from country code
+//        let updatedCode = updatePhoneNumber(phoneNumber: countryCodeToRemove!, replacePlusSign: true)
+//
+//        //remove countryCode
+//        let replacedNUmber = fullPhoneNumber.replacingOccurrences(of: updatedCode, with: "").components(separatedBy: NSCharacterSet.decimalDigits.inverted).joined(separator: "")
+//
+//
+//                print("Code \(countryCodeLetters)")
+//                print("full number \(fullPhoneNumber)")
+//                print("code to remove \(updatedCode)")
+//                print("clean number is \(replacedNUmber)")
+//
+//        return replacedNUmber
+//    }
 
     fileprivate func splitDataInToSection() {
 

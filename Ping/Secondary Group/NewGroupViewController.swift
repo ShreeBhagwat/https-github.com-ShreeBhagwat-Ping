@@ -67,6 +67,7 @@ class NewGroupViewController: UIViewController , UICollectionViewDelegate, UICol
             chatVC.membersId = group.groupDistionary[kMEMBERS] as! [String]
             chatVC.membersToPush = group.groupDistionary[kMEMBERS] as! [String]
             chatVC.chatroomId = groupId
+            chatVC.groupOwnerId = FUser.currentId()
             chatVC.isGroup = true
             chatVC.hidesBottomBarWhenPushed = true
             

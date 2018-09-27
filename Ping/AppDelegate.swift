@@ -12,6 +12,8 @@ import CoreLocation
 import OneSignal
 import PushKit
 import FirebaseFirestore
+import FirebaseDatabase
+import ProgressHUD
 
 
 @UIApplicationMain
@@ -33,9 +35,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     var orientationLock = UIInterfaceOrientationMask.all
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+        if Reachability.isConnectedToNetwork(){
+            
+        }else{
+            ProgressHUD.showError("No Connection")
+        }
         
         FirebaseApp.configure()
+        Database.database().isPersistenceEnabled = true
         
         //AutoLogin
         authListener = Auth.auth().addStateDidChangeListener({ (auth, user) in

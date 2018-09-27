@@ -10,9 +10,7 @@ import UIKit
 import ProgressHUD
 import ImagePicker
 
-class GroupViewController: UIViewController, ImagePickerDelegate {
- 
-    
+class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, GroupMemberCollectionViewCellDelegate {
 
     // MARK: IB Outlets
     @IBOutlet weak var cameraButtonOutlet: UIImageView!
@@ -20,23 +18,96 @@ class GroupViewController: UIViewController, ImagePickerDelegate {
     @IBOutlet weak var editButtonOutlet: UIButton!
     @IBOutlet var iconTapGesture: UITapGestureRecognizer!
     
+    @IBOutlet weak var collectionView: UICollectionView!
+    
+    @IBOutlet weak var participantsLabelOutlet: UILabel!
     // MARK: Variables
     var group: NSDictionary!
+    var group1: NSDictionary!
     var groupIcon: UIImage?
+    var currentUserId = FUser.currentId()
+    var ownerId: [String] = []
+    var memberIds : [String] = []
+    var allMembers : [FUser] = []
+    var groupId: String?
     
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
         cameraButtonOutlet.isUserInteractionEnabled = true
         cameraButtonOutlet.addGestureRecognizer(iconTapGesture)
-        
         setupUI()
+        getUsersOfGroup()
+        getOwnerId()
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
+        print("CurrentUSerId........\(currentUserId)")
+        print("ownerId............\(ownerId)")
+        
+      
         self.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Invite Users", style: .plain, target: self, action: #selector(self.inviteUsers))]
     }
+
     
+    
+    // Get Users from firebase
+    func getUsersOfGroup(){
+        getUsersFromFirestore(withIds: memberIds) { (memberuser) in
+            self.allMembers = memberuser
+          
+            self.allMembers.append(FUser.currentUser()!)
+            self.updateParticipantsLabel()
+            self.collectionView.reloadData()
+        }
+        
+    }
+    func getOwnerId(){
+        reference(.Group).document(groupId!).getDocument { (snapshot, error) in
+            guard let snapshot = snapshot else {return}
+            if snapshot.exists {
+                
+                let userDictionary = snapshot.data()
+                self.ownerId = [snapshot.data()!["ownerID"] as! String]
+               
+            }
+        }
+    }
+    
+    
+    // MARK: CollectionView Delegate
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return allMembers.count
+        
+
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath) as! GroupMemberCollectionViewCell
+        
+        cell.delegate = self
+        if ownerId.contains(currentUserId) {
+            cell.deleteButtonOutlet.isHidden = false
+            cell.deleteButtonOutlet.isEnabled = true
+        } else {
+            cell.deleteButtonOutlet.isHidden = true
+            cell.deleteButtonOutlet.isEnabled = false
+        }
+        cell.generateCell(user: allMembers[indexPath.row], indexPath: indexPath)
+        return cell
+    }
+    
+    // MARK: GroupCell Delegate
+    func didClickDeleteButton(indexPath: IndexPath) {
+        print("deleteButton Pressed")
+    }
+    
+    func updateParticipantsLabel(){
+        participantsLabelOutlet.text = "Participants: \(self.allMembers.count)"
+    }
 
     // MARK: IBAction
     

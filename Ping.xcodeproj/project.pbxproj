@@ -12,6 +12,7 @@
 		D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57B8213B945C0043CE9D /* ChatViewController.swift */; };
 		D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */; };
 		D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */; };
+		D02D152B215CF5A20084BA98 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D152A215CF5A20084BA98 /* Reachability.swift */; };
 		D02DC78B2138CB2900335DC9 /* FUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02DC78A2138CB2900335DC9 /* FUser.swift */; };
 		D02DC78D2138CB9800335DC9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02DC78C2138CB9800335DC9 /* Constants.swift */; };
 		D04D98EA215092E9002B12CD /* ContactsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04D98E9215092E9002B12CD /* ContactsTableViewController.swift */; };
@@ -107,6 +108,7 @@
 		D01F57B8213B945C0043CE9D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTableViewController.swift; sourceTree = "<group>"; };
 		D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChatTableViewCell.swift; sourceTree = "<group>"; };
+		D02D152A215CF5A20084BA98 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D02DC78A2138CB2900335DC9 /* FUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUser.swift; sourceTree = "<group>"; };
 		D02DC78C2138CB9800335DC9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D04D98E9215092E9002B12CD /* ContactsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewController.swift; sourceTree = "<group>"; };
@@ -361,6 +363,7 @@
 				D04D990D2153D1CD002B12CD /* Encryption.swift */,
 				D0EA3B2621549D5400D0BFBB /* PushNotification.swift */,
 				D0EA3B3B21552ACF00D0BFBB /* CallClass.swift */,
+				D02D152A215CF5A20084BA98 /* Reachability.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */,
 				D0DBE37B2139993D00177A3D /* SettingsTableTableViewController.swift in Sources */,
 				D0A4622A214EC2E50091F308 /* TermsAndConditionsViewController.swift in Sources */,
+				D02D152B215CF5A20084BA98 /* Reachability.swift in Sources */,
 				D0AE785A2156FDDC009CB81F /* PWelcomeViewController.swift in Sources */,
 				D07BA121214556D700BB52AB /* Downloader.swift in Sources */,
 				D0F3A932214144A5004A6B4C /* ChatsViewController.swift in Sources */,
