@@ -54,7 +54,9 @@ class NewGroupViewController: UIViewController , UICollectionViewDelegate, UICol
             }
             let groupId = UUID().uuidString
             // Create Group
-            let group = Group(groupId: groupId, subject: groupSubjectTextFiled.text!, ownerId: FUser.currentId(), members: memberIds, avatar: avatar)
+            var adminsIds: [String] = []
+            adminsIds.append(FUser.currentId())
+            let group = Group(groupId: groupId, subject: groupSubjectTextFiled.text!, ownerId: FUser.currentId(), adminsId: adminsIds, members: memberIds, avatar: avatar)
             group.saveGroup()
             // Create Group Recent
             

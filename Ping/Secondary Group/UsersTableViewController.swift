@@ -12,10 +12,7 @@ import ProgressHUD
 
 
 class UsersTableViewController: UITableViewController, UISearchResultsUpdating, UserTableViewCellDelegate {
-    
-    
-   
-    
+
     @IBOutlet weak var userSegment: UISegmentedControl!
     @IBOutlet weak var headerView: UIView!
     var allUsers: [FUser] = []

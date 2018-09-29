@@ -10,7 +10,9 @@ import UIKit
 import ProgressHUD
 import ImagePicker
 
-class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionViewDelegate, UICollectionViewDataSource, GroupMemberCollectionViewCellDelegate {
+class GroupViewController: UIViewController, ImagePickerDelegate, UITableViewDelegate, UITableViewDataSource {
+ 
+    
 
     // MARK: IB Outlets
     @IBOutlet weak var cameraButtonOutlet: UIImageView!
@@ -18,7 +20,8 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionVi
     @IBOutlet weak var editButtonOutlet: UIButton!
     @IBOutlet var iconTapGesture: UITapGestureRecognizer!
     
-    @IBOutlet weak var collectionView: UICollectionView!
+ 
+    @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var participantsLabelOutlet: UILabel!
     // MARK: Variables
@@ -26,10 +29,12 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionVi
     var group1: NSDictionary!
     var groupIcon: UIImage?
     var currentUserId = FUser.currentId()
-    var ownerId: [String] = []
+    var ownerId: String!
+    var admin: [String]? = []
     var memberIds : [String] = []
     var allMembers : [FUser] = []
     var groupId: String?
+    var membersToPush: [String] = []
     
 
     
@@ -40,14 +45,11 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionVi
         cameraButtonOutlet.addGestureRecognizer(iconTapGesture)
         setupUI()
         getUsersOfGroup()
-        getOwnerId()
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        getGroupInfo()
+        tableView.delegate = self
+        tableView.dataSource = self
+
         
-        print("CurrentUSerId........\(currentUserId)")
-        print("ownerId............\(ownerId)")
-        
-      
         self.navigationItem.rightBarButtonItems = [UIBarButtonItem(title: "Invite Users", style: .plain, target: self, action: #selector(self.inviteUsers))]
     }
 
@@ -57,53 +59,191 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UICollectionVi
     func getUsersOfGroup(){
         getUsersFromFirestore(withIds: memberIds) { (memberuser) in
             self.allMembers = memberuser
-          
             self.allMembers.append(FUser.currentUser()!)
             self.updateParticipantsLabel()
-            self.collectionView.reloadData()
+            self.tableView.reloadData()
         }
         
     }
-    func getOwnerId(){
+    func getGroupInfo(){
         reference(.Group).document(groupId!).getDocument { (snapshot, error) in
             guard let snapshot = snapshot else {return}
             if snapshot.exists {
-                
                 let userDictionary = snapshot.data()
-                self.ownerId = [snapshot.data()!["ownerID"] as! String]
-               
+                self.ownerId = (snapshot.data()!["ownerID"] as! String)
+                self.admin = snapshot.data()!["adminsId"] as! [String]
+                self.membersToPush = snapshot.data()!["membersToPush"] as! [String]
             }
         }
     }
     
     
-    // MARK: CollectionView Delegate
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+    // MARK: TableView Delegate
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allMembers.count
-        
-
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "groupCell", for: indexPath) as! GroupMemberCollectionViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "groupCell", for: indexPath) as! GroupInfoTableViewCell
+    
         
-        cell.delegate = self
-        if ownerId.contains(currentUserId) {
-            cell.deleteButtonOutlet.isHidden = false
-            cell.deleteButtonOutlet.isEnabled = true
-        } else {
-            cell.deleteButtonOutlet.isHidden = true
-            cell.deleteButtonOutlet.isEnabled = false
-        }
         cell.generateCell(user: allMembers[indexPath.row], indexPath: indexPath)
+    
         return cell
+        
     }
     
-    // MARK: GroupCell Delegate
-    func didClickDeleteButton(indexPath: IndexPath) {
-        print("deleteButton Pressed")
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        if currentUserId == allMembers[indexPath.row].objectId{ // Selecting self <------------------
+            
+             tableView.deselectRow(at: indexPath, animated: true)
+            let alert = UIAlertController(title: allMembers[indexPath.row].firstname + " (Self)", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Leave Group", style: .default, handler: { _ in
+                
+                let currentUser = self.allMembers[indexPath.row].objectId
+                self.leaveGroup(currentId: currentUser)
+                
+                sendPushNotification(memberToPush: self.membersToPush, message: self.allMembers[indexPath.row].firstname + " Has Left The Group")
+                self.allMembers.remove(at: indexPath.row)
+                self.updateParticipantsLabel()
+                self.tableView.reloadData()
+                
+                self.navigationController?.popToRootViewController(animated: true)
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else if allMembers[indexPath.row].objectId == ownerId { // Selecting Owner <---------------
+            let alert = UIAlertController(title: allMembers[indexPath.row].firstname + " (Creater)", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Info", style: .default, handler: { _ in
+                //self.sendToInfoView()
+                print("info Button Pressed")
+                let selectUser = self.allMembers[indexPath.row]
+                self.presentUserProfile(forUser: selectUser)
+            }))
+            alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
+                print("Send Message Pressed")
+            }))
+            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
+                print("Call User Pressed")
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        } else if currentUserId != ownerId && (admin!.contains(allMembers[indexPath.row].objectId)){ // Selecting Other admin <---------------
+            
+            let alert = UIAlertController(title: allMembers[indexPath.row].firstname + "(Admin)", message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Info", style: .default, handler: { _ in
+                //self.sendToInfoView()
+                print("info Button Pressed")
+                let selectUser = self.allMembers[indexPath.row]
+                self.presentUserProfile(forUser: selectUser)
+            }))
+            alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
+                print("Send Message Pressed")
+            }))
+            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
+                print("Call User Pressed")
+            }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        } else {
+            let alert = UIAlertController(title: allMembers[indexPath.row].firstname, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Info", style: .default, handler: { _ in
+                //self.sendToInfoView()
+                print("info Button Pressed")
+                let selectUser = self.allMembers[indexPath.row]
+                self.presentUserProfile(forUser: selectUser)
+            }))
+            alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
+                print("Send Message Pressed")
+            }))
+            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
+                print("Call User Pressed")
+            }))
+          
+            ///////
+            if currentUserId == ownerId || admin!.contains(currentUserId){
+                
+                alert.addAction(UIAlertAction(title: "Make Admin", style: .default, handler: { _ in
+                    print("Make admin Pressed")
+                    
+                    let adminId = self.allMembers[indexPath.row].objectId
+                    if (self.admin!.contains(adminId)){
+                        ProgressHUD.showError("User Is admin Already")
+                    } else {
+                        self.admin?.append(adminId)
+                        let withValues = [kADMINID: self.admin]
+                        Group.updateGroup(groupId: self.groupId!, withValues: withValues as [String : Any])
+                        ProgressHUD.showSuccess()
+                    }
+                    
+                    }))
+                
+                alert.addAction(UIAlertAction(title: "Remove User", style: .default, handler: { _ in
+                    print("Remove User Pressed")
+                    let removeUserId = self.allMembers[indexPath.row].objectId
+                    self.removeUsers(removeUserId: removeUserId)
+                    self.allMembers.remove(at: indexPath.row)
+                    self.updateParticipantsLabel()
+                    self.tableView.reloadData()
+                }))
+            }
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+        tableView.reloadData()
+    
     }
+    // MARK: Alert Action Functions
+    func presentUserProfile(forUser: FUser){
+        let profileVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileView") as! ProfileViewTableViewController
+        profileVC.user = forUser
+        self.navigationController?.pushViewController(profileVC, animated: true)
+    }
+    
+    func leaveGroup(currentId: String){
+        if currentId == FUser.currentId() {
+            let memberIndex = memberIds.index(of: currentId)
+            memberIds.remove(at: memberIndex!)
+            if membersToPush.contains(currentId){
+            let membersToPushIndex = membersToPush.index(of: currentId)
+            membersToPush.remove(at: membersToPushIndex!)
+            }
+            if (admin?.contains(currentId))! {
+                let adminIndex = admin?.index(of: currentId)
+                admin?.remove(at: adminIndex!)
+            }
+            let withValues = [kMEMBERS: memberIds, kMEMBERSTOPUSH: membersToPush, kADMINID: admin]
+            Group.updateGroup(groupId: groupId!, withValues: withValues)
+            updateExistingRicentWithNewValues(chatRoomId: groupId!, members: memberIds, withValues: withValues)
+            
+        }
+    }
+    
+    
+    func removeUsers(removeUserId: String){
+        let memberIndex = memberIds.index(of: removeUserId)
+        memberIds.remove(at: memberIndex!)
+        if membersToPush.contains(removeUserId){
+            let membersToPushIndex = membersToPush.index(of: removeUserId)
+            membersToPush.remove(at: membersToPushIndex!)
+        }
+        if (admin?.contains(removeUserId))! {
+            let adminIndex = admin?.index(of: removeUserId)
+            admin?.remove(at: adminIndex!)
+        }
+        let withValues = [kMEMBERS: memberIds, kMEMBERSTOPUSH: membersToPush]
+        Group.updateGroup(groupId: groupId!, withValues: withValues)
+        updateExistingRicentWithNewValues(chatRoomId: groupId!, members: memberIds, withValues: withValues)
+        
+    }
+    // MARK: GroupCell Delegate
+ 
     
     func updateParticipantsLabel(){
         participantsLabelOutlet.text = "Participants: \(self.allMembers.count)"

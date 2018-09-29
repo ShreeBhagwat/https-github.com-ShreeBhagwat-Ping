@@ -12,8 +12,8 @@ import ProgressHUD
 class Group {
     let groupDistionary : NSMutableDictionary
     
-    init(groupId: String, subject: String, ownerId: String, members: [String], avatar: String) {
-        groupDistionary = NSMutableDictionary(objects: [groupId, subject, ownerId, members, members, avatar ], forKeys: [kGROUPID as NSCopying, kNAME as NSCopying, kOWNERID as NSCopying, kMEMBERS as NSCopying, kMEMBERSTOPUSH as NSCopying, kAVATAR as NSCopying])
+    init(groupId: String, subject: String, ownerId: String, adminsId: [String]?, members: [String], avatar: String) {
+        groupDistionary = NSMutableDictionary(objects: [groupId, subject, ownerId, adminsId, members, members, avatar ], forKeys: [kGROUPID as NSCopying, kNAME as NSCopying, kOWNERID as NSCopying, kADMINID as NSCopying, kMEMBERS as NSCopying, kMEMBERSTOPUSH as NSCopying, kAVATAR as NSCopying])
     }
     
     func saveGroup(){
@@ -25,4 +25,7 @@ class Group {
     class func updateGroup(groupId: String, withValues: [String: Any]){
         reference(.Group).document(groupId).updateData(withValues)
     }
+    
+  
+
 }

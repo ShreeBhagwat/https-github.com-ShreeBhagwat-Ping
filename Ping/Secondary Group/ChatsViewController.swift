@@ -100,7 +100,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         if Reachability.isConnectedToNetwork(){
             
         }else{
@@ -120,7 +120,15 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(image: UIImage(named: "Back"), style: .plain, target: self, action: #selector(self.backAction))]
         
         if isGroup! {
-            getCurrentGroup(withId: chatroomId)
+            if membersId.contains(FUser.currentId()){
+                // Nothing
+                getCurrentGroup(withId: chatroomId)
+            }else{
+                self.view.isUserInteractionEnabled = false
+                ProgressHUD.showError("You no longer belong to this group")
+            }
+            
+           
         }
         collectionView?.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView?.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
@@ -820,7 +828,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         leftBarButtonView.addSubview(titleLabel)
         leftBarButtonView.addSubview(subtitle)
         
-//        let infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: .plain, target: self, action: #selector(self.infoButtonPressed))
+
         let infoButton = UIBarButtonItem(title: "All Media", style: .plain, target: self, action: #selector(self.infoButtonPressed))
         
         self.navigationItem.rightBarButtonItem = infoButton

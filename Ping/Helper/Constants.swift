@@ -94,6 +94,7 @@ public let kSENDERID = "senderId"
 public let kSENDERNAME = "senderName"
 public let kTHUMBNAIL = "thumbnail"
 public let kISDELETED = "isDeleted"
+public let kADMINID = "adminsId"
 
 //Contacts
 public let kCONTACT = "contact"
