@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		45D5BA203AC4F25A64D125B7 /* Pods_Ping.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A80873642DB56087746C1163 /* Pods_Ping.framework */; };
 		82EA9720233C4BB154A7BC3B /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71A94FB500BC0544DE0E3E02 /* Pods_OneSignalNotificationServiceExtension.framework */; };
+		D01C09522160D58200721988 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D01C09512160D58200721988 /* Assets.xcassets */; };
 		D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57B8213B945C0043CE9D /* ChatViewController.swift */; };
 		D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */; };
 		D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */; };
@@ -33,7 +34,6 @@
 		D04D99102153EB47002B12CD /* ImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D04D990F2153EB47002B12CD /* ImagePicker.framework */; };
 		D05F88DD2137F9020022DBC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88DC2137F9020022DBC6 /* AppDelegate.swift */; };
 		D05F88E22137F9030022DBC6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E02137F9030022DBC6 /* Main.storyboard */; };
-		D05F88E42137F9080022DBC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E32137F9080022DBC6 /* Assets.xcassets */; };
 		D05F88E72137F9080022DBC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D05F88E52137F9080022DBC6 /* LaunchScreen.storyboard */; };
 		D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */; };
 		D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05F88F0213835760022DBC6 /* WelcomeViewController.swift */; };
@@ -106,6 +106,7 @@
 		316C522DB6DA45457D9D12CE /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		71A94FB500BC0544DE0E3E02 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A80873642DB56087746C1163 /* Pods_Ping.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ping.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D01C09512160D58200721988 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D01F57B8213B945C0043CE9D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTableViewController.swift; sourceTree = "<group>"; };
 		D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -131,7 +132,6 @@
 		D05F88D92137F9020022DBC6 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05F88DC2137F9020022DBC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D05F88E12137F9030022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D05F88E32137F9080022DBC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D05F88E62137F9080022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D05F88E82137F9080022DBC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -310,7 +310,6 @@
 				D01F57BE213E8F600043CE9D /* Secondary Group */,
 				D0B65170213AB9590012AB0A /* Custom Cells */,
 				D05F88E02137F9030022DBC6 /* Main.storyboard */,
-				D05F88E32137F9080022DBC6 /* Assets.xcassets */,
 				D0EA3B48215637E300D0BFBB /* incoming.wav */,
 				D0EA3B47215637E300D0BFBB /* ringback.wav */,
 				D0A4622B214EC3AE0091F308 /* T&C.html */,
@@ -319,6 +318,7 @@
 				D05F88E82137F9080022DBC6 /* Info.plist */,
 				D05F88EE2137FA9C0022DBC6 /* GoogleService-Info.plist */,
 				D0EA3B3F2155D84B00D0BFBB /* Ping-Bridging-Header.h */,
+				D01C09512160D58200721988 /* Assets.xcassets */,
 			);
 			path = Ping;
 			sourceTree = "<group>";
@@ -491,8 +491,8 @@
 				D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */,
 				D0EA3B4E21566C9700D0BFBB /* Localizable.strings in Resources */,
 				D0EA3B4A215637E400D0BFBB /* incoming.wav in Resources */,
-				D05F88E42137F9080022DBC6 /* Assets.xcassets in Resources */,
 				D0A4622C214EC3AE0091F308 /* T&C.html in Resources */,
+				D01C09522160D58200721988 /* Assets.xcassets in Resources */,
 				D05F88E22137F9030022DBC6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -566,7 +566,6 @@
 				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SCSiriWaveformView/SCSiriWaveformView.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
-				"${BUILT_PRODUCTS_DIR}/TransitionButton/TransitionButton.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
@@ -594,7 +593,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSiriWaveformView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TransitionButton.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",

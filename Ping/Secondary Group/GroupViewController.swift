@@ -125,10 +125,8 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UITableViewDel
                 self.presentUserProfile(forUser: selectUser)
             }))
             alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
-                print("Send Message Pressed")
-            }))
-            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
-                print("Call User Pressed")
+                let messageUser = self.allMembers[indexPath.row]
+                self.sendMessageToUser(user: messageUser)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -142,10 +140,8 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UITableViewDel
                 self.presentUserProfile(forUser: selectUser)
             }))
             alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
-                print("Send Message Pressed")
-            }))
-            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
-                print("Call User Pressed")
+                let messageUser = self.allMembers[indexPath.row]
+                self.sendMessageToUser(user: messageUser)
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
             self.present(alert, animated: true, completion: nil)
@@ -159,11 +155,10 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UITableViewDel
                 self.presentUserProfile(forUser: selectUser)
             }))
             alert.addAction(UIAlertAction(title: "Send Message", style: .default, handler: { _ in
-                print("Send Message Pressed")
+                let messageUser = self.allMembers[indexPath.row]
+                self.sendMessageToUser(user: messageUser)
             }))
-            alert.addAction(UIAlertAction(title: "Call User", style: .default, handler: { _ in
-                print("Call User Pressed")
-            }))
+
           
             ///////
             if currentUserId == ownerId || admin!.contains(currentUserId){
@@ -297,6 +292,22 @@ class GroupViewController: UIViewController, ImagePickerDelegate, UITableViewDel
             }
         }
         
+    }
+    
+    func sendMessageToUser(user: FUser){
+        if !checkBlockedStatus(withUser: user) {
+            let chatVC = ChatsViewController()
+            chatVC.title = user.firstname
+            chatVC.membersToPush = [FUser.currentId(), user.objectId]
+            chatVC.membersId = [FUser.currentId(), user.objectId]
+            chatVC.chatroomId = startPrivateChat(user1: FUser.currentUser()!, user2: user)
+            chatVC.isGroup = false
+            chatVC.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(chatVC, animated: true)
+            
+        }else{
+            ProgressHUD.showError("This User Is Not Available For Chat")
+        }
     }
     
     func showIconOption(){

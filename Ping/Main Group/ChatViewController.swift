@@ -10,6 +10,7 @@ import UIKit
 import Foundation
 import FirebaseFirestore
 import ProgressHUD
+import ChameleonFramework
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RecentChatTableViewCellDelegate, UISearchResultsUpdating {
   

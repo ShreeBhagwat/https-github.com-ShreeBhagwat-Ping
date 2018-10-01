@@ -100,7 +100,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+
         if Reachability.isConnectedToNetwork(){
             
         }else{
@@ -216,7 +216,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         if indexPath.row % 3 == 0 {
             let message = messages[indexPath.row]
             
-            return kJSQMessagesCollectionViewCellLabelHeightDefault
+        
+            return 22
+          
         }
         return 0
     }
@@ -226,7 +228,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         let message = objectMessages[indexPath.row]
         
         let status: NSAttributedString!
-        let attributedStringColour = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        let attributedStringColour = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.backgroundColor: UIColor.white]
         
         switch message[kSTATUS] as! String {
         case kDELIVERED:
@@ -250,11 +252,12 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         let data = messages[indexPath.row]
         if data.senderId == FUser.currentId(){
-            return kJSQMessagesCollectionViewCellLabelHeightDefault
+            return 22.0
         } else {
             return 0.0
         }
     }
+    
     
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAt indexPath: IndexPath!) -> JSQMessageAvatarImageDataSource! {
 
@@ -755,10 +758,18 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                 for data in snapshot.data()! {
                     if data.key != FUser.currentId(){
                         let typing = data.value as! Bool
-                        self.showTypingIndicator = typing
+//                        self.showTypingIndicator = typing
                         
                         if typing {
                             self.scrollToBottom(animated: true)
+                            self.subtitle.font = UIFont.italicSystemFont(ofSize: 11)
+                            self.subtitle.textColor = UIColor.lightGray
+                            self.subtitle.text = "Typing..."
+                            
+                        }
+                        else {
+//                            self.updateUserOnlineStatus()
+                            self.collectionView.reloadData()
                         }
                     }
                 }
@@ -865,6 +876,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             }
         }
         titleLabel.text = withUser.fullname
+        updateUserOnlineStatus()
         if withUser.isOnline {
             subtitle.text = "Online"
         }else{
@@ -984,7 +996,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             self.collectionView.backgroundColor = .clear
             let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
             imageView.image = UIImage(named: userDefaults.object(forKey: kBACKGROUBNDIMAGE) as! String)!
-            imageView.contentMode = .scaleAspectFill
+            imageView.contentMode = .center
             self.view.insertSubview(imageView, at: 0)
         }
     }
@@ -1048,7 +1060,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     func readTimeFrom(dateString: String) -> String {
         let date = dateFormatter().date(from: dateString)
         let currentDateFormat = dateFormatter()
-        currentDateFormat.dateFormat = "HH:mm"
+        currentDateFormat.dateFormat = "hh:mm"
         
         return currentDateFormat.string(from: date!)
     }
@@ -1077,7 +1089,8 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                 if snapshot.exists {
                     
                     let withUser = FUser(_dictionary: snapshot.data() as! NSDictionary)
-                    self.setUIForSingleChat(withUser: withUser)
+               
+                   self.setUIForSingleChat(withUser: withUser)
                 }
             }
             
