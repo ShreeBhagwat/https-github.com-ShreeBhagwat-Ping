@@ -117,7 +117,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         
         if FUser.currentUser() != nil {
-            updateCurrentUserInFirestore(withValues: [kISONLINE : true]) { (success) in
+            updateCurrentUserInFirestore(withValues: [kISONLINE : "online"]) { (success) in
             }
         }
         
@@ -128,7 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         recentBadgeHandler?.remove()
         if FUser.currentUser() != nil {
-            updateCurrentUserInFirestore(withValues: [kISONLINE : false]) { (success) in
+            updateCurrentUserInFirestore(withValues: [kISONLINE : "offline"]) { (success) in
                 
             }
         }

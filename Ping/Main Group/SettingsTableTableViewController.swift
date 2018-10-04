@@ -33,8 +33,9 @@ class SettingsTableTableViewController: UITableViewController {
             loadUserDefaults()
             
             if Reachability.isConnectedToNetwork(){
-                
+                navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
             }else{
+                navigationController?.navigationBar.barTintColor = UIColor.flatRed()
                 ProgressHUD.showError("No Connection")
             }
         }

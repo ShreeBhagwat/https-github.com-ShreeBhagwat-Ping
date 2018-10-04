@@ -28,8 +28,9 @@ class CallTableViewController: UITableViewController,UISearchResultsUpdating {
         AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
         loadCalls()
         if Reachability.isConnectedToNetwork(){
-            
+            navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         }else{
+            navigationController?.navigationBar.barTintColor = UIColor.flatRed()
             ProgressHUD.showError("No Connection")
         }
     }

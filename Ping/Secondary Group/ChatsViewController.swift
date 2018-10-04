@@ -103,12 +103,13 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+        navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.collectionView.addSubview(self.refreshControl)
         if Reachability.isConnectedToNetwork(){
-            
+            navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         }else{
+            navigationController?.navigationBar.barTintColor = UIColor.flatRed()
             ProgressHUD.showError("No Connection")
         }
         
@@ -171,6 +172,10 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         self.inputToolbar.contentView.rightBarButtonItem.setTitle("", for: .normal)
 //        updateUserOnlineStatus()
         
+    }
+    
+    override func willMove(toParent parent: UIViewController?) {
+       navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
     }
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         collectionView.reloadData()
@@ -906,10 +911,10 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         }
         titleLabel.text = withUser.fullname
 
-        if withUser.isOnline {
+        if withUser.isOnline == "online" {
             navigationController?.navigationBar.barTintColor = UIColor.flatGreen()
         }else{
-           navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+           navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         }
         
         avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: .touchUpInside)
@@ -1114,6 +1119,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             withUserUpdateListener = reference(.User).document(withUser.isOnline).addSnapshotListener { (snapshot, error) in
                 guard let snapshot = snapshot else {  return }
                 if snapshot.exists {
+                    print(snapshot)
                    let withUser = FUser(_dictionary: snapshot.data()! as NSDictionary)
                    self.setUIForSingleChat(withUser: withUser)
                 }

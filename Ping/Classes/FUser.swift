@@ -23,7 +23,7 @@ class FUser {
     var lastname: String
     var fullname: String
     var avatar: String
-    var isOnline: Bool
+    var isOnline: String
     var phoneNumber: String
     var countryCode: String
     var country:String
@@ -35,7 +35,7 @@ class FUser {
     
     //MARK: Initializers
     
-    init(_objectId: String, _pushId: String?, _createdAt: Date, _updatedAt: Date, _email: String, _firstname: String, _lastname: String, _avatar: String = "", _loginMethod: String, _phoneNumber: String, _city: String, _country: String, _bio: String) {
+    init(_objectId: String, _pushId: String?, _createdAt: Date, _updatedAt: Date, _email: String, _firstname: String, _lastname: String, _avatar: String = "", _loginMethod: String, _phoneNumber: String, _city: String, _country: String, _bio: String, _online: String) {
         
         objectId = _objectId
         pushId = _pushId
@@ -48,7 +48,7 @@ class FUser {
         lastname = _lastname
         fullname = _firstname + " " + _lastname
         avatar = _avatar
-        isOnline = true
+        isOnline = _online
         
         city = _city
         country = _country
@@ -109,9 +109,9 @@ class FUser {
             avatar = ""
         }
         if let onl = _dictionary[kISONLINE] {
-            isOnline = onl as! Bool
+            isOnline = onl as! String
         } else {
-            isOnline = false
+            isOnline = "False"
         }
         if let phone = _dictionary[kPHONE] {
             phoneNumber = phone as! String
@@ -255,7 +255,7 @@ class FUser {
                 } else {
                     
                     //    we have no user, register
-                    let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: "", _firstname: "", _lastname: "", _avatar: "", _loginMethod: kPHONE, _phoneNumber: firuser!.user.phoneNumber!, _city: "", _country: "", _bio : "")
+                    let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: "", _firstname: "", _lastname: "", _avatar: "", _loginMethod: kPHONE, _phoneNumber: firuser!.user.phoneNumber!, _city: "", _country: "", _bio : "", _online: "online")
                     
                     saveUserLocally(fUser: fUser)
                     saveUserToFirestore(fUser: fUser)

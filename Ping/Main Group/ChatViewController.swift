@@ -28,8 +28,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.tableFooterView = UIView()
         setTableViewController()
         if Reachability.isConnectedToNetwork(){
-            
+            navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         }else{
+            navigationController?.navigationBar.barTintColor = UIColor.flatRed()
             ProgressHUD.showError("No Connection")
         }
     }
@@ -55,7 +56,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             // Fallback on earlier versions
         }
-        navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+        navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         searchController.searchResultsUpdater = self
