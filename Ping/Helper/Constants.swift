@@ -56,6 +56,7 @@ public let kVERIFICATIONCODE = "firebase_verification"
 public let kCITY = "city"
 public let kCOUNTRY = "country"
 public let kBLOCKEDUSERID = "blockedUserId"
+public let kBIO = "UesrBio"
 
 
 
@@ -113,6 +114,7 @@ public let kLONGITUDE = "longitude"
 
 
 //message status
+public let kPENDING = "Pending"
 public let kDELIVERED = "delivered"
 public let kREAD = "read"
 public let kREADDATE = "readDate"

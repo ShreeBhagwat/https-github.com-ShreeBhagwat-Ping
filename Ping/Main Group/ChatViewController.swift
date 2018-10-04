@@ -55,6 +55,9 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         } else {
             // Fallback on earlier versions
         }
+        navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         definesPresentationContext = true

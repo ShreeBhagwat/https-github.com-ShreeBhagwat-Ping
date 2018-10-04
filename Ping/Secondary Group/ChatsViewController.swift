@@ -16,8 +16,9 @@ import AVKit
 import ChameleonFramework
 import FirebaseFirestore
 import OneSignal
+import BouncyLayout
 
-class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate {
+class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate{
   let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     
@@ -52,10 +53,12 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     var showAvatar = true
     var firstLoad: Bool?
     var groupOwnerId: String?
+    let layout = BouncyLayout()
     
-    var outGoingBubble = JSQMessagesBubbleImageFactory()?.outgoingMessagesBubbleImage(with: UIColor.flatSkyBlue())
+    var outGoingBubble = JSQMessagesBubbleImageFactory()?.outgoingMessagesBubbleImage(with: UIColor.flatMint())
+   
 
-    var incomingBubble = JSQMessagesBubbleImageFactory()?.incomingMessagesBubbleImage(with: UIColor.flatGray())
+    var incomingBubble = JSQMessagesBubbleImageFactory()?.incomingMessagesBubbleImage(with: UIColor.lightGray)
     
     // MARK : Custome Header
 
@@ -100,7 +103,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        navigationController?.navigationBar.barTintColor = UIColor.flatRed()
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.collectionView.addSubview(self.refreshControl)
         if Reachability.isConnectedToNetwork(){
             
         }else{
@@ -109,7 +114,18 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         createTypingObserver()
         loadUserDefaults()
+        /////////////////////
+        self.incomingCellIdentifier = MessageViewIncoming.cellReuseIdentifier();
+        self.collectionView.register(MessageViewIncoming.nib(), forCellWithReuseIdentifier: self.incomingCellIdentifier)
+        self.outgoingCellIdentifier = MessageViewOutgoing.cellReuseIdentifier();
+        self.collectionView.register(MessageViewOutgoing.nib(), forCellWithReuseIdentifier: self.outgoingCellIdentifier)
         
+        self.incomingMediaCellIdentifier = MessageViewIncoming.mediaCellReuseIdentifier();
+        self.collectionView.register(MessageViewIncoming.nib(), forCellWithReuseIdentifier: self.incomingMediaCellIdentifier)
+        self.outgoingMediaCellIdentifier = MessageViewOutgoing.mediaCellReuseIdentifier();
+        self.collectionView.register(MessageViewOutgoing.nib(), forCellWithReuseIdentifier: self.outgoingMediaCellIdentifier)
+        
+        /////////////////////
         
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
         if #available(iOS 11.0, *) {
@@ -133,7 +149,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         collectionView?.collectionViewLayout.incomingAvatarViewSize = CGSize.zero
         collectionView?.collectionViewLayout.outgoingAvatarViewSize = CGSize.zero
         jsqAvatarDictionary = [ : ]
-        
+    
         
         setCustomTitle()
         loadMessages()
@@ -162,20 +178,32 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     }
     
     // MARK: JSQMessage Delegate Function
-    
+    //////
+  
+    ///////
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+//        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
         
         let data = messages[indexPath.row]
         // Set Text Colour
+        
         if data.senderId == FUser.currentId() {
+            let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageViewOutgoing
+//                cell.timeStamp.text = ""
+            
+            
             cell.textView?.textColor = UIColor.white
+            
+            return cell
         } else {
+           let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageViewIncoming
+//            cell.timeStamp.text = ""
             cell.textView?.textColor = UIColor.black
+             return cell
         }
-        return cell
+       
     }
-    
+
     // Display Message
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
         return messages[indexPath.row]
@@ -211,26 +239,24 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     }
     
     // Height For cell timeHeading
-    
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForCellTopLabelAt indexPath: IndexPath!) -> CGFloat {
         if indexPath.row % 3 == 0 {
             let message = messages[indexPath.row]
-            
-        
             return 22
-          
         }
         return 0
-    }
+        }
     
     // Delivery Message
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, attributedTextForCellBottomLabelAt indexPath: IndexPath!) -> NSAttributedString! {
         let message = objectMessages[indexPath.row]
-        
+
         let status: NSAttributedString!
-        let attributedStringColour = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.backgroundColor: UIColor.white]
-        
+        let attributedStringColour = [NSAttributedString.Key.foregroundColor: UIColor.black]
+
         switch message[kSTATUS] as! String {
+        case kPENDING:
+            status = NSAttributedString(string: kPENDING)
         case kDELIVERED:
             status = NSAttributedString(string: kDELIVERED)
         case kREAD:
@@ -239,7 +265,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         default:
             status = NSAttributedString(string: "✔︎")
         }
-        
+
         if indexPath.row == (messages.count - 1) {
             return status
         } else {
@@ -441,24 +467,25 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     func sendMessages(text: String?, date: Date, picture: UIImage?, location: String?, video: NSURL?, audio: String?){
         var outgoingMessage: OutgoingMessages?
         let currentUsers = FUser.currentUser()!
+        var incomingMessage: IncomingMessages?
         
         //TEXT MESSAGE
         if let text = text {
             let encryptedText = Encryption.encryptText(chatRoomId: chatroomId, message: text)
-            outgoingMessage = OutgoingMessages.init(message: encryptedText, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kTEXT)
+            outgoingMessage = OutgoingMessages.init(message: encryptedText, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kPENDING, type: kTEXT)
         }
         // PICTURE MESSAGE
         if let pic = picture {
             uploadImage(image: pic, chatRoomId: chatroomId, view: self.navigationController!.view) { (imageLink) in
                 if imageLink != nil {
-                    let encryptedText = Encryption.encryptText(chatRoomId: self.chatroomId, message: "[\(kPICTURE)]")
+                    let encryptedText = Encryption.encryptText(chatRoomId: self.chatroomId, message: "\(kPICTURE)")
                    let encryptedImage = Encryption.encryptImages(chatRoomId: self.chatroomId, image: pic)
-                    
+
                     outgoingMessage = OutgoingMessages(message: encryptedText, pictureLink: imageLink!, senderId: currentUsers.objectId, senderName: currentUsers.fullname, date: date, status: kDELIVERED, type: kPICTURE)
-                    
+
                     JSQSystemSoundPlayer.jsq_playMessageSentSound()
                     self.finishSendingMessage()
-                    
+
                     outgoingMessage!.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
                 }
             }
@@ -467,25 +494,25 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         // Video Message
         if let video = video {
+            
             let videoData = NSData(contentsOfFile: video.path!)
             
-            // Generate ThumbNail
-            let thumbnail = videoThumbnail(video: video)
-            let dataThumbnail = thumbnail.jpegData(compressionQuality: 0.3)
-            // UploadVideo
+            let dataThumbnail = videoThumbnail(video: video).jpegData(compressionQuality: 0.3)
             
             uploadVideo(video: videoData!, chatRoomId: chatroomId, view: self.navigationController!.view) { (videoLink) in
+                
                 if videoLink != nil {
-                    let encryptedText = Encryption.encryptText(chatRoomId: self.chatroomId, message: "[\(kVIDEO)]")
-                   
                     
-                    outgoingMessage = OutgoingMessages(message: encryptedText, video: videoLink!, thumbnail: dataThumbnail! as NSData, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kVIDEO)
+                    let ecryptedText = Encryption.encryptText(chatRoomId: self.chatroomId, message: "[\(kVIDEO)]")
+                    
+                  
+                    
+                    outgoingMessage = OutgoingMessages(message: ecryptedText, video: videoLink!, thumbNail: dataThumbnail! as NSData, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kVIDEO)
                     
                     JSQSystemSoundPlayer.jsq_playMessageSentSound()
                     self.finishSendingMessage()
                     
-                    outgoingMessage!.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
-                    
+                    outgoingMessage?.sendMessage(chatroomId: self.chatroomId, messageDictionary: outgoingMessage!.messageDictionary, membersId: self.membersId, membersToPush: self.membersToPush)
                     
                 }
             }
@@ -520,7 +547,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             
             outgoingMessage = OutgoingMessages(message: encryptedText, Latitude: latitude, Longitude: longitude, senderId: currentUsers.objectId, senderName: currentUsers.firstname, date: date, status: kDELIVERED, type: kLOCATION)
         }
-        
+     
         
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.finishSendingMessage()
@@ -763,13 +790,15 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
                         if typing {
                             self.scrollToBottom(animated: true)
                             self.subtitle.font = UIFont.italicSystemFont(ofSize: 11)
-                            self.subtitle.textColor = UIColor.lightGray
+                            self.subtitle.textColor = UIColor.white
                             self.subtitle.text = "Typing..."
-                            
+//                            self.updateUserOnlineStatus()
                         }
                         else {
-//                            self.updateUserOnlineStatus()
-                            self.collectionView.reloadData()
+                            self.subtitle.font = UIFont.italicSystemFont(ofSize: 11)
+                            self.subtitle.textColor = UIColor.white
+                            self.subtitle.text = ""
+                            
                         }
                     }
                 }
@@ -876,11 +905,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             }
         }
         titleLabel.text = withUser.fullname
-        updateUserOnlineStatus()
+
         if withUser.isOnline {
-            subtitle.text = "Online"
+            navigationController?.navigationBar.barTintColor = UIColor.flatGreen()
         }else{
-            subtitle.text = "Offline"
+           navigationController?.navigationBar.barTintColor = UIColor.flatRed()
         }
         
         avatarButton.addTarget(self, action: #selector(self.showUserProfile), for: .touchUpInside)
@@ -994,9 +1023,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     func checkForBackgroungImage(){
         if userDefaults.object(forKey: kBACKGROUBNDIMAGE) != nil {
             self.collectionView.backgroundColor = .clear
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height))
+            let imageView =  UIImageView(frame: UIScreen.main.bounds)
             imageView.image = UIImage(named: userDefaults.object(forKey: kBACKGROUBNDIMAGE) as! String)!
-            imageView.contentMode = .center
+            imageView.contentMode = UIView.ContentMode.scaleAspectFill
             self.view.insertSubview(imageView, at: 0)
         }
     }
@@ -1052,9 +1081,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         if updatedChatListner != nil {
             updatedChatListner!.remove()
         }
-//        if withUserUpdateListener != nil {
-//            withUserUpdateListener!.remove()
-//        }
+        if withUserUpdateListener != nil {
+            withUserUpdateListener!.remove()
+        }
     }
     
     func readTimeFrom(dateString: String) -> String {
@@ -1080,23 +1109,33 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     func updateUserOnlineStatus() {
         
         if !isGroup! {
-            let withUser = withUsers.first!
+            var withUser = withUsers.first!
             //create a withUserUpdateListener on top like we have for typing etc.
-            withUserUpdateListener = reference(.User).document(withUser.objectId).addSnapshotListener { (snapshot, error) in
-                
+            withUserUpdateListener = reference(.User).document(withUser.isOnline).addSnapshotListener { (snapshot, error) in
                 guard let snapshot = snapshot else {  return }
-                
                 if snapshot.exists {
-                    
-                    let withUser = FUser(_dictionary: snapshot.data() as! NSDictionary)
-               
+                   let withUser = FUser(_dictionary: snapshot.data()! as NSDictionary)
                    self.setUIForSingleChat(withUser: withUser)
                 }
             }
             
         }
     }
-
+    // Pull To refresh
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(self.handleRefresh(_:)),
+                                 for: UIControl.Event.valueChanged)
+        refreshControl.tintColor = UIColor.red
+        
+        return refreshControl
+    }()
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        self.updateUserOnlineStatus()
+        self.collectionView.reloadData()
+        refreshControl.endRefreshing()
+    }
 
 }
 // MARK: Iphone X Layout FIX

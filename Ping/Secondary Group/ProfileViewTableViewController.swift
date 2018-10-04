@@ -18,6 +18,7 @@ class ProfileViewTableViewController: UITableViewController {
     @IBOutlet weak var callButton: UIButton!
     @IBOutlet weak var blockUserButton: UIButton!
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var userBioLabelOutlet: UILabel!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -87,6 +88,9 @@ class ProfileViewTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 2
+        }
         return 1
     }
     
@@ -112,7 +116,7 @@ class ProfileViewTableViewController: UITableViewController {
             self.title = "Profile"
             fullNameLabel.text = user?.fullname
             phoneNumberLabel.text = user?.phoneNumber
-            
+            userBioLabelOutlet.text = user?.bio
             // Block Status of user
             updateBlockStatus()
             

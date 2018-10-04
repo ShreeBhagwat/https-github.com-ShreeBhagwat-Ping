@@ -17,6 +17,8 @@ class SettingsTableTableViewController: UITableViewController {
     @IBOutlet weak var deleteAccountButtonOutlet: UIButton!
     @IBOutlet weak var avatarStatusSwitch: UISwitch!
     
+    @IBOutlet weak var userBioLabelOutlet: UILabel!
+    @IBOutlet weak var logoutButtonOutlet: UIButton!
     
     @IBOutlet weak var versionLabel: UILabel!
     
@@ -29,6 +31,7 @@ class SettingsTableTableViewController: UITableViewController {
         if FUser.currentUser() != nil {
             setupUI()
             loadUserDefaults()
+            
             if Reachability.isConnectedToNetwork(){
                 
             }else{
@@ -43,6 +46,9 @@ class SettingsTableTableViewController: UITableViewController {
         } else {
             // Fallback on earlier versions
         }
+        navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         tableView.tableFooterView = UIView()
         
 
@@ -80,6 +86,10 @@ class SettingsTableTableViewController: UITableViewController {
     
     // MARK: IBActions
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+      
+    }
     
     
     
@@ -120,12 +130,32 @@ class SettingsTableTableViewController: UITableViewController {
     }
 
     @IBAction func logOutButtonPressed(_ sender: Any) {
-        FUser.logOutCurrentUser { (success) in
-            if success {
-                //Show Login View
-                self.showLoginView()
-                
+        let optionMenu = UIAlertController(title: "Log Out", message: "Are you sure you want Log Out", preferredStyle: .actionSheet)
+        let logoutAction = UIAlertAction(title: "Log Out", style: .default) { (alert) in
+            FUser.logOutCurrentUser { (success) in
+                if success {
+                    //Show Login View
+                    self.showLoginView()
+                    
+                }
             }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (aler) in
+        }
+        optionMenu.addAction(logoutAction)
+        optionMenu.addAction(cancelAction)
+        
+        // For Ipad Alert Controller
+        if (UI_USER_INTERFACE_IDIOM() == .pad){
+            if let currentPopoverpresentationController = optionMenu.popoverPresentationController {
+                currentPopoverpresentationController.sourceView = logoutButtonOutlet
+                currentPopoverpresentationController.sourceRect = logoutButtonOutlet.bounds
+                
+                currentPopoverpresentationController.permittedArrowDirections = .up
+                self.present(optionMenu, animated: true, completion: nil)
+            }
+        }else {
+            self.present(optionMenu, animated: true, completion: nil)
         }
     }
     
@@ -166,6 +196,7 @@ class SettingsTableTableViewController: UITableViewController {
     // MARK: Setup UI
     func setupUI(){
         let currentUser = FUser.currentUser()!
+        userBioLabelOutlet.text = currentUser.bio
         fullNameLabel.text = currentUser.fullname
         if currentUser.avatar != "" {
             imageFromData(pictureData: currentUser.avatar) { (avatarImage) in

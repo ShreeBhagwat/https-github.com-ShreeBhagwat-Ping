@@ -17,9 +17,11 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
-    @IBOutlet weak var countryTextFiled: UITextField!
-    @IBOutlet weak var cityTextField: UITextField!
-   
+
+    
+
+    @IBOutlet weak var userBioTextView: UITextView!
+    
     @IBOutlet weak var phoneNumberTextLabelOutlet: UILabel!
     
     var email: String!
@@ -41,10 +43,7 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
-        backgroundImage.image = UIImage(named: "4")
-        backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
-        self.view.insertSubview(backgroundImage, at: 0)
+    
         
         phoneNumberTextLabelOutlet.text = phoneNumberWithoutCountryCode
         
@@ -65,16 +64,7 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
         dismissKeyboard()
         ProgressHUD.show("Registering...")
         
-        if nameTextField.text != "" && lastNameTextField.text != "" && countryTextFiled.text != "" && cityTextField.text != "" {
-            
-//            FUser.registerUserWith(email: email, password: password, firstName: nameTextField.text!, lastName: lastNameTextField.text!) { (error) in
-//                if error != nil {
-//                    ProgressHUD.dismiss()
-//                    ProgressHUD.showError(error?.localizedDescription)
-//                }
-//                self.registerUser()
-//
-//            }
+        if nameTextField.text != "" && lastNameTextField.text != "" && userBioTextView.text != "" {
             self.registerUser()
             
         }else{
@@ -99,8 +89,6 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
     func cleanTextFields() {
         nameTextField.text = ""
         lastNameTextField.text = ""
-        countryTextFiled.text = ""
-        cityTextField.text = ""
         phoneNumberTextLabelOutlet.text = ""
     }
     
@@ -110,8 +98,7 @@ class FinishRegistrationViewController: UIViewController, ImagePickerDelegate {
         var tempDictionary : Dictionary = [kFIRSTNAME: nameTextField.text!,
                                            kLASTNAME: lastNameTextField.text!,
                                            kFULLNAME: fullName,
-                                           kCOUNTRY: countryTextFiled.text!,
-                                           kCITY: cityTextField.text!,
+                                           kBIO: userBioTextView.text!,
                                            kCOUNTRYCODE: countryCodeText!,
                                            kPHONE: phoneNumberTextLabelOutlet.text!] as [String : Any]
         

@@ -28,14 +28,14 @@ class FUser {
     var countryCode: String
     var country:String
     var city: String
-    
+    var bio: String
     var contacts: [String]
     var blockedUsers: [String]
     let loginMethod: String
     
     //MARK: Initializers
     
-    init(_objectId: String, _pushId: String?, _createdAt: Date, _updatedAt: Date, _email: String, _firstname: String, _lastname: String, _avatar: String = "", _loginMethod: String, _phoneNumber: String, _city: String, _country: String) {
+    init(_objectId: String, _pushId: String?, _createdAt: Date, _updatedAt: Date, _email: String, _firstname: String, _lastname: String, _avatar: String = "", _loginMethod: String, _phoneNumber: String, _city: String, _country: String, _bio: String) {
         
         objectId = _objectId
         pushId = _pushId
@@ -52,7 +52,7 @@ class FUser {
         
         city = _city
         country = _country
-        
+        bio = _bio
         loginMethod = _loginMethod
         phoneNumber = _phoneNumber
         countryCode = ""
@@ -149,6 +149,11 @@ class FUser {
         } else {
             country = ""
         }
+        if let bi = _dictionary[kBIO]{
+            bio = bi as! String
+        }else {
+            bio = ""
+        }
         
     }
     
@@ -199,28 +204,28 @@ class FUser {
     }
     
     //MARK: Register functions
-    
-    class func registerUserWith(email: String, password: String, firstName: String, lastName: String, avatar: String = "", completion: @escaping (_ error: Error?) -> Void ) {
-        
-        Auth.auth().createUser(withEmail: email, password: password, completion: { (firuser, error) in
-            
-            if error != nil {
-                
-                completion(error)
-                return
-            }
-            
-            let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: firuser!.user.email!, _firstname: firstName, _lastname: lastName, _avatar: avatar, _loginMethod: kEMAIL, _phoneNumber: "", _city: "", _country: "")
-            
-            
-            saveUserLocally(fUser: fUser)
-            saveUserToFirestore(fUser: fUser)
-            completion(error)
-            
-        })
-        
-    }
-    
+//
+//    class func registerUserWith(email: String, password: String, firstName: String, lastName: String, avatar: String = "", completion: @escaping (_ error: Error?) -> Void ) {
+//
+//        Auth.auth().createUser(withEmail: email, password: password, completion: { (firuser, error) in
+//
+//            if error != nil {
+//
+//                completion(error)
+//                return
+//            }
+//
+//            let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: firuser!.user.email!, _firstname: firstName, _lastname: lastName, _avatar: avatar, _loginMethod: kEMAIL, _phoneNumber: "", _city: "", _country: "")
+//
+//
+//            saveUserLocally(fUser: fUser)
+//            saveUserToFirestore(fUser: fUser)
+//            completion(error)
+//
+//        })
+//
+//    }
+//
     //phoneNumberRegistration
     
     class func registerUserWith(phoneNumber: String, verificationCode: String, verificationId: String!, completion: @escaping (_ error: Error?, _ shouldLogin: Bool) -> Void) {
@@ -250,7 +255,7 @@ class FUser {
                 } else {
                     
                     //    we have no user, register
-                    let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: "", _firstname: "", _lastname: "", _avatar: "", _loginMethod: kPHONE, _phoneNumber: firuser!.user.phoneNumber!, _city: "", _country: "")
+                    let fUser = FUser(_objectId: firuser!.user.uid, _pushId: "", _createdAt: Date(), _updatedAt: Date(), _email: "", _firstname: "", _lastname: "", _avatar: "", _loginMethod: kPHONE, _phoneNumber: firuser!.user.phoneNumber!, _city: "", _country: "", _bio : "")
                     
                     saveUserLocally(fUser: fUser)
                     saveUserToFirestore(fUser: fUser)

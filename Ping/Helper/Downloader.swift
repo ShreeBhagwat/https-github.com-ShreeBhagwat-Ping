@@ -10,6 +10,7 @@ import Foundation
 import FirebaseStorage
 import Firebase
 import MBProgressHUD
+import ProgressiveAlertView
 import AVFoundation
 
 let storage = Storage.storage()
@@ -17,9 +18,10 @@ let storage = Storage.storage()
 // MARK: Image Upload
 
 func uploadImage(image: UIImage, chatRoomId: String, view: UIView, completion: @escaping (_ imageLink: String?) -> Void) {
-    
+//  
     let progressHUD = MBProgressHUD.showAdded(to: view, animated: true)
-    progressHUD.mode = .determinateHorizontalBar
+    progressHUD.mode = .annularDeterminate
+
     let dateString = dateFormatter().string(from: Date())
     let photoFileName = "PictureMessage/" + FUser.currentId() + "/" + chatRoomId + "/" + dateString + ".jpg"
     let storageRef = storage.reference(forURL: kFILEREFERENCE).child(photoFileName)
@@ -50,10 +52,6 @@ func uploadImage(image: UIImage, chatRoomId: String, view: UIView, completion: @
     task.observe(StorageTaskStatus.progress) { (snapshot) in
         progressHUD.progress = Float((snapshot.progress?.completedUnitCount)!) / Float((snapshot.progress?.totalUnitCount)!)
     }
-    
-    
-    
-    
     
 }
 

@@ -13,6 +13,9 @@
 		D01F57B9213B945C0043CE9D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57B8213B945C0043CE9D /* ChatViewController.swift */; };
 		D01F57BB213CD7FE0043CE9D /* ProfileViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */; };
 		D01F57C2213F9BC50043CE9D /* RecentChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */; };
+		D023B585216238A100CC87BE /* MessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D023B584216238A100CC87BE /* MessagesCell.swift */; };
+		D023B58B21623C4F00CC87BE /* MessageViewIncoming.xib in Resources */ = {isa = PBXBuildFile; fileRef = D023B58A21623C4F00CC87BE /* MessageViewIncoming.xib */; };
+		D023B58D21623C7000CC87BE /* MessageViewOutgoing.xib in Resources */ = {isa = PBXBuildFile; fileRef = D023B58C21623C7000CC87BE /* MessageViewOutgoing.xib */; };
 		D02D152B215CF5A20084BA98 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D152A215CF5A20084BA98 /* Reachability.swift */; };
 		D02D152D215D0B640084BA98 /* GroupInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D152C215D0B640084BA98 /* GroupInfoTableViewCell.swift */; };
 		D02DC78B2138CB2900335DC9 /* FUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02DC78A2138CB2900335DC9 /* FUser.swift */; };
@@ -110,6 +113,9 @@
 		D01F57B8213B945C0043CE9D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D01F57BA213CD7FE0043CE9D /* ProfileViewTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTableViewController.swift; sourceTree = "<group>"; };
 		D01F57C1213F9BC50043CE9D /* RecentChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentChatTableViewCell.swift; sourceTree = "<group>"; };
+		D023B584216238A100CC87BE /* MessagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesCell.swift; sourceTree = "<group>"; };
+		D023B58A21623C4F00CC87BE /* MessageViewIncoming.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageViewIncoming.xib; sourceTree = "<group>"; };
+		D023B58C21623C7000CC87BE /* MessageViewOutgoing.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageViewOutgoing.xib; sourceTree = "<group>"; };
 		D02D152A215CF5A20084BA98 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D02D152C215D0B640084BA98 /* GroupInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoTableViewCell.swift; sourceTree = "<group>"; };
 		D02DC78A2138CB2900335DC9 /* FUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FUser.swift; sourceTree = "<group>"; };
@@ -333,6 +339,9 @@
 				D04D990121514080002B12CD /* GroupMemberCollectionViewCell.swift */,
 				D02D152C215D0B640084BA98 /* GroupInfoTableViewCell.swift */,
 				D0EA3B39215527D800D0BFBB /* CallTableViewCell.swift */,
+				D023B584216238A100CC87BE /* MessagesCell.swift */,
+				D023B58C21623C7000CC87BE /* MessageViewOutgoing.xib */,
+				D023B58A21623C4F00CC87BE /* MessageViewIncoming.xib */,
 			);
 			path = "Custom Cells";
 			sourceTree = "<group>";
@@ -489,7 +498,9 @@
 				D0A4622E214F49B10091F308 /* PP.html in Resources */,
 				D05F88E72137F9080022DBC6 /* LaunchScreen.storyboard in Resources */,
 				D05F88EF2137FA9C0022DBC6 /* GoogleService-Info.plist in Resources */,
+				D023B58D21623C7000CC87BE /* MessageViewOutgoing.xib in Resources */,
 				D0EA3B4E21566C9700D0BFBB /* Localizable.strings in Resources */,
+				D023B58B21623C4F00CC87BE /* MessageViewIncoming.xib in Resources */,
 				D0EA3B4A215637E400D0BFBB /* incoming.wav in Resources */,
 				D0A4622C214EC3AE0091F308 /* T&C.html in Resources */,
 				D01C09522160D58200721988 /* Assets.xcassets in Resources */,
@@ -551,6 +562,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Ping/Pods-Ping-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/BouncyLayout/BouncyLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
@@ -562,6 +574,7 @@
 				"${BUILT_PRODUCTS_DIR}/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework",
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/ProgressHUD/ProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/ProgressiveAlertView/ProgressiveAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
 				"${BUILT_PRODUCTS_DIR}/SCSiriWaveformView/SCSiriWaveformView.framework",
@@ -578,6 +591,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BouncyLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DACircularProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
@@ -589,6 +603,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSQSystemSoundPlayer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProgressiveAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCSiriWaveformView.framework",
@@ -647,6 +662,7 @@
 				D04D98FD2150FA78002B12CD /* VideoMessage.swift in Sources */,
 				D0EA3B3E21553DD100D0BFBB /* CallTableViewController.swift in Sources */,
 				D05F88F1213835760022DBC6 /* WelcomeViewController.swift in Sources */,
+				D023B585216238A100CC87BE /* MessagesCell.swift in Sources */,
 				D0A46230214F6AE20091F308 /* EditProfileTableViewController.swift in Sources */,
 				D07FEE412158EDA60062E987 /* AudioControllerDelegate.swift in Sources */,
 				D02D152D215D0B640084BA98 /* GroupInfoTableViewCell.swift in Sources */,

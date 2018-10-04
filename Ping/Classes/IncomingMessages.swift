@@ -97,6 +97,7 @@ class IncomingMessages {
         return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
     }
     
+    
     func createVideoMessage(messageDictionary: NSDictionary, chatRoomId: String) -> JSQMessage {
         
         let name = messageDictionary[kSENDERNAME] as? String
@@ -194,6 +195,29 @@ class IncomingMessages {
         
         return JSQMessage(senderId: userId!, senderDisplayName: name, date: date, media: mediaItem)
     }
+    
+    func createTempImageMessage(messageDictionary: NSDictionary, chatRoomId: String, image: UIImage) -> JSQMessage {
+        print("Temp MEssage run")
+        let name = messageDictionary[kSENDERNAME] as? String
+        let userId = messageDictionary[kSENDERID] as? String
+        var date : Date!
+        if let createdDate = messageDictionary[kDATE] {
+            if (createdDate as! String).count != 14 {
+                date = Date()
+            } else {
+                date = dateFormatter().date(from: createdDate as! String)
+            }
+        }else {
+            date = Date()
+        }
+       
+            // Image message
+            let mediaItem = PhotoMediaItem(image: image)
+            mediaItem?.appliesMediaViewMaskAsOutgoing = returnOutgoingStatusForUser(senderId: userId!)
+            self.collectionView.reloadData()
+            return JSQMessage(senderId: userId, senderDisplayName: name, date: date, media: mediaItem)
+        
+}
     
     //Helpers
     

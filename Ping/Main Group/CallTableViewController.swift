@@ -41,6 +41,11 @@ class CallTableViewController: UITableViewController,UISearchResultsUpdating {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        tabBarController?.tabBar.barTintColor = UIColor.flatBlue()
+        tabBarController?.tabBar.tintColor = UIColor.white
         setBadge(controller: self.tabBarController!)
     
         tableView.tableFooterView = UIView()

@@ -15,7 +15,7 @@ class BackgroundCollectionViewController: UICollectionViewController {
     var backgrounds: [UIImage] = []
     let userDefaults = UserDefaults.standard
     
-    private let imageNamesArray = ["1", "2", "3", "5"]
+    private let imageNamesArray = ["1", "2", "3", "4","5","6","7","8","9","10","11","12"]
     
     
     override func viewDidLoad() {

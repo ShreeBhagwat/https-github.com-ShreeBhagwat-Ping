@@ -26,12 +26,11 @@ class OutgoingMessages {
     }
     
     // Video Message Init
-    init(message: String, video: String, thumbnail: NSData, senderId: String, senderName: String, date: Date, status: String, type: String) {
-        // Creating ThumbNail for Video
-//        let picThumbnail = thumbnail.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-        let picThumbnail = thumbnail.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-       
-         messageDictionary = NSMutableDictionary(objects: [message, video, picThumbnail,   senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kVIDEO as NSCopying, kTHUMBNAIL as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
+    init(message: String, video: String, thumbNail: NSData, senderId: String, senderName: String, date: Date, status: String, type: String) {
+        
+        let picThumb = thumbNail.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+        
+        messageDictionary = NSMutableDictionary(objects: [message, video, picThumb, senderId, senderName, dateFormatter().string(from: date), status, type], forKeys: [kMESSAGE as NSCopying, kVIDEO as NSCopying, kPICTURE as NSCopying, kSENDERID as NSCopying, kSENDERNAME as NSCopying, kDATE as NSCopying, kSTATUS as NSCopying, kTYPE as NSCopying])
     }
     
     // Audio Message Init
@@ -54,7 +53,9 @@ class OutgoingMessages {
         messageDictionary[kMESSAGEID] = messageId
         
         for memberId in membersId {
-            reference(.Message).document(memberId).collection(chatroomId).document(messageId).setData(messageDictionary as! [String: Any])
+
+               reference(.Message).document(memberId).collection(chatroomId).document(messageId).setData(messageDictionary as! [String: Any])
+
         }
         
         // Update RecentChats to show last message
