@@ -875,6 +875,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
 
         let infoButton = UIBarButtonItem(title: "All Media", style: .plain, target: self, action: #selector(self.infoButtonPressed))
+        infoButton.tintColor = UIColor.white
         
         self.navigationItem.rightBarButtonItem = infoButton
         
@@ -910,6 +911,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             }
         }
         titleLabel.text = withUser.fullname
+        titleLabel.textColor = UIColor.white
 
         if withUser.isOnline == "online" {
             navigationController?.navigationBar.barTintColor = UIColor.flatGreen()
@@ -927,6 +929,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
             }
         }
         titleLabel.text = titleName
+        titleLabel.textColor = UIColor.white
         subtitle.text = ""
     }
     
@@ -1112,21 +1115,28 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     //MARK: updateUserOnlineStatus
     
     func updateUserOnlineStatus() {
-        
+        print("User update online status")
         if !isGroup! {
             var withUser = withUsers.first!
-            //create a withUserUpdateListener on top like we have for typing etc.
-            withUserUpdateListener = reference(.User).document(withUser.isOnline).addSnapshotListener { (snapshot, error) in
-                guard let snapshot = snapshot else {  return }
-                if snapshot.exists {
-                    print(snapshot)
-                   let withUser = FUser(_dictionary: snapshot.data()! as NSDictionary)
-                   self.setUIForSingleChat(withUser: withUser)
+            withUserUpdateListener = reference(.User).document(withUser.objectId).addSnapshotListener { (snapshot, error) in
+                if error != nil {
+                   print("error")
                 }
+                print("update user status")
+                let withUser = FUser(_dictionary: snapshot!.data()! as NSDictionary)
+                if withUser.isOnline == "online" {
+                    self.navigationController?.navigationBar.barTintColor = UIColor.flatGreen()
+                }else{
+                   self.navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
+                }
+
+                
+                }
+            
             }
             
         }
-    }
+    
     // Pull To refresh
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
