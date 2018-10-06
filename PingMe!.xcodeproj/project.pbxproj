@@ -135,7 +135,7 @@
 		D04D990921538938002B12CD /* InviteUserTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteUserTableViewController.swift; sourceTree = "<group>"; };
 		D04D990D2153D1CD002B12CD /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
 		D04D990F2153EB47002B12CD /* ImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D05F88D92137F9020022DBC6 /* Ping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ping.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D05F88D92137F9020022DBC6 /* PingMe!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PingMe!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D05F88DC2137F9020022DBC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D05F88E12137F9030022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D05F88E62137F9080022DBC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -296,7 +296,7 @@
 		D05F88DA2137F9020022DBC6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D05F88D92137F9020022DBC6 /* Ping.app */,
+				D05F88D92137F9020022DBC6 /* PingMe!.app */,
 				D0EA3B2C2154B9E100D0BFBB /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -393,9 +393,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D05F88D82137F9020022DBC6 /* Ping */ = {
+		D05F88D82137F9020022DBC6 /* PingMe! */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D05F88EB2137F9080022DBC6 /* Build configuration list for PBXNativeTarget "Ping" */;
+			buildConfigurationList = D05F88EB2137F9080022DBC6 /* Build configuration list for PBXNativeTarget "PingMe!" */;
 			buildPhases = (
 				3506178F150A434E4BA03228 /* [CP] Check Pods Manifest.lock */,
 				D05F88D52137F9020022DBC6 /* Sources */,
@@ -409,9 +409,9 @@
 			dependencies = (
 				D0EA3B322154B9E100D0BFBB /* PBXTargetDependency */,
 			);
-			name = Ping;
+			name = "PingMe!";
 			productName = Ping;
-			productReference = D05F88D92137F9020022DBC6 /* Ping.app */;
+			productReference = D05F88D92137F9020022DBC6 /* PingMe!.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D0EA3B2B2154B9E100D0BFBB /* OneSignalNotificationServiceExtension */ = {
@@ -470,7 +470,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D05F88D42137F9020022DBC6 /* Build configuration list for PBXProject "Ping" */;
+			buildConfigurationList = D05F88D42137F9020022DBC6 /* Build configuration list for PBXProject "PingMe!" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -483,7 +483,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D05F88D82137F9020022DBC6 /* Ping */,
+				D05F88D82137F9020022DBC6 /* PingMe! */,
 				D0EA3B2B2154B9E100D0BFBB /* OneSignalNotificationServiceExtension */,
 			);
 		};
@@ -936,7 +936,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D05F88D42137F9020022DBC6 /* Build configuration list for PBXProject "Ping" */ = {
+		D05F88D42137F9020022DBC6 /* Build configuration list for PBXProject "PingMe!" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D05F88E92137F9080022DBC6 /* Debug */,
@@ -945,7 +945,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D05F88EB2137F9080022DBC6 /* Build configuration list for PBXNativeTarget "Ping" */ = {
+		D05F88EB2137F9080022DBC6 /* Build configuration list for PBXNativeTarget "PingMe!" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D05F88EC2137F9080022DBC6 /* Debug */,

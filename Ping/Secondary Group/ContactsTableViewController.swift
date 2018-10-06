@@ -70,7 +70,7 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
 
         //to remove empty cell lines
         tableView.tableFooterView = UIView()
-
+        
                 loadUsers()
     }
 
@@ -94,6 +94,7 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
         definesPresentationContext = true
 
                 setupButtons()
+        
     }
 
     //MARK: TableViewDataSource
@@ -450,8 +451,9 @@ class ContactsTableViewController: UITableViewController, UISearchResultsUpdatin
         }else {
             // For 1 on 1 chat
             let inviteButton = UIBarButtonItem(image: UIImage(named: "invite"), style: .plain, target: self, action: #selector(self.inviteButtonPressed))
+            inviteButton.tintColor = UIColor.white
             let searchButton = UIBarButtonItem(image: UIImage(named: "nearMe"), style: .plain, target: self, action: #selector(self.searchNearByButtonPressed))
-            self.navigationItem.rightBarButtonItems = [inviteButton, searchButton]
+            self.navigationItem.rightBarButtonItems = [inviteButton]
         }
     }
 

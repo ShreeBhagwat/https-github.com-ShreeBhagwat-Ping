@@ -18,6 +18,7 @@ import FirebaseFirestore
 import OneSignal
 import BouncyLayout
 
+
 class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate{
   let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -103,6 +104,19 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Screen Shot Notification//
+        
+        let mainQueue = OperationQueue.main
+        NotificationCenter.default.addObserver(forName: UIApplication.userDidTakeScreenshotNotification, object: nil, queue: mainQueue) { notification in
+            // executes after screenshot
+            print("Screen Shot taken")
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: 1 , height: 1), false, 0)
+            self.view.drawHierarchy(in: CGRect(x: 0, y: 0, width: 1, height: 1),afterScreenUpdates: true)
+            var image:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+           
+        }
+        
+        
         navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.collectionView.addSubview(self.refreshControl)
@@ -174,6 +188,11 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.collectionView.collectionViewLayout.springinessEnabled = false
+    }
+
     override func willMove(toParent parent: UIViewController?) {
        navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
     }
@@ -181,7 +200,6 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         collectionView.reloadData()
         self.view.setNeedsDisplay()
     }
-    
     // MARK: JSQMessage Delegate Function
     //////
   
@@ -1092,6 +1110,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         if withUserUpdateListener != nil {
             withUserUpdateListener!.remove()
         }
+        NotificationCenter.default.removeObserver(self)
     }
     
     func readTimeFrom(dateString: String) -> String {
