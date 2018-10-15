@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 import ProgressHUD
+import TransitionButton
 
 
 class PhoneAuthViewController: UIViewController {
@@ -17,7 +18,8 @@ class PhoneAuthViewController: UIViewController {
     
     @IBOutlet weak var countryCodeTextField: UITextField!
     @IBOutlet weak var mobilePhoneTextField: UITextField!
-    @IBOutlet weak var requestButtonOutlet: UIButton!
+  
+    @IBOutlet weak var requestOutletbutton: TransitionButton!
     
     var phoneNumber: String!
     var verificationId: String?
@@ -44,40 +46,49 @@ class PhoneAuthViewController: UIViewController {
     
 
     @IBAction func requestButtonPressed(_ sender: Any) {
-//        if verificationId != nil {
-//            return
-//        }
+
         if mobilePhoneTextField.text != "" && countryCodeTextField.text != "" {
+            
             let fullNumber = countryCodeTextField.text! + mobilePhoneTextField.text!
             phoneNumber = fullNumber
   
             let alert = UIAlertController(title: "Phone Number", message: "Is This Your Phone Number \(fullNumber)", preferredStyle: .alert)
-            
             let action = UIAlertAction(title: "Yes", style: .default) { (UIAlertAction) in
+              self.requestOutletbutton.startAnimation()
+                let qualityOfServiceClass = DispatchQoS.QoSClass.background
+                let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
+                backgroundQueue.async {
+                    sleep(1)
+                    DispatchQueue.main.async(execute: {
                 PhoneAuthProvider.provider().verifyPhoneNumber(self.phoneNumber, uiDelegate: nil) { (verificationId, error) in
+                  
                     if error != nil {
+                        ProgressHUD.dismiss()
                         ProgressHUD.showError(error!.localizedDescription)
                         return
                     }else {
-                        self.verificationId = verificationId
+//                        self.verificationId = verificationId
+                        let defaults = UserDefaults.standard
+                        defaults.set(verificationId, forKey: "authVerificationID")
+                       
                          self.performSegue(withIdentifier: "goToPhoneVerification", sender: self)
-                    }
-                    
-                }
-               
-                
-                
+                        
+            }
+            }
+            })
+            }
             }
             let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+         
             alert.addAction(action)
             alert.addAction(cancel)
             self.present(alert, animated: true, completion: nil)
             return
             
-
+        
         }else {
             ProgressHUD.showError("Phone Number Invalide")
-            
+        
         }
     }
     
@@ -89,7 +100,7 @@ class PhoneAuthViewController: UIViewController {
         if segue.identifier == "goToPhoneVerification" {
             let vc = segue.destination as! VerificationViewController
             vc.phoneNumber1 = phoneNumber
-            vc.verificationId = verificationId
+//            vc.verificationId = verificationId
             vc.countryCode = countryCodeTextField.text
             vc.phoneNumberWithOutCountryCode = mobilePhoneTextField.text
             

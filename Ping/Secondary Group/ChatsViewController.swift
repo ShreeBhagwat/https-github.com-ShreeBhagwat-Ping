@@ -16,7 +16,6 @@ import AVKit
 import ChameleonFramework
 import FirebaseFirestore
 import OneSignal
-import BouncyLayout
 
 
 class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, IQAudioRecorderViewControllerDelegate{
@@ -54,7 +53,6 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
     var showAvatar = true
     var firstLoad: Bool?
     var groupOwnerId: String?
-    let layout = BouncyLayout()
     
     var outGoingBubble = JSQMessagesBubbleImageFactory()?.outgoingMessagesBubbleImage(with: UIColor.flatMint())
    
@@ -116,7 +114,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
            
         }
         
-        
+        collectionView.register(ChatMessageCell.self, forCellWithReuseIdentifier: "ChatMessageCell")
+//        self.collectionView.register(UINib(nibName: "chatMessageCell", bundle: nil), forCellWithReuseIdentifier: "chatMessageCell")
+
         navigationController?.navigationBar.barTintColor = UIColor.flatBlue()
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.collectionView.addSubview(self.refreshControl)
@@ -130,16 +130,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         createTypingObserver()
         loadUserDefaults()
         /////////////////////
-        self.incomingCellIdentifier = MessageViewIncoming.cellReuseIdentifier();
-        self.collectionView.register(MessageViewIncoming.nib(), forCellWithReuseIdentifier: self.incomingCellIdentifier)
-        self.outgoingCellIdentifier = MessageViewOutgoing.cellReuseIdentifier();
-        self.collectionView.register(MessageViewOutgoing.nib(), forCellWithReuseIdentifier: self.outgoingCellIdentifier)
-        
-        self.incomingMediaCellIdentifier = MessageViewIncoming.mediaCellReuseIdentifier();
-        self.collectionView.register(MessageViewIncoming.nib(), forCellWithReuseIdentifier: self.incomingMediaCellIdentifier)
-        self.outgoingMediaCellIdentifier = MessageViewOutgoing.mediaCellReuseIdentifier();
-        self.collectionView.register(MessageViewOutgoing.nib(), forCellWithReuseIdentifier: self.outgoingMediaCellIdentifier)
-        
+            
         /////////////////////
         
         JSQMessagesCollectionViewCell.registerMenuAction(#selector(delete))
@@ -184,10 +175,9 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         // Custome Send Button
         self.inputToolbar.contentView.rightBarButtonItem.setImage(UIImage(named: "mic"), for: .normal)
         self.inputToolbar.contentView.rightBarButtonItem.setTitle("", for: .normal)
-//        updateUserOnlineStatus()
+
         
     }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.collectionView.collectionViewLayout.springinessEnabled = false
@@ -201,31 +191,33 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         self.view.setNeedsDisplay()
     }
     // MARK: JSQMessage Delegate Function
-    //////
-  
-    ///////
+
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+//        let data = messages[indexPath.row]
+//        if data.text != nil {
+//            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatMessageCell", for: indexPath) as! ChatMessageCell
+//            cell.textView.text = data.text
+//            cell.profileImageView = data.
+//            return cell
+//        } else {
+//             let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
+//            return cell
+//        }
+        
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! JSQMessagesCollectionViewCell
         
         let data = messages[indexPath.row]
-        // Set Text Colour
         
+        //set text color
         if data.senderId == FUser.currentId() {
-            let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageViewOutgoing
-//                cell.timeStamp.text = ""
-            
-            
-            cell.textView?.textColor = UIColor.white
-            
-            return cell
+            cell.textView?.textColor = .white
         } else {
-           let cell = super.collectionView(collectionView, cellForItemAt: indexPath) as! MessageViewIncoming
-//            cell.timeStamp.text = ""
-            cell.textView?.textColor = UIColor.black
-             return cell
+            cell.textView?.textColor = .black
         }
-       
+        
+        return cell
     }
+    
 
     // Display Message
     override func collectionView(_ collectionView: JSQMessagesCollectionView!, messageDataForItemAt indexPath: IndexPath!) -> JSQMessageData! {
@@ -243,6 +235,7 @@ class ChatsViewController: JSQMessagesViewController, UIImagePickerControllerDel
         
         let data = messages[indexPath.row]
         if data.senderId == FUser.currentId(){
+            
             return outGoingBubble
         }
         else {

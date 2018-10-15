@@ -38,6 +38,7 @@ class VerificationViewController: UIViewController {
         backgroundImage.image = UIImage(named: "4")
         backgroundImage.contentMode = UIView.ContentMode.scaleAspectFill
         self.view.insertSubview(backgroundImage, at: 0)
+        print("View did load \(verificationId)")
         noticeLabelOutlet.text = "We have sent a 6 digit Verification Code via SMS To \(phoneNumber1!). Check your phone and enter the code below"
 //         let defaults =  UserDefaults.standard
 //        verificationId = defaults.string(forKey: "authVerificationID")!
@@ -50,18 +51,25 @@ class VerificationViewController: UIViewController {
     }
     
     func registerUser() {
-        if verificationCodeTextFiled.text != "" && verificationId != nil {
-            FUser.registerUserWith(phoneNumber: phoneNumber1, verificationCode: verificationCodeTextFiled.text!, verificationId: verificationId) { (error, shouldLogin) in
+        if verificationCodeTextFiled.text != ""{
+            ProgressHUD.show()
+            let defaults = UserDefaults.standard
+            let verification = defaults.object(forKey: "authVerificationID")
+            FUser.registerUserWith(phoneNumber: phoneNumber1, verificationCode: verificationCodeTextFiled.text!, verificationId: verification as! String) { (error, shouldLogin) in
                 
                 if error != nil {
+                    ProgressHUD.dismiss()
                     ProgressHUD.showError("Error in Verirification \(error!.localizedDescription)")
+                    print("Error in Verirification \(error?.localizedDescription)")
                     return
                 }
                 if shouldLogin {
                     // GoTo App
                     self.goToApp()
                 }else {
+                    ProgressHUD.show()
                     self.performSegue(withIdentifier: "pGoToRegistrationScreen", sender: self)
+                    ProgressHUD.dismiss()
                 }
             }
         }else {
